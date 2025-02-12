@@ -11,9 +11,10 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.10.0",
-    "@strapi/plugin-users-permissions": "5.10.0",
-    "@strapi/strapi": "5.10.0",
+    "@strapi/plugin-cloud": "5.9.0",
+    "@strapi/plugin-users-permissions": "5.9.0",
+    "@strapi/provider-email-nodemailer": "^5.9.0",
+    "@strapi/strapi": "5.9.0",
     "pg": "8.8.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -26,11 +27,16 @@
     "@types/react-dom": "^18",
     "typescript": "^5"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
+  },
   "engines": {
     "node": ">=18.0.0 <=22.x.x",
     "npm": ">=6.0.0"
   },
   "strapi": {
-    "uuid": "c34f12e2-7490-48cf-8871-3b63035a5840"
+    "uuid": "701f4f12-e71e-4579-a952-dde0168a49f5"
   }
 }
