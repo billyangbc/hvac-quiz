@@ -1,0 +1,25 @@
+{
+  "name": "next-strapi-starter",
+  "version": "1.0.0",
+  "description": "Next.js project with Strapi",
+  "type": "module",
+  "scripts": {
+    "client": "pnpm dev --prefix ../frontend/",
+    "server": "pnpm dev --prefix ../backend/",
+    "dev": "pnpm concurrently \"cd backend && pnpm dev\" \"pnpm dlx wait-on http://localhost:1337 && cd frontend && pnpm dev\"",
+    "setup:client": "cd frontend && pnpm install && node --loader ts-node/esm ../copy-env.mts ./",
+    "setup:server": "cd backend && pnpm install && node --loader ts-node/esm ../copy-env.mts ./",
+    "setup": "pnpm install && pnpm setup:client && pnpm setup:server",
+    "seed": "cd backend && pnpm strapi import -f ../seed-data.tar.gz --force",
+    "export": "cd backend && pnpm strapi export --no-encrypt -f ../seed-data"
+  },
+  "dependencies": {
+    "@types/node": "^22.13.1",
+    "concurrently": "^8.2.2",
+    "typescript": "^5.7.3",
+    "wait-on": "^8.0.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
