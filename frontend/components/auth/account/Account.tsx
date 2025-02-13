@@ -1,12 +1,9 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { getCurrentUser } from '@/lib/fetchData/getCurrentUser';
-import { getServerSession } from 'next-auth';
 import EditUsername from './EditUsername';
 import ChangePassword from '../password/ChangePassword';
 
 export default async function Account() {
-  const session = await getServerSession(authOptions);
-  const currentUser = await getCurrentUser(session!.strapiToken!);
+  const currentUser = await getCurrentUser();
   return (
     <div className='bg-zinc-100 rounded-sm px-4 py-8 mb-8'>
       <h2 className='font-bold text-lg mb-4'>Account</h2>
