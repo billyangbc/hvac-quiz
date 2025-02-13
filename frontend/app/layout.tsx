@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/authOptions';
 
-import Provider from '@/components/Provider';
+import SessionProvider from '@/providers/SessionProvider';
 import NavBar from '@/components/header/Navbar';
 import Footer from '@/components/footer/Footer';
 
@@ -30,13 +30,13 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body className={bodyCss} suppressHydrationWarning={true}>
-        <Provider session={session}>
+        <SessionProvider session={session}>
           <div className='max-w-6xl mx-auto'>
             <NavBar />
             <main className={mainCss}>{children}</main>
             <Footer/>
           </div>
-        </Provider>
+        </SessionProvider>
       </body>
     </html>
   );
