@@ -45,21 +45,26 @@ export const validateDifficulty = (difficulty: string) => {
   return validDifficulties.includes(difficulty);
 };
 
-//TODO: call db data
+import quizQuestions from './quiz-questions.json';
+import { QuizQuestion } from "@/types/quiz/Questions";
 export async function getQuestions(category: string, difficulty: string, limit: string) {
-  const res = await fetch(
-    `https://the-trivia-api.com/api/questions?categories=science&limit=${limit}&type=multiple&difficulty=${difficulty}`,
-    {
-      method: "GET",
-      headers: {
-        "Cache-Control": "no-cache",
-      },
-    }
+  // Transform category format (type_0 -> Type-0)
+  const formattedCategory = category
+    .split('_')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('-');
+
+  // Filter questions by category and difficulty
+  const filteredQuestions = quizQuestions.filter((q: QuizQuestion) => 
+    q.category === formattedCategory && q.difficulty === difficulty
   );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data!");
-  }
+  // Shuffle questions using Fisher-Yates algorithm
+  const shuffledQuestions = filteredQuestions
+    .map((value: QuizQuestion) => ({ value, sort: Math.random() }))
+    .sort((a: {sort: number}, b: {sort: number}) => a.sort - b.sort)
+    .map(({ value }: {value: QuizQuestion}) => value);
 
-  return res.json();
+  // Apply limit and return
+  return shuffledQuestions.slice(0, parseInt(limit, 10));
 }

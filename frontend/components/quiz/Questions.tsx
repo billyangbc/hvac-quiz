@@ -9,21 +9,11 @@ import { ImportIcon, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { toast } from "sonner";
+import { QuizQuestion } from "@/types/quiz/Questions";
 import "./questions.css";
 
 type Props = {
-  questions: {
-    category: string;
-    id: string;
-    correctAnswer: string;
-    incorrectAnswers: string[];
-    question: string;
-    tags: string[];
-    type: string;
-    difficulty: string;
-    regions: [];
-    isNiche: boolean;
-  }[];
+  questions: QuizQuestion[];
   limit: number;
   category: string;
 };
