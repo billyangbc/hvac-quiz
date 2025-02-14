@@ -9,6 +9,9 @@ import SessionProvider from '@/providers/SessionProvider';
 import NavBar from '@/components/header/Navbar';
 import Footer from '@/components/footer/Footer';
 
+import { Toaster } from "sonner";
+import ModalProvider from "@/components/modals/ModalProvider";
+
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
@@ -33,7 +36,9 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <div className='max-w-6xl mx-auto'>
             <NavBar />
+            <ModalProvider />
             <main className={mainCss}>{children}</main>
+            <Toaster position="top-center" duration={5000} richColors />
             <Footer/>
           </div>
         </SessionProvider>
