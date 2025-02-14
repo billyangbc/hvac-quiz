@@ -1,6 +1,7 @@
 'use client'; // Error components must be Client Components
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Error({
   error,
@@ -15,8 +16,9 @@ export default function Error({
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
+    <div className="h-[100dvh] w-full flex flex-col items-center justify-center space-y-4">
+      <Image src="/error.svg" height="300" width="300" alt="Error" />
+      <h2 className="text-xl font-medium">Something went wrong!</h2>
       <p>Error message: {error.message}</p>
       <button
         onClick={
