@@ -1,0 +1,53 @@
+import Questions from "@/components/quiz/Questions";
+import { validateCategory, validateDifficulty, getQuestions } from "@/data/loader";
+import { redirect } from "next/navigation";
+
+const validateParams = (category: string, difficulty: string, limit: string ) => {
+  const validateLimit = (limit: string) => {
+    const parsedLimit = parseInt(limit, 10);
+    return !isNaN(parsedLimit) && parsedLimit >= 5 && parsedLimit <= 50;
+  };
+
+  if (
+    !validateCategory(category) ||
+    !validateDifficulty(difficulty) ||
+    !validateLimit(limit)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+type Props = {
+  params: {
+    category: string;
+  },
+  searchParams: {
+    difficulty: string;
+    limit: string;
+  };
+};
+
+const QuestionsPage = async ({
+  params,
+  searchParams
+}: Props) => {
+  const { category } = await params;
+  const { difficulty, limit} = await searchParams;
+
+  if (!validateParams(category, difficulty, limit)) {
+    redirect("/");
+  }
+
+  const response = await getQuestions(category, difficulty, limit);
+  return (
+    <Questions
+      questions={response}
+      limit={parseInt(limit, 10)}
+      category={category}
+    />
+  );
+};
+
+export default QuestionsPage;
