@@ -1,4 +1,4 @@
-import QuizSettings from "@/components/QuizSettings";
+import QuizSettings from "@/components/quiz/QuizSettings";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 

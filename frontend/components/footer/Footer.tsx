@@ -1,6 +1,6 @@
 import Link from "next/link";
-import LoggedInClient from '@/components/loggedIn/LoggedInClient';
-import LoggedInServer from '@/components/loggedIn/LoggedInServer';
+import LoggedInClient from '@/components/auth/logged-in-status/LoggedInClient';
+import LoggedInServer from '@/components/auth/logged-in-status/LoggedInServer';
 
 export default function Footer() {
 

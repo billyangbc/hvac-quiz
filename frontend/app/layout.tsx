@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/authOptions';
 
-import SessionProvider from '@/providers/SessionProvider';
+import SessionProvider from '@/components/providers/SessionProvider';
 import NavBar from '@/components/header/Navbar';
 import Footer from '@/components/footer/Footer';
 
