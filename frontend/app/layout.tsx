@@ -11,6 +11,7 @@ import Footer from '@/components/footer/Footer';
 
 import { Toaster } from "sonner";
 import ModalProvider from "@/components/modals/ModalProvider";
+import TailwindIndicator from "@/components/layout/TailwindIndicator";
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -42,6 +43,7 @@ export default async function RootLayout({
             <Footer/>
           </div>
         </SessionProvider>
+        <TailwindIndicator />
       </body>
     </html>
   );
