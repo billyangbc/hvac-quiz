@@ -31,7 +31,7 @@ const ResultModal = () => {
           </p>
           <Button
             onClick={() => {
-              router.push("/");
+              router.push("/quiz");
               onClose();
             }}
             className="mt-3 md:mt-5"

@@ -5,7 +5,7 @@ export default async function NavBar() {
   return (
     <nav className='flex gap-4 items-center my-4 p-4 bg-zinc-100 rounded-md'>
       <Link href='/' className='mr-auto'>
-        home
+        ENZE Pro
       </Link>
       <NavbarUser />
     </nav>
