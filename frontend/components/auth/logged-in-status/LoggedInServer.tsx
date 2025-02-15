@@ -2,6 +2,9 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { getServerSession } from 'next-auth';
 
 export default async function LoggedInServer() {
+  // hide in production
+  if (process.env.NODE_ENV === "production") return null;
+
   const session = await getServerSession(authOptions);
   // console.log('getServerSession', session);
   return (

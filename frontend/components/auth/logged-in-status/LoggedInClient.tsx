@@ -3,6 +3,9 @@
 import { useSession } from 'next-auth/react';
 
 export default function LoggedInClient() {
+  // hide in production
+  if (process.env.NODE_ENV === "production") return null;
+
   const { data: session } = useSession();
   // console.log('useSession', session);
   return (
