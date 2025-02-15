@@ -80,7 +80,7 @@ export default function EditUsername({ username }: Props) {
               />
               <button
                 type='submit'
-                className={`bg-blue-400 px-3 py-1 rounded-md disabled:bg-sky-200 disabled:text-gray-400 disabled:cursor-wait`}
+                className={`bg-primary px-3 py-1 rounded-md disabled:bg-sky-200 disabled:text-gray-400 disabled:cursor-wait`}
                 disabled={loading}
                 aria-disabled={loading}
               >
