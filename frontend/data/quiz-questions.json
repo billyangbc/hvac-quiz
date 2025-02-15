@@ -2,7 +2,7 @@
   {
     "category": "Type-0",
     "question": "Which of the below standards should be met before shipping any used refrigerant cylinders?",
-    "correctAnswer": "All of the above ",
+    "correctAnswer": "All of these ",
     "incorrectAnswers": [
       "The Significant New Alternatives Policy (SNAP)",
       "Underwriters Laboratories ",
@@ -18,7 +18,7 @@
   {
     "category": "Type-0",
     "question": "In case shipping used refrigerant cylinders, they must be:",
-    "correctAnswer": "All of the above. ",
+    "correctAnswer": "All of these. ",
     "incorrectAnswers": [
       "Filled to no more than 80% of their capacity.",
       "Shipped upright.",
@@ -38,7 +38,7 @@
     "incorrectAnswers": [
       "Treaty of CFC ",
       "Vienna Convention Law ",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -70,7 +70,7 @@
     "incorrectAnswers": [
       "Depletion of Stratospheric oxygen",
       "Depletion of Stratospheric chlorine monoxide",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -86,7 +86,7 @@
     "incorrectAnswers": [
       "Carbon, Chlorine",
       "carbon dioxide",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -102,7 +102,7 @@
     "incorrectAnswers": [
       "R-410A",
       "R-22",
-      "None of the above"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -134,7 +134,7 @@
     "incorrectAnswers": [
       "Disposed",
       "Recovered",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -182,7 +182,7 @@
     "incorrectAnswers": [
       "Hydrogen",
       "Oxygen",
-      "None of the above"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -246,7 +246,7 @@
     "incorrectAnswers": [
       "Evaporation Line",
       "Liquid Line",
-      "None of the Above"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -278,7 +278,7 @@
     "incorrectAnswers": [
       "Freezes up",
       "Increases head pressure ",
-      "None of the above "
+      "None of these "
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -294,7 +294,7 @@
     "incorrectAnswers": [
       "Install dryer ",
       "Install site glass",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -310,7 +310,7 @@
     "incorrectAnswers": [
       "Three",
       "Four",
-      "None of the above"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -466,7 +466,7 @@
   {
     "category": "Type-0",
     "question": "What steps should be taken if the oil has been contaminated due to burnout?",
-    "correctAnswer": "All of the Above",
+    "correctAnswer": "All of these",
     "incorrectAnswers": [
       "Conduct a deep vacuum before recharging ",
       "Install a permanent filter-drier ",
@@ -502,7 +502,7 @@
     "incorrectAnswers": [
       "DOT standards and labeling",
       "CAA Approval",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -514,7 +514,7 @@
   {
     "category": "Type-0",
     "question": "Refrigeration technicians who violate the Clean Air Act may:",
-    "correctAnswer": "All of the above",
+    "correctAnswer": "All of these",
     "incorrectAnswers": [
       "Be fined",
       "Lose certification",
@@ -534,7 +534,7 @@
     "incorrectAnswers": [
       "From solvent conversion",
       "From European manufacturers",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -566,7 +566,7 @@
     "incorrectAnswers": [
       "Evaporator",
       "Condenser",
-      "None"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -582,7 +582,7 @@
     "incorrectAnswers": [
       "At very hight temperatures",
       "As vapor",
-      "None"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -630,7 +630,7 @@
     "incorrectAnswers": [
       "Are recovered using equipment less than 1 year old",
       "were properly processed in a reclaiming machine.",
-      "none"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -662,7 +662,7 @@
     "incorrectAnswers": [
       "R-11 refrigerant ",
       "Water",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -694,7 +694,7 @@
     "incorrectAnswers": [
       "Mineral Oil",
       "Alktlbenzene Oil",
-      "None"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -738,7 +738,7 @@
   {
     "category": "Type-0",
     "question": "What steps is the U.S. taking to protect the stratospheric ozone layer?",
-    "correctAnswer": "All of the above",
+    "correctAnswer": "All of these",
     "incorrectAnswers": [
       "Capturing and ultimately eliminating the use of chlorofluorocarbons",
       "Enforcing strict emission requirements on garbage incinerators",
@@ -758,7 +758,7 @@
     "incorrectAnswers": [
       "Mixture Slump",
       "Pressure slide",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -806,7 +806,7 @@
     "incorrectAnswers": [
       "Manufactured, charged, and hermetically sealed in a factory and contains fifteen pounds or less of refrigerant ",
       "Manufactured, charged, and hermetically sealed in a factory and contains two pounds or less of refrigerant",
-      "None of the above "
+      "None of these "
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -822,7 +822,7 @@
     "incorrectAnswers": [
       "R-141a /141b blend",
       "R-123",
-      "None of the above"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -902,7 +902,7 @@
     "incorrectAnswers": [
       "Respiratory protection is not required as these gases are not toxic. ",
       "Dust masks are sufficient protection against harmful vapors. ",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -978,7 +978,7 @@
   {
     "category": "Type-1",
     "question": "Passive refrigerant recovery of small appliances, dependent on the System",
-    "correctAnswer": "All of the above",
+    "correctAnswer": "All of these",
     "incorrectAnswers": [
       "It is important to recover refrigerant in a container that is not pressurized",
       "It is necessary to recover 80% of the refrigerant.",
@@ -1030,7 +1030,7 @@
     "incorrectAnswers": [
       "Type II Technician",
       "Core Technician",
-      "None of the above"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -1094,7 +1094,7 @@
     "incorrectAnswers": [
       "heat the recovery cylinder to vaporize liquid refrigerant.",
       "pack ice around the evaporator to ensure maximum liquid is available.",
-      "All of the above"
+      "All of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -1110,7 +1110,7 @@
     "incorrectAnswers": [
       "sulfuric and phosphoric acids",
       "boric and chromic acids ",
-      "None"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -1126,7 +1126,7 @@
     "incorrectAnswers": [
       "does not need to be recovered",
       "does not need to be recovered",
-      "None of the above"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
@@ -1174,7 +1174,7 @@
     "incorrectAnswers": [
       "High pressure appliances",
       "R-410a Systems",
-      "None"
+      "None of these"
     ],
     "difficulty": "medium",
     "type": "Multiple Choice",
