@@ -5,7 +5,7 @@ import ChangePassword from '../password/ChangePassword';
 export default async function Account() {
   const currentUser = await getCurrentUser();
   return (
-    <div className='bg-zinc-100 rounded-sm px-4 py-8 mb-8'>
+    <div className='min-w-[40vh] bg-zinc-100 rounded-sm px-4 py-8 mb-8'>
       <h2 className='font-bold text-lg mb-4'>Account</h2>
 
       <div className='mb-8'>
