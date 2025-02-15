@@ -12,6 +12,7 @@ import Footer from '@/components/footer/Footer';
 import { Toaster } from "sonner";
 import ModalProvider from "@/components/modals/ModalProvider";
 import TailwindIndicator from "@/components/layout/TailwindIndicator";
+import Favicon from "@/components/layout/Favicon";
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -33,6 +34,9 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   return (
     <html lang='en'>
+      <head>
+        <Favicon />
+      </head>
       <body className={bodyCss} suppressHydrationWarning={true}>
         <SessionProvider session={session}>
           <div className='max-w-6xl mx-auto'>
