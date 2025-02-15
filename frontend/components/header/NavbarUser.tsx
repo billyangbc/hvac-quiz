@@ -11,7 +11,7 @@ export default async function NavbarUser() {
   }
   return (
     <>
-      <Link href='/account' className='text-sky-700 underline'>
+      <Link href='/profile' className='text-sky-700 underline'>
         {session.user?.name}
       </Link>
       <SignOutButton />

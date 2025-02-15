@@ -10,8 +10,8 @@ type Props = {
 };
 
 export default async function page({ searchParams }: Props) {
-  // if the user is logged in, redirect to account where password change is possible
+  // if the user is logged in, redirect to profile where password change is possible
   const session = await getServerSession(authOptions);
-  if (session) redirect('/account');
+  if (session) redirect('/profile');
   return <ResetPassword code={searchParams.code} />;
 }

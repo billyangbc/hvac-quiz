@@ -6,7 +6,7 @@ export default function ConfirmationMessage() {
       <h2 className='font-bold text-lg mb-4'>Please confirm your email.</h2>
       <p>
         We sent you an email with a confirmation link. Please open this email
-        and click the link to confirm your [project name] account and email.
+        and click the link to confirm your account and email.
       </p>
       <h3 className='font-bold my-4'>No email found?</h3>
       <p>

@@ -5,6 +5,6 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 
 export default async function RequestResetPage() {
   const session = await getServerSession(authOptions);
-  if (session) redirect('/account');
+  if (session) redirect('/profile');
   return <RequestPasswordReset />;
 }

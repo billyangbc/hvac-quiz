@@ -2,11 +2,11 @@ import { getCurrentUser } from '@/lib/fetchData/getCurrentUser';
 import EditUsername from './EditUsername';
 import ChangePassword from '../password/ChangePassword';
 
-export default async function Account() {
+export default async function Profile() {
   const currentUser = await getCurrentUser();
   return (
     <div className='min-w-[40vh] bg-zinc-100 rounded-sm px-4 py-8 mb-8'>
-      <h2 className='font-bold text-lg mb-4'>Account</h2>
+      <h2 className='font-bold text-lg mb-4'>Profile</h2>
 
       <div className='mb-8'>
         <h3 className='font-bold mb-4 text-sky-700'>User Data</h3>
