@@ -115,7 +115,7 @@ const Questions = ({ questions, limit, category }: Props) => {
         </CountdownCircleTimer>
       </div>
       <Separator />
-      <div className="min-h-[50vh] py-4 xl:py-8 px-3 md:px-5 w-full">
+      <div className="min-h-auto py-4 xl:py-8 px-3 md:px-5 w-full">
         <h2 className="text-2xl text-center font-medium">{`Q${curr + 1}. ${
           questions[curr].question
         }`}</h2>
