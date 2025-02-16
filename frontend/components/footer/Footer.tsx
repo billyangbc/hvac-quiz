@@ -1,14 +1,34 @@
 import Link from "next/link";
+
 import LoggedInClient from '@/components/auth/logged-in-status/LoggedInClient';
 import LoggedInServer from '@/components/auth/logged-in-status/LoggedInServer';
 
 export default function Footer() {
-
   return (
     <footer>
-      <div className="flex gap-4 w-full">
-      <LoggedInClient />
-      <LoggedInServer />
+      { process.env.NODE_ENV == "production" &&  
+        <div className="flex gap-4 w-full">
+        <LoggedInClient />
+        <LoggedInServer />
+        </div>
+      }
+      <div className="mt-16 flex flex-col items-center">
+        <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
+          <div>ENZE Pro</div>
+          <div>{` • `}</div>
+          <div>{`© ${new Date().getFullYear()}`}</div>
+          <div>{` • `}</div>
+          <Link href="/">ENZE Pro Practice</Link>
+        </div>
+        <div className="mb-8 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
+          <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
+            Terms of Service
+          </Link>
+          <div>{` | `}</div>
+          <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
+            Privacy Policy
+          </Link>
+        </div>
       </div>
     </footer>
   )
