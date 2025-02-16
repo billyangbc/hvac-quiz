@@ -14,11 +14,11 @@ export default function Footer() {
       }
       <div className="mt-16 flex flex-col items-center">
         <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
-          <div>ENZE Pro</div>
+          <Link href="/">ENZE Pro Online Course</Link>
           <div>{` • `}</div>
           <div>{`© ${new Date().getFullYear()}`}</div>
-          <div>{` • `}</div>
-          <Link href="/">ENZE Pro Practice</Link>
+          <div>{` • `} Powered by {` `}</div>
+          <Link href="hvacprobooster.com">hvacprobooster.com</Link>
         </div>
         <div className="mb-8 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
           <Link href="/terms" className="underline underline-offset-4 hover:text-primary">

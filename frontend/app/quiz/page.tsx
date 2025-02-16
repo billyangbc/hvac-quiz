@@ -13,7 +13,7 @@ export default function Home() {
         <div className="relative h-full">
           <Image
             src={"/quiz-settings.svg"}
-            alt="hero-image"
+            alt="quiz-settings"
             priority
             width={450}
             height={450}

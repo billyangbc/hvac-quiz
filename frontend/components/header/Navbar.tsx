@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import NavbarUser from './NavbarUser';
 import { LuSquareCheck, LuChartColumn } from "react-icons/lu";
+import Image from "next/image";
 
 const navItems = [
   {
@@ -20,7 +21,15 @@ return (
   <header className="min-h-[8vh] px-[2rem] bg-white shadow-lg flex items-center">
     <nav className="flex-1 flex items-center justify-between">
       <Link href='/' className='flex items-center gap-2'>
-        <h1 className="text-3xl font-bold text-primary/90">ENZE Pro</h1>
+        <Image
+          src={"/logo.webp"}
+          alt="ENZE Pro"
+          priority
+          width={100}
+          height={50}
+          className="object-cover object-center mx-auto"
+        />
+        <h1 className="text-2xl font-bold text-primary/90">Online Course</h1>
       </Link>
       <ul className="flex items-center gap-4">
         {navItems.map((item, index) => (
