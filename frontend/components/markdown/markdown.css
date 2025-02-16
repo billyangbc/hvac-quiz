@@ -1,0 +1,29 @@
+.markdown-content > * {
+  margin-bottom: 1rem;
+}
+.markdown-content > h1 {
+  border-bottom: 2px solid var(--color-gray-600);
+  font-size: 1.5rem;
+  padding-bottom: 0.5rem;
+  margin-block: 1.5rem;
+}
+.dark .markdown-content :is(p, li) {
+  color: var(--markdown-p-color);
+}
+.markdown-content > :is(ul, ol) {
+  list-style-type: unset;
+  margin-left: 1.5rem;
+}
+.markdown-content a {
+  color: rgb(60, 116, 238);
+  transition: all 0.2s ease;
+}
+.dark .markdown-content a {
+  color: rgb(178, 200, 248);
+}
+.markdown-content a:hover {
+  color: rgb(3, 69, 155);
+}
+.dark .markdown-content strong {
+  color: white;
+}
