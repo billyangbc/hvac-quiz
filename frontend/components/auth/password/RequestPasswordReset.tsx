@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 
 import PendingSubmitButton from '../PendingSubmitButton';
 import requestPasswordResetAction from './requestPasswordResetAction';
@@ -27,7 +27,7 @@ const initialState: NoErrorFormStateT = {
 };
 
 export default function ForgotPassword() {
-  const [state, formAction] = useFormState<
+  const [state, formAction] = useActionState<
     RequestPasswordResetFormStateT,
     FormData
   >(requestPasswordResetAction, initialState);
