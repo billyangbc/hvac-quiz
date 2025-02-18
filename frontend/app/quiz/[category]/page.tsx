@@ -29,12 +29,13 @@ type Props = {
   };
 };
 
-const QuestionsPage = async ({
-  params,
-  searchParams
-}: Props) => {
-  const { category } = await params;
-  const { difficulty, limit} = await searchParams;
+type paramsType = Promise<{category: string;}>;
+type searchType = Promise<{difficulty: string; limit: string}>;
+
+const QuestionsPage = async (props: {params: paramsType,
+  searchParams: searchType}) => {
+  const { category } = await props.params;
+  const { difficulty, limit} = await props.searchParams;
 
   if (!validateParams(category, difficulty, limit)) {
     redirect("/");
