@@ -159,6 +159,6 @@ console.log("************** login with google backend response ", strapiResponse
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/signin',
-    error: '/authError',
+    error: '/auth-error',
   },
 };
