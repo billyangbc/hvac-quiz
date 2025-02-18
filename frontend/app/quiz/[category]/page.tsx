@@ -19,21 +19,13 @@ const validateParams = (category: string, difficulty: string, limit: string ) =>
   return true;
 }
 
-type Props = {
-  params: {
-    category: string;
-  },
-  searchParams: {
-    difficulty: string;
-    limit: string;
-  };
-};
-
 type paramsType = Promise<{category: string;}>;
 type searchType = Promise<{difficulty: string; limit: string}>;
 
-const QuestionsPage = async (props: {params: paramsType,
-  searchParams: searchType}) => {
+const QuestionsPage = async (props: {
+  params: paramsType,
+  searchParams: searchType
+}) => {
   const { category } = await props.params;
   const { difficulty, limit} = await props.searchParams;
 
