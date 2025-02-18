@@ -14,7 +14,7 @@
     "export": "cd backend && pnpm strapi export --no-encrypt -f ../seed-data"
   },
   "dependencies": {
-    "@types/node": "^22.13.1",
+    "@types/node": "^22.13.4",
     "concurrently": "^8.2.2",
     "typescript": "^5.7.3",
     "wait-on": "^8.0.2"
