@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      console.log('singIn callback', { account, profile, user });
+//      console.log('singIn callback', { account, profile, user });
       if (
         account &&
         account.provider === 'google' &&
@@ -83,13 +83,13 @@ export const authOptions: NextAuthOptions = {
     },
 
     async jwt({ token, trigger, account, user, session }) {
-      console.log('jwt callback', {
-        token,
-        trigger,
-        account,
-        user,
-        session,
-      });
+//      console.log('jwt callback', {
+//        token,
+//        trigger,
+//        account,
+//        user,
+//        session,
+//      });
 
       // change username update
       if (trigger === 'update' && session?.username) {
@@ -140,11 +140,10 @@ console.log("************** login with google backend response ", strapiResponse
       return token;
     },
     async session({ token, session }) {
-      console.log('session callback', {
-        token,
-        session,
-      });
-
+//      console.log('session callback', {
+//        token,
+//        session,
+//      });
       session.strapiToken = token.strapiToken;
       session.provider = token.provider;
       session.user.strapiUserId = token.strapiUserId;
