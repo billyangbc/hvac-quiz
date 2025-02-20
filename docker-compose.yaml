@@ -1,5 +1,5 @@
 # docker compose to run quiz app with strapi stack
-version: "4"
+version: "3.8"
 services:
   app:
     container_name: quiz-app
