@@ -1,8 +1,13 @@
 Dockerfile
 .dockerignore
 node_modules
-npm-debug.log
-README.md
+# Log files
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .env*
 .next
 .git

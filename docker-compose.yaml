@@ -1,6 +1,7 @@
 services:
   app:
     container_name: quiz-app
+#    build: ./frontend
     image: billyangbc/quiz:app-latest
     restart: unless-stopped
     env_file: .env
@@ -10,6 +11,7 @@ services:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       STRAPI_BACKEND_URL: ${STRAPI_BACKEND_URL}
+      NODE_ENV: ${NODE_ENV}
     ports:
       - "3000:3000"
     networks:
@@ -19,6 +21,7 @@ services:
 
   strapi:
     container_name: quiz-strapi
+#    build: ./backend
     image: billyangbc/quiz:strapi-latest
     restart: unless-stopped
     env_file: .env
