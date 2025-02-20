@@ -1,7 +1,9 @@
 services:
   app:
     container_name: quiz-app
-#    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
     image: billyangbc/quiz:app-latest
     restart: unless-stopped
     env_file: .env
@@ -21,7 +23,9 @@ services:
 
   strapi:
     container_name: quiz-strapi
-#    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
     image: billyangbc/quiz:strapi-latest
     restart: unless-stopped
     env_file: .env
