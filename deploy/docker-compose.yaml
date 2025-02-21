@@ -3,9 +3,6 @@ version: "3.8"
 services:
   app:
     container_name: quiz-app
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile.prod
     image: billyangbc/quiz:app-latest
     pull_policy: always
     restart: unless-stopped
@@ -26,9 +23,6 @@ services:
 
   strapi:
     container_name: quiz-strapi
-#    build:
-#      context: ./backend
-#      dockerfile: Dockerfile.prod
     image: billyangbc/quiz:strapi-latest
     pull_policy: always
     restart: unless-stopped
@@ -52,10 +46,13 @@ services:
   nginx:
     restart: always
     image: nginx:1-alpine
+    environment:
+      FRONTEND_SERVER_NAME: ${FRONTEND_SERVER_NAME}
+      BACKEND_SERVER_NAME: ${BACKEND_SERVER_NAME}
     ports:
       - 80:80
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx:/etc/nginx/templates
     depends_on:
       - app
     networks:
