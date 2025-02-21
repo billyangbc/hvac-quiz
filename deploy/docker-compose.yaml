@@ -50,7 +50,7 @@ services:
       FRONTEND_SERVER_NAME: ${FRONTEND_SERVER_NAME}
       BACKEND_SERVER_NAME: ${BACKEND_SERVER_NAME}
     ports:
-      - 80:80
+      - ${NGINX_HOST_PORT}:80
     volumes:
       - ./nginx:/etc/nginx/templates
     depends_on:
