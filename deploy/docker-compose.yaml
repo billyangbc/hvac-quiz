@@ -38,25 +38,35 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
+    # Note: run following command for content type editable
+    command: npx strapi develop
     ports:
       - "1337:1337"
     networks:
       - strapi
 
-  nginx:
+#  nginx:
+#    restart: always
+#    image: nginx:1-alpine
+#    environment:
+#      FRONTEND_SERVER_NAME: ${FRONTEND_SERVER_NAME}
+#      BACKEND_SERVER_NAME: ${BACKEND_SERVER_NAME}
+#    ports:
+#      - ${HOST_PORT}:443
+#    volumes:
+#      - ./nginx:/etc/nginx/templates
+#    depends_on:
+#      - app
+#    networks:
+#      - strapi
+
+  cloudflared:
+    image: cloudflare/cloudflared
+    container_name: cloudflared
     restart: always
-    image: nginx:1-alpine
-    environment:
-      FRONTEND_SERVER_NAME: ${FRONTEND_SERVER_NAME}
-      BACKEND_SERVER_NAME: ${BACKEND_SERVER_NAME}
-    ports:
-      - ${NGINX_HOST_PORT}:80
-    volumes:
-      - ./nginx:/etc/nginx/templates
-    depends_on:
-      - app
-    networks:
-      - strapi
+    network_mode: host
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+
 networks:
   strapi:
     name: Strapi-network
