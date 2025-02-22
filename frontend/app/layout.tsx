@@ -20,7 +20,7 @@ const space_grotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'Frontend',
+  title: 'Enze Pro Online Course',
 };
 
 const bodyCss = cn("px-2 bg-zinc-200", space_grotesk);
