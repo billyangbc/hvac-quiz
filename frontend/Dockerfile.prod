@@ -76,3 +76,7 @@ CMD ["node", "server.js"]
 # docker build -t <username>/quiz:app-latest -f Dockerfile.prod .
 # docker login -u <username>
 # docker push <username>/quiz:app-latest
+# to private registry (registry.idealz.io)
+# docker build -t registry.idealz.io/quiz:app-latest -f Dockerfile.prod .
+# docker login registry.idealz.io -u admin -p <password>
+# docker push registry.idealz.io/quiz:app-latest
