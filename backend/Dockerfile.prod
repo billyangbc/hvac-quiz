@@ -32,3 +32,18 @@ CMD ["npm", "run", "start"]
 # docker build -t <username>/quiz:strapi-latest -f Dockerfile.prod .
 # docker login -u <username>
 # docker push <username>/quiz:strapi-latest
+
+# to private registry (registry.idealz.io through cloudflare tunnel)
+# docker build -t registry.idealz.io/quiz:strapi-latest -f Dockerfile.prod .
+# docker login registry.idealz.io -u admin -p <password>
+# docker push registry.idealz.io/quiz:strapi-latest
+
+# !!!! Note: if got cloudflare 403 limit size error, use following workaround:
+# kubectl port-forward svc/docker-registry 5000:5000 --namespace docker-registry
+# or
+# export POD_NAME=$(kubectl get pods --namespace docker-registry -l "app=docker-registry,release=docker-registry" -o jsonpath="{.items[0].metadata.name}")
+# kubectl -n docker-registry port-forward $POD_NAME 5000:5000
+# then
+# docker tag registry.idealz.io/quiz:strapi-latest localhost:5000/quiz:strapi-latest
+# docker login localhost:5000 -u admin
+# docker push localhost:5000/quiz:strapi-latest
