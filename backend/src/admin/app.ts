@@ -28,8 +28,8 @@ export default {
       // 'tr',
       // 'uk',
       // 'vi',
-      // 'zh-Hans',
-      // 'zh',
+      'zh-Hans',
+      'zh',
     ],
     auth: { // Replace the Strapi logo in auth (login) views
       logo: AuthLogo,
