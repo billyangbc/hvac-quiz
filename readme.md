@@ -89,3 +89,16 @@ pnpm add qs zod
 
 ## Enable google auth in strapi
 Open strapi admin panel, `settings > users-permissions > providers > google`, and enable it.
+
+## data export and import (seed)
+
+*Note*: Change the Database settings in `.env` to match your database before start the strapi server.
+### Export data
+```sh
+pnpm export
+```
+### Import data (seed)
+*Update the Database settings if needed.*
+```sh
+pnpm seed
+```
