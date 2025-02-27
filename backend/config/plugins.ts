@@ -17,5 +17,13 @@ module.exports = ({ env }) => ({
         },
       },
     },
+//    // https://forum.strapi.io/t/user-permission-problem-with-v5/47190
+//    "users-permissions": {
+//      config: {
+//        register: {
+//          allowedFields: [ "role" ],
+//        },
+//      },
+//    },
   });
   
