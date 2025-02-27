@@ -6,7 +6,7 @@ import LoggedInServer from '@/components/auth/logged-in-status/LoggedInServer';
 export default function Footer() {
   return (
     <footer>
-      { process.env.NODE_ENV == "production" &&  
+      { process.env.NODE_ENV !== "production" &&  
         <div className="flex gap-4 w-full">
         <LoggedInClient />
         <LoggedInServer />
