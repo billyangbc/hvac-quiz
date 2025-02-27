@@ -11,19 +11,8 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "resultId": {
-      "type": "uid"
-    },
     "score": {
       "type": "integer"
-    },
-    "totalQuestions": {
-      "type": "integer"
-    },
-    "test": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::test.test"
     },
     "wrongAnswers": {
       "type": "relation",

@@ -372,6 +372,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categories';
   info: {
+    description: '';
     displayName: 'Category';
     pluralName: 'categories';
     singularName: 'category';
@@ -380,8 +381,9 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    categoryId: Schema.Attribute.UID;
-    categoryName: Schema.Attribute.String;
+    categoryName: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -411,25 +413,25 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
   };
   attributes: {
     category: Schema.Attribute.Relation<'oneToOne', 'api::category.category'>;
-    content: Schema.Attribute.Text;
-    correct_answer: Schema.Attribute.Enumeration<['A', 'B', 'C', 'D']>;
+    content: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    correctAnswer: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     difficulty: Schema.Attribute.Enumeration<['easy', 'medium', 'hard']>;
     explanation: Schema.Attribute.Text;
+    incorrect_1: Schema.Attribute.String;
+    incorrect_2: Schema.Attribute.String;
+    incorrect_3: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::question.question'
     > &
       Schema.Attribute.Private;
-    option_a: Schema.Attribute.String;
-    option_b: Schema.Attribute.String;
-    option_c: Schema.Attribute.String;
-    option_d: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    quistionId: Schema.Attribute.UID;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -458,11 +460,8 @@ export interface ApiResultResult extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    resultId: Schema.Attribute.UID;
     score: Schema.Attribute.Integer;
     submittedAt: Schema.Attribute.DateTime;
-    test: Schema.Attribute.Relation<'oneToOne', 'api::test.test'>;
-    totalQuestions: Schema.Attribute.Integer;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -494,8 +493,10 @@ export interface ApiTestTest extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     questions: Schema.Attribute.Relation<'oneToMany', 'api::question.question'>;
-    testId: Schema.Attribute.UID;
-    testName: Schema.Attribute.String;
+    result: Schema.Attribute.Relation<'oneToOne', 'api::result.result'>;
+    testName: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

@@ -11,32 +11,22 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "quistionId": {
-      "type": "uid"
-    },
     "content": {
-      "type": "text"
+      "type": "text",
+      "unique": true,
+      "required": true
     },
-    "option_a": {
+    "incorrect_1": {
       "type": "string"
     },
-    "option_b": {
+    "incorrect_2": {
       "type": "string"
     },
-    "option_c": {
+    "incorrect_3": {
       "type": "string"
     },
-    "option_d": {
+    "correctAnswer": {
       "type": "string"
-    },
-    "correct_answer": {
-      "type": "enumeration",
-      "enum": [
-        "A",
-        "B",
-        "C",
-        "D"
-      ]
     },
     "difficulty": {
       "type": "enumeration",
