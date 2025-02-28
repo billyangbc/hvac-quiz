@@ -94,8 +94,8 @@ export function CategoryList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {categories.map((category) => (
-            <TableRow key={category.documentId}>
+          {categories.map((category, index) => (
+            <TableRow key={category.documentId} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
               <TableCell className="font-medium">{category.categoryName}</TableCell>
               <TableCell>{category.description}</TableCell>
               <TableCell>{new Date(category.createdAt).toLocaleDateString()}</TableCell>
