@@ -1,4 +1,5 @@
 import { CreateCategory } from "@/components/dashboard/CreateCategory";
+import { CategoryList } from "@/components/dashboard/CategoryList";
 
 export default async function Index() {
   return (
@@ -8,7 +9,7 @@ export default async function Index() {
           <CreateCategory />
         </div>
         <div className="grid grid-cols-1">
-          categories list 
+          <CategoryList /> 
         </div>
       </div>
     </div>

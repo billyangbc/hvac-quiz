@@ -6,10 +6,14 @@ import { useActionState } from "react";
 import { createCategoryAction } from "@/lib/actions/category-actions";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
 
-export const CreateCategory = () => {
+interface MyComponentProps {
+  category?: string; // Replace 'Category' with the actual type
+  onSuccess?: () => Promise<void>;
+}
+export const CreateCategory = ({ category, onSuccess }: MyComponentProps) => {
   const [state, action, isPending] = useActionState(createCategoryAction, null);
   return (
-    <div className="p-6">
+    <div className="p-4">
       <form action={action} className="space-y-4">
         <div className="grid grid-cols-8 gap-2">
           <div className="col-span-2">

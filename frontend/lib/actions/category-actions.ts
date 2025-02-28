@@ -1,8 +1,31 @@
 "use server";
 
+import fetchData from "@/lib/services/fetch-data";
 import { mutateData } from "@/lib/services/mutate-data";
-import { Description } from "@radix-ui/react-dialog";
 import { revalidatePath } from "next/cache";
+
+export async function getCategories(params: {
+  page?: number;
+  pageSize?: number;
+  sort?: string;
+  search?: string;
+}) {
+  const query = {
+    sort: params.sort,
+    filters: {
+      $or: [
+        { categoryName: { $containsi: params.search} },
+        { description: { $containsi: params.search} },
+      ]
+    },
+    pagination: {
+      pageSize: params.pageSize,
+      page: params.page
+    }
+  }
+  const response = await fetchData("/api/categories", query);
+  return response;
+}
 
 export async function createCategoryAction(
   prevState: any,

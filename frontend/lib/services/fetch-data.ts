@@ -1,6 +1,7 @@
 import { FetchOptionsType } from '@/types/strapi/StrapiFetchOptions';
 import { IApiParameters } from '@/types/strapi/StrapiParameters';
 import { StrapiErrorT } from '@/types/strapi/StrapiError';
+import { getUserApiToken } from "@/lib/services/auth";
 import qs from 'qs';
 
 export default async function fetchData(
@@ -8,14 +9,26 @@ export default async function fetchData(
   parameters: IApiParameters,
   options?: FetchOptionsType
 ) {
-  const url =
-    process.env.STRAPI_BACKEND_URL +
-    `${path}?` +
-    qs.stringify(parameters, { encodeValuesOnly: true });
+  const url = new URL(path, process.env.STRAPI_BACKEND_URL);
+  url.search = qs.stringify(parameters, { encodeValuesOnly: true });
 
+  let fetchOptions;
+  if (options) {
+    fetchOptions = options;
+  } else {
+    const authToken = await getUserApiToken();
+    if (authToken) {
+      fetchOptions = {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        }
+      };
+    } else {
+      fetchOptions = {};
+    }
+  }
   try {
-    const strapiResponse = await fetch(url, options);
-
+    const strapiResponse = await fetch(url.href, fetchOptions);
     if (!strapiResponse.ok) {
       // check if response in json-able
       const contentType = strapiResponse.headers.get('content-type');
