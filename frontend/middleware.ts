@@ -1,6 +1,6 @@
 // frontend/middleware.ts
-import { withAuth } from "next-auth/middleware"
-import { NextResponse } from "next/server"
+import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
@@ -11,7 +11,7 @@ export default withAuth(
     const { pathname, origin} = req.nextUrl;
 
     // Only admin have access to dashboard
-    if (pathname.startsWith("/dashboard") && token?.role !== "admin") {
+    if (pathname.startsWith("/dashboard") && token?.roleName !== `${process.env.ADMIN_ROLE_NAME}`) {
       return NextResponse.redirect(`${origin}/unauthorized`);
     }
   },

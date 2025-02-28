@@ -23,6 +23,7 @@ declare module 'next-auth' {
     strapiUserId?: number;
     strapiToken?: string;
     blocked?: boolean;
+    roleName?: string;
   }
 }
 
@@ -33,5 +34,6 @@ declare module 'next-auth/jwt' {
     blocked?: boolean;
     strapiToken?: string;
     provider?: 'credentials' | 'google';
+    roleName?: string;
   }
 }

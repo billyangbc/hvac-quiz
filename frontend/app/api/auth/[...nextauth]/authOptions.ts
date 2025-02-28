@@ -3,6 +3,7 @@ import { StrapiLoginResponseT } from '@/types/strapi/User';
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { getUserRole } from '@/lib/fetch/getUser';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -79,6 +80,10 @@ export const authOptions: NextAuthOptions = {
       ) {
         if (!profile.email_verified) return false;
       }
+
+      // set user role name into user data
+      const userWithRole = await getUserRole(`${user.strapiUserId}`);
+      user.roleName = userWithRole?.role.name;
       return true;
     },
 
@@ -136,6 +141,7 @@ console.log("************** login with google backend response ", strapiResponse
           token.provider = account.provider;
           token.blocked = user.blocked;
         }
+        token.roleName = user.roleName;
       }
       return token;
     },
@@ -148,6 +154,7 @@ console.log("************** login with google backend response ", strapiResponse
       session.provider = token.provider;
       session.user.strapiUserId = token.strapiUserId;
       session.user.blocked = token.blocked;
+      session.user.roleName = token.roleName;
 
       return session;
     },
