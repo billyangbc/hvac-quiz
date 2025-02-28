@@ -45,3 +45,10 @@ export async function isAdmin() {
 
   return role === `${process.env.ADMIN_ROLE_NAME}`;
 }
+
+export async function getApiToken() {
+  const session = await getServerSession(authOptions);
+  const token = session!.strapiToken!
+
+  return token;
+}
