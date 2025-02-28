@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 const bodyCss = cn("px-2 bg-zinc-200", space_grotesk);
-const mainCss = cn("flex min-h-[80vh] max-w-[1920px] mx-auto flex-col items-center justify-between py-6 px-4 sm:px-16 lg:px-24 2xl:px-80");
+const mainCss = cn("flex min-h-[80vh] max-w-[1920px] mx-auto flex-col items-center justify-between py-6 px-4");
 export default async function RootLayout({
   children,
 }: Readonly<{
