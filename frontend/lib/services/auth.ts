@@ -4,8 +4,7 @@ import { StrapiCurrentUserT } from '@/types/strapi/StrapiCurrentUserT';
 import fetchData from '@/lib/services/fetch-data';
 
 export async function getCurrentUser() {
-  const session = await getServerSession(authOptions);
-  const token = session!.strapiToken!
+  const token = getUserApiToken();
   const options = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -46,7 +45,7 @@ export async function isAdmin() {
   return role === `${process.env.ADMIN_ROLE_NAME}`;
 }
 
-export async function getApiToken() {
+export async function getUserApiToken() {
   const session = await getServerSession(authOptions);
   const token = session!.strapiToken!
 

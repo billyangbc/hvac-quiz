@@ -1,11 +1,10 @@
-import { getApiToken } from "@/lib/services/auth";
+import { getUserApiToken } from "@/lib/services/auth";
 export async function mutateData(method: string, path: string, payload?: any) {
-  const baseUrl = process.env.STRAPI_BACKEND_URL;
-  const authToken = await getApiToken();
-  const url = new URL(path, baseUrl);
-
+  const authToken = await getUserApiToken();
   if (!authToken) throw new Error("No auth token found");
 
+  const baseUrl = process.env.STRAPI_BACKEND_URL;
+  const url = new URL(path, baseUrl);
   try {
     const response = await fetch(url, {
       method: method,
