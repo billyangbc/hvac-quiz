@@ -25,6 +25,7 @@ export async function getUserRole(userId?: string) {
     }
   }
 
+  // use API token instead of user token
   const options = {
     headers: {
       Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,

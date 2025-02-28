@@ -82,8 +82,8 @@ export const authOptions: NextAuthOptions = {
       }
 
       // set user role name into user data
-      const userWithRole = await getUserRole(`${user.strapiUserId}`);
-      user.roleName = userWithRole?.role.name;
+      const userRole = await getUserRole(`${user.strapiUserId}`);
+      user.roleName = userRole;
       return true;
     },
 
