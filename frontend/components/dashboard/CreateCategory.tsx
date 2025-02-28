@@ -11,10 +11,10 @@ export const CreateCategory = () => {
   return (
     <div className="p-6">
       <form action={action} className="space-y-4">
-        <div className="grid grid-cols-6 gap-2">
-          <div className="col-span-4">
+        <div className="grid grid-cols-8 gap-2">
+          <div className="col-span-2">
             <Input
-              id="category-ame"
+              id="category-name"
               type="text"
               name="categoryName"
               placeholder="Category Name"
@@ -25,8 +25,16 @@ export const CreateCategory = () => {
               <StrapiErrors error={state?.apiErrors} />
             }
           </div>
-
-          <div className="col-span-1">
+          <div className="col-span-4">
+          <Input
+              id="category-description"
+              type="text"
+              name="description"
+              placeholder="Description"
+              defaultValue={ (state?.apiErrors && state?.data?.description) || ""}
+            />
+          </div>
+          <div className="col-span-2">
             <Button
               type="submit"
               className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-md"

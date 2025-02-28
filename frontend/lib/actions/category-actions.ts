@@ -1,6 +1,7 @@
 "use server";
 
 import { mutateData } from "@/lib/services/mutate-data";
+import { Description } from "@radix-ui/react-dialog";
 import { revalidatePath } from "next/cache";
 
 export async function createCategoryAction(
@@ -13,7 +14,8 @@ export async function createCategoryAction(
   const payload = {
     data:
     {
-      categoryName: rawFormData.categoryName
+      categoryName: rawFormData.categoryName,
+      description: rawFormData.description
     }
   }
 
