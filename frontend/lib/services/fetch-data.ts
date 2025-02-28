@@ -10,7 +10,7 @@ export default async function fetchData(
 ) {
   const url =
     process.env.STRAPI_BACKEND_URL +
-    `/api${path}?` +
+    `${path}?` +
     qs.stringify(parameters, { encodeValuesOnly: true });
 
   try {

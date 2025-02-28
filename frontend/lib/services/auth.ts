@@ -12,7 +12,7 @@ export async function getCurrentUser() {
     },
     next: { tags: ['strapi-users-me'] },
   };
-  const user: StrapiCurrentUserT = await fetchData('/users/me', {}, options);
+  const user: StrapiCurrentUserT = await fetchData('/api/users/me', {}, options);
   return user;
 }
 
@@ -33,7 +33,7 @@ export async function getUserRole(userId?: string) {
   };
 
   if (requestUserId) {
-    const user = await fetchData(`/users/${requestUserId}`, {"populate": "*"}, options);
+    const user = await fetchData(`/api/users/${requestUserId}`, {"populate": "*"}, options);
     return user?.role.name;
   }
 
