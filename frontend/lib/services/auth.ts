@@ -1,7 +1,7 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { getServerSession } from 'next-auth';
 import { StrapiCurrentUserT } from '@/types/strapi/StrapiCurrentUserT';
-import fetcher from './fetcher';
+import fetchData from '@/lib/services/fetch-data';
 
 export async function getCurrentUser() {
   const session = await getServerSession(authOptions);
@@ -12,7 +12,7 @@ export async function getCurrentUser() {
     },
     next: { tags: ['strapi-users-me'] },
   };
-  const user: StrapiCurrentUserT = await fetcher('/users/me', {}, options);
+  const user: StrapiCurrentUserT = await fetchData('/users/me', {}, options);
   return user;
 }
 
@@ -33,7 +33,7 @@ export async function getUserRole(userId?: string) {
   };
 
   if (requestUserId) {
-    const user = await fetcher(`/users/${requestUserId}`, {"populate": "*"}, options);
+    const user = await fetchData(`/users/${requestUserId}`, {"populate": "*"}, options);
     return user?.role.name;
   }
 

@@ -3,7 +3,7 @@ import { IApiParameters } from '@/types/strapi/StrapiParameters';
 import { StrapiErrorT } from '@/types/strapi/StrapiError';
 import qs from 'qs';
 
-export default async function fetcher(
+export default async function fetchData(
   path: string,
   parameters: IApiParameters,
   options?: FetchOptionsType

@@ -1,4 +1,4 @@
-import { getApiToken } from "@/lib/fetch/getUser";
+import { getApiToken } from "@/lib/services/auth";
 export async function mutateData(method: string, path: string, payload?: any) {
   const baseUrl = process.env.STRAPI_BACKEND_URL;
   const authToken = await getApiToken();

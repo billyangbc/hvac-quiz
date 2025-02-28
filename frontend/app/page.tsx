@@ -2,7 +2,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
-import { isAdmin } from '@/lib/fetch/getUser';
+import { isAdmin } from '@/lib/services/auth';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);

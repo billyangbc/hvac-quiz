@@ -1,4 +1,4 @@
-import { getCurrentUser } from '@/lib/fetch/getUser';
+import { getCurrentUser } from '@/lib/services/auth';
 import EditUsername from './EditUsername';
 import ChangePassword from '../password/ChangePassword';
 

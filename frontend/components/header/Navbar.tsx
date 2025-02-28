@@ -2,7 +2,7 @@ import Link from 'next/link';
 import NavbarUser from './NavbarUser';
 import { LuSquareCheck, LuChartColumn, LuLayoutDashboard } from "react-icons/lu";
 import Image from "next/image";
-import { isAdmin } from '@/lib/fetch/getUser';
+import { isAdmin } from '@/lib/services/auth';
 
 async function getNavItems () {
   const navItems = [

@@ -3,7 +3,7 @@ import { StrapiLoginResponseT } from '@/types/strapi/User';
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { getUserRole } from '@/lib/fetch/getUser';
+import { getUserRole } from '@/lib/services/auth';
 
 export const authOptions: NextAuthOptions = {
   providers: [
