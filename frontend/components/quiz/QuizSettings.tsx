@@ -15,7 +15,7 @@ import { SelectOption, getCategoryOptions, getDifficultyOptions } from "@/data/l
 const QuizSettings = () => {
   const router = useRouter();
   const [category, setCategory] = useState<string>("");
-  const [difficulty, setDifficulty] = useState<string>("");
+  const [difficulty, setDifficulty] = useState<string>("medium");
   const [limit, setLimit] = useState([10]);
 
   const handleQuizStart = () => {
@@ -41,6 +41,8 @@ const QuizSettings = () => {
           ))}
         </SelectContent>
       </Select>
+      {/*>>>> hide the difficult (always medium) */}
+      <div className="hidden">
       <Select
         value={difficulty}
         onValueChange={(value) => setDifficulty(value)}
@@ -56,6 +58,8 @@ const QuizSettings = () => {
           ))}
         </SelectContent>
       </Select>
+      {/*<<<< hide the difficult (always medium) */}
+      </div>
       <p className="text-sm font-semibold">
         How many questions do you want to answer?: {limit[0]}
       </p>
