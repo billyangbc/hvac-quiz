@@ -24,6 +24,11 @@
       "relation": "oneToMany",
       "target": "api::question.question",
       "mappedBy": "category"
+    },
+    "slug": {
+      "type": "string",
+      "unique": true,
+      "required": true
     }
   }
 }
