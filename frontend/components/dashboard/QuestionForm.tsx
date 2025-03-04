@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
-import { createQuestionAction } from "@/lib/actions/question-actions";
+import { createQuestionAction, updateQuestionAction, getQuestion } from "@/lib/actions/question-actions";
 import { getCategories } from "@/lib/actions/category-actions";
 
 interface Category {
@@ -14,15 +14,39 @@ interface Category {
   categoryName: string;
 }
 
+interface QuestionData {
+  id: string;
+  documentId: string;
+  content: string;
+  correctAnswer: string;
+  incorrect_1: string;
+  incorrect_2: string;
+  incorrect_3: string;
+  explanation: string;
+  difficulty: string;
+  category: Category;
+}
+
+interface QuestionFormProps {
+  mode: 'create' | 'edit';
+  questionId?: string;
+}
+
 const difficultyOptions = [
   { value: 'easy', label: 'Easy' },
   { value: 'medium', label: 'Medium' },
   { value: 'hard', label: 'Hard' }
 ];
 
-export const CreateQuestion = () => {
-  const [state, action, isPending] = useActionState(createQuestionAction, null);
+export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps) => {
+  const [state, action, isPending] = useActionState(
+    mode === 'create' ? createQuestionAction : updateQuestionAction, 
+    null
+  );
+  
   const [categories, setCategories] = useState<Category[]>([]);
+  const [question, setQuestion] = useState<QuestionData | null>(null);
+  const [isLoading, setIsLoading] = useState(mode === 'edit');
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -33,23 +57,58 @@ export const CreateQuestion = () => {
         console.error("Error loading categories:", error);
       }
     };
+    
+    const loadQuestion = async () => {
+      if (mode === 'edit' && questionId) {
+        try {
+          setIsLoading(true);
+          const response = await getQuestion(questionId);
+          setQuestion(response.data);
+        } catch (error) {
+          console.error("Error loading question:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
     loadCategories();
-  }, []);
+    loadQuestion();
+  }, [mode, questionId]);
+
+  if (isLoading) {
+    return <div className="p-4 text-center">Loading question data...</div>;
+  }
+
+  const isEditMode = mode === 'edit' && question;
+  const title = isEditMode ? "Edit Question" : "Create New Question";
+  const buttonText = isPending 
+    ? (isEditMode ? "Updating Question..." : "Creating Question...") 
+    : (isEditMode ? "Update Question" : "Create Question");
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
       <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-        Create New Question
+        {title}
       </h2>
       
       <form action={action} className="space-y-4">
+        {/* Hidden field for document ID when editing */}
+        {isEditMode && (
+          <input type="hidden" name="documentId" value={question.documentId} />
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Category Select */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Category
             </label>
-            <Select name="category" required>
+            <Select 
+              name="category" 
+              required
+              defaultValue={isEditMode ? question.category.documentId : undefined}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
@@ -68,7 +127,11 @@ export const CreateQuestion = () => {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Difficulty
             </label>
-            <Select defaultValue="medium" name="difficulty" required>
+            <Select 
+              defaultValue={isEditMode ? question.difficulty : "medium"} 
+              name="difficulty" 
+              required
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select difficulty" />
               </SelectTrigger>
@@ -85,30 +148,22 @@ export const CreateQuestion = () => {
 
         {/* Question Content */}
         <div className="space-y-2">
-          {/*
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Question
-          </label>
-          */}
           <Input
             name="content"
             placeholder="Enter question content"
             required
+            defaultValue={isEditMode ? question.content : ""}
             className="dark:bg-gray-700 dark:border-gray-600"
           />
         </div>
 
         {/* Correct Answer */}
         <div className="space-y-2">
-          {/*
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Correct Answer
-          </label>
-          */}
           <Input
             name="correctAnswer"
             placeholder="Enter correct answer"
             required
+            defaultValue={isEditMode ? question.correctAnswer : ""}
             className="dark:bg-gray-700 dark:border-gray-600"
           />
         </div>
@@ -117,15 +172,11 @@ export const CreateQuestion = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3].map((num) => (
             <div key={num} className="space-y-2">
-              {/*
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Incorrect Answer {num}
-              </label>
-              */}
               <Input
                 name={`incorrect_${num}`}
                 placeholder={`Enter incorrect answer ${num}`}
                 required
+                defaultValue={isEditMode ? question[`incorrect_${num}` as keyof typeof question] as string : ""}
                 className="dark:bg-gray-700 dark:border-gray-600"
               />
             </div>
@@ -134,15 +185,11 @@ export const CreateQuestion = () => {
 
         {/* Explanation */}
         <div className="space-y-2">
-          {/*
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Explanation
-          </label>
-          */}
           <Input
             name="explanation"
             placeholder="Enter question explanation"
             required
+            defaultValue={isEditMode ? question.explanation : ""}
             className="dark:bg-gray-700 dark:border-gray-600"
           />
         </div>
@@ -156,7 +203,7 @@ export const CreateQuestion = () => {
           disabled={isPending}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
         >
-          {isPending ? 'Creating Question...' : 'Create Question'}
+          {buttonText}
         </Button>
       </form>
     </div>
