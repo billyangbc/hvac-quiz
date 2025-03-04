@@ -4,6 +4,35 @@ import { mutateData } from "@/lib/services/mutate-data";
 import fetchData from "@/lib/services/fetch-data";
 import { revalidatePath } from "next/cache";
 
+export async function getQuestions(params?: {
+  page?: number;
+  pageSize?: number;
+  sort?: string;
+  search?: string;
+  category?: string;
+}) {
+  try {
+    const query = {
+      sort: params?.sort,
+      filters: {
+        $or: [
+          { content: { $containsi: params?.search} },
+          { category: { $containsi: params?.category} },
+        ]
+      },
+      pagination: {
+        pageSize: params?.pageSize,
+        page: params?.page
+      }
+    };
+    const response = await fetchData("/api/questions", query);
+    return response;
+  } catch (error) {
+    console.error("Error fetching questions:", error);
+    throw error;
+  }
+}
+
 export async function getQuestion(documentId: string) {
   try {
     const params = {
