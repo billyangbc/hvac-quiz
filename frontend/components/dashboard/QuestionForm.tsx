@@ -51,7 +51,7 @@ export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps)
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const response = await getCategories({});
+        const response = await getCategories();
         setCategories(response.data || []);
       } catch (error) {
         console.error("Error loading categories:", error);
