@@ -23,7 +23,7 @@ export const CategoryForm = ({ category, onSuccess }: CategoryFormProps) => {
     <div className="p-4">
       <form action={formAction} className="space-y-4">
         {category && (
-          <input type="hidden" name="id" value={category.id} />
+          <input type="hidden" name="id" value={category.documentId} />
         )}
         <div className="grid grid-cols-8 gap-2">
           <div className="col-span-2">

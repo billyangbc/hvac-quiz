@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getCategories } from "@/lib/actions/category-actions";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import Link from "next/link";
 
 interface Category {
   id: number;
@@ -101,6 +102,11 @@ export function CategoryList() {
               <TableCell>{new Date(category.createdAt).toLocaleDateString()}</TableCell>
               <TableCell>{new Date(category.updatedAt).toLocaleDateString()}</TableCell>
               <TableCell className="text-right space-x-2">
+                <Link href={`/dashboard/category/edit/${category.documentId}`}>
+                  <Button variant="default">
+                    Edit
+                  </Button>
+                </Link>
                 <Button
                   variant="destructive"
                   onClick={() => {/* TODO: Implement delete */}}
