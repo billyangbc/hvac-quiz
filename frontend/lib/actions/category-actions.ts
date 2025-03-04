@@ -42,7 +42,8 @@ export async function createCategory(
   const payload = {
     data: {
       categoryName: rawFormData.categoryName,
-      description: rawFormData.description
+      description: rawFormData.description,
+      slug: await slugify(rawFormData.categoryName as string),
     }
   };
 
@@ -156,4 +157,13 @@ export async function deleteCategory(categoryId: string) {
     data: response.data,
     apiErrors: null,
   };
+}
+
+export async function slugify(str: string): Promise<string> {
+  return str
+    .toLowerCase()
+    .replace(/[\s_]+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
