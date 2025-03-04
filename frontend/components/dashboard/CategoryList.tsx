@@ -9,7 +9,15 @@ import { getCategories } from "@/lib/actions/category-actions";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import DeleteConfirmationModal from "@/components/modals/DeleteConfirmationModal";
-import { Category } from "@/types/quiz/categories";
+
+interface Category {
+  id: number;
+  documentId: string;
+  categoryName: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export function CategoryList() {
   const [categories, setCategories] = useState<Category[]>([]);

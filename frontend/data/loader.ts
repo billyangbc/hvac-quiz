@@ -41,7 +41,7 @@ export const validateDifficulty = (difficulty: string) => {
 };
 
 import quizQuestions from './quiz-questions.json';
-import { QuizQuestion } from "@/types/quiz/Questions";
+import { QuizQuestion } from "@/types/QuizQuestion";
 export async function getQuestions(category: string, difficulty: string, limit: string) {
   // Transform category format (type_0 -> Type-0)
   const formattedCategory = category
