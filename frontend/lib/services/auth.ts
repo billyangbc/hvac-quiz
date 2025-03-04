@@ -42,13 +42,10 @@ export async function getUserRole(userId?: string) {
 
 export async function isAdmin() {
   const role = await getUserRole();
-
   return role === `${process.env.ADMIN_ROLE_NAME}`;
 }
 
-export async function getUserApiToken() {
+export const getUserApiToken = async () => {
   const session = await getServerSession(authOptions);
-  const token = session!.strapiToken!
-
-  return token;
+  return session?.strapiToken || '';
 }

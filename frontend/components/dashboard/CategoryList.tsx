@@ -4,18 +4,12 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import useModalStore from "@/hooks/useModalStore";
 import { getCategories } from "@/lib/actions/category-actions";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
-
-interface Category {
-  id: number;
-  documentId: string;
-  categoryName: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import DeleteConfirmationModal from "@/components/modals/DeleteConfirmationModal";
+import { Category } from "@/types/quiz/categories";
 
 export function CategoryList() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -24,18 +18,22 @@ export function CategoryList() {
   const [sortField, setSortField] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [totalPages, setTotalPages] = useState(1);
+  const { onOpen } = useModalStore();
 
   const fetchCategories = async () => {
-    const response = await getCategories({
-      page: currentPage,
-      pageSize: 25,
-      sort: `${sortField}:${sortOrder}`,
-      search: searchQuery
-    });
-    
-    if (response.data) {
-      setCategories(response.data);
-      setTotalPages(response.meta.pagination.pageCount);
+    try {
+      const response = await getCategories({
+        page: currentPage,
+        pageSize: 25,
+        sort: `${sortField}:${sortOrder}`,
+        search: searchQuery
+      });
+      if (response.data) {
+        setCategories(response.data);
+        setTotalPages(response.meta?.pagination?.pageCount || 1);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
     }
   };
 
@@ -109,7 +107,7 @@ export function CategoryList() {
                 </Link>
                 <Button
                   variant="destructive"
-                  onClick={() => {/* TODO: Implement delete */}}
+                  onClick={() => onOpen("deleteConfirmation", { categoryId: category.documentId })}
                 >
                   Delete
                 </Button>
@@ -136,6 +134,8 @@ export function CategoryList() {
           Next
         </Button>
       </div>
+      
+      <DeleteConfirmationModal />
     </div>
   );
 }

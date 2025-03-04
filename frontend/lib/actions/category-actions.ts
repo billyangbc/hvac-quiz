@@ -32,7 +32,7 @@ export async function getCategory(documentId: string) {
   return response?.data;
 }
 
-export async function createCategoryAction(
+export async function createCategory(
   prevState: any,
   formData: FormData
 ) {
@@ -80,7 +80,7 @@ export async function createCategoryAction(
   };
 }
 
-export async function updateCategoryAction(
+export async function updateCategory(
   prevState: any,
   formData: FormData
 ) {
@@ -123,6 +123,36 @@ export async function updateCategoryAction(
   return {
     ...prevState,
     message: "Category Updated",
+    data: response.data,
+    apiErrors: null,
+  };
+}
+
+export async function deleteCategory(categoryId: string) {
+  const response = await mutateData(
+    "DELETE",
+    `/api/categories/${categoryId}`
+  );
+
+  if (!response) {
+    return {
+      message: "Ops! Something went wrong. Please try again.",
+      data: null,
+      apiErrors: null,
+    };
+  }
+
+  if (response.error) {
+    return {
+      message: "Category Delete Failed",
+      apiErrors: response.error,
+    };
+  }
+
+  revalidatePath("/dashboard/category");
+
+  return {
+    message: "Category Deleted",
     data: response.data,
     apiErrors: null,
   };

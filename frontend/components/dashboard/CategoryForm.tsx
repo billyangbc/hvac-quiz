@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import { useActionState } from "react";
-import { createCategoryAction, updateCategoryAction } from "@/lib/actions/category-actions";
+import { createCategory, updateCategory } from "@/lib/actions/category-actions";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
 
 interface CategoryFormProps {
@@ -17,7 +17,7 @@ interface CategoryFormProps {
 }
 
 export const CategoryForm = ({ category, onSuccess }: CategoryFormProps) => {
-  const action = category ? updateCategoryAction : createCategoryAction;
+  const action = category ? updateCategory : createCategory;
   const [state, formAction, isPending] = useActionState(action, null);
   return (
     <div className="p-4">

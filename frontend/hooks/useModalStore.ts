@@ -1,10 +1,11 @@
 import { create } from "zustand";
 
-export type modalType = "showResults" | "quitQuiz";
+export type modalType = "showResults" | "quitQuiz" | "deleteConfirmation";
 
 interface AdditionalData {
   score?: number;
   limit?: number;
+  categoryId?: string;
 }
 
 interface modalStore {
