@@ -3,18 +3,28 @@
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import { useActionState } from "react";
-import { createCategoryAction } from "@/lib/actions/category-actions";
+import { createCategoryAction, updateCategoryAction } from "@/lib/actions/category-actions";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
 
-interface MyComponentProps {
-  category?: string; // Replace 'Category' with the actual type
+interface CategoryFormProps {
+  category?: {
+    id: string;
+    documentId: string;
+    categoryName: string;
+    description: string;
+  };
   onSuccess?: () => Promise<void>;
 }
-export const CreateCategory = ({ category, onSuccess }: MyComponentProps) => {
-  const [state, action, isPending] = useActionState(createCategoryAction, null);
+
+export const CategoryForm = ({ category, onSuccess }: CategoryFormProps) => {
+  const action = category ? updateCategoryAction : createCategoryAction;
+  const [state, formAction, isPending] = useActionState(action, null);
   return (
     <div className="p-4">
-      <form action={action} className="space-y-4">
+      <form action={formAction} className="space-y-4">
+        {category && (
+          <input type="hidden" name="id" value={category.id} />
+        )}
         <div className="grid grid-cols-8 gap-2">
           <div className="col-span-2">
             <Input
@@ -22,7 +32,7 @@ export const CreateCategory = ({ category, onSuccess }: MyComponentProps) => {
               type="text"
               name="categoryName"
               placeholder="Category Name"
-              defaultValue={ (state?.apiErrors && state?.data?.categoryName) || ""}
+              defaultValue={category?.categoryName || (state?.apiErrors && state?.data?.categoryName) || ""}
               required
             />
             { state?.apiErrors &&
@@ -35,7 +45,7 @@ export const CreateCategory = ({ category, onSuccess }: MyComponentProps) => {
               type="text"
               name="description"
               placeholder="Description"
-              defaultValue={ (state?.apiErrors && state?.data?.description) || ""}
+              defaultValue={category?.description || (state?.apiErrors && state?.data?.description) || ""}
             />
           </div>
           <div className="col-span-2">
@@ -44,7 +54,9 @@ export const CreateCategory = ({ category, onSuccess }: MyComponentProps) => {
               className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-md"
               disabled={isPending}
             >
-              {isPending ? 'Creating...' : 'Create Category'}
+              {isPending 
+                ? `${category ? 'Updating...' : 'Creating...'}` 
+                : `${category ? 'Update' : 'Create'} Category`}
             </Button>
           </div>
         </div>

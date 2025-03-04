@@ -27,6 +27,11 @@ export async function getCategories(params: {
   return response;
 }
 
+export async function getCategory(documentId: string) {
+  const response = await fetchData("/api/categories/" + documentId, {});
+  return response?.data;
+}
+
 export async function createCategoryAction(
   prevState: any,
   formData: FormData
@@ -35,12 +40,11 @@ export async function createCategoryAction(
 
   // request payload data
   const payload = {
-    data:
-    {
+    data: {
       categoryName: rawFormData.categoryName,
       description: rawFormData.description
     }
-  }
+  };
 
   const response = await mutateData(
     "POST",
@@ -71,6 +75,54 @@ export async function createCategoryAction(
   return {
     ...prevState,
     message: "Category Created",
+    data: response.data,
+    apiErrors: null,
+  };
+}
+
+export async function updateCategoryAction(
+  prevState: any,
+  formData: FormData
+) {
+  const rawFormData = Object.fromEntries(formData);
+  const categoryId = rawFormData.id as string;
+
+  const payload = {
+    data: {
+      categoryName: rawFormData.categoryName,
+      description: rawFormData.description
+    }
+  };
+
+  const response = await mutateData(
+    "PUT",
+    `/api/categories/${categoryId}`,
+    payload
+  );
+
+  if (!response) {
+    return {
+      ...prevState,
+      message: "Ops! Something went wrong. Please try again.",
+      data: null,
+      apiErrors: null,
+    };
+  }
+
+  if (response.error) {
+    return {
+      ...prevState,
+      message: "Category Update Failed",
+      data: payload.data,
+      apiErrors: response.error,
+    };
+  }
+
+  revalidatePath("/dashboard/category");
+
+  return {
+    ...prevState,
+    message: "Category Updated",
     data: response.data,
     apiErrors: null,
   };
