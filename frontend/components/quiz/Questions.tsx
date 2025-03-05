@@ -65,8 +65,10 @@ const Questions = ({ questions, limit, category }: Props) => {
 
   const handleShowResult = () => {
     onOpen("showResults", {
-      score,
-      limit,
+      results: {
+        score,
+        limit,
+      }
     });
   };
 

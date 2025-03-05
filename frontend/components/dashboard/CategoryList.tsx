@@ -118,8 +118,14 @@ export function CategoryList() {
                   variant="ghost" 
                   size="icon" 
                   className="h-8 w-8 text-red-600 hover:bg-red-50"
-                  onClick={() => onOpen("deleteConfirmation", { categoryId: category.documentId })}
-                >
+                  onClick={() => onOpen("deleteConfirmation",
+                    {
+                      delete: {
+                        documentId: category.documentId,
+                        target: "category"
+                      }
+                    }
+                  )} >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </TableCell>

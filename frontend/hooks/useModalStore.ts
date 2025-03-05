@@ -3,9 +3,14 @@ import { create } from "zustand";
 export type modalType = "showResults" | "quitQuiz" | "deleteConfirmation";
 
 interface AdditionalData {
-  score?: number;
-  limit?: number;
-  categoryId?: string;
+  results?: {
+    score?: number;
+    limit?: number;
+  },
+  delete?: {
+    documentId: string;
+    target: "category" | "question";
+  }
 }
 
 interface modalStore {

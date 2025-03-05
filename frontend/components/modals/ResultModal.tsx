@@ -27,7 +27,7 @@ const ResultModal = () => {
         <Separator />
         <div className="flex flex-col items-center py-4 md:py-6">
           <p className="text-lg md:2xl text-primary font-semibold tracking-wide">
-            You scored: {`${additionalData?.score}/${additionalData?.limit}`}
+            You scored: {`${additionalData?.results?.score}/${additionalData?.results?.limit}`}
           </p>
           <Button
             onClick={() => {
