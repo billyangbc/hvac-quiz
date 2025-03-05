@@ -8,15 +8,26 @@ type searchType = Promise<{ category: string, search: string; page: string }>;
 const IndexPage = async (props: {
   searchParams: searchType;
 }) => {
-  const { category } = await props.searchParams;
-  const { search, page } = await props.searchParams;
+  const { category, search, page } = await props.searchParams;
   const categories = await getCategories();
   const currPage = parseInt(page?? '1');
-  const questions = await getQuestions({
-    search: search,
-    page: currPage,
-    category: category,
-  });
+  const query = {
+    populate: "*",
+    pagination: {
+      pageSiz: 10,
+      ...(page && {page: currPage}),
+    },
+    filters: {
+//      $and: [
+//        {category: { documentId: {$eq: category}}},
+//        {content: { $containsi: search}}
+//      ]
+      ...(category && {category: { documentId: {$eq: category}}}),
+      ...(search && {content: { $containsi: search}}),
+    }
+  };
+
+  const questions = await getQuestions(query);
   console.log("question search ==>", questions);
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">

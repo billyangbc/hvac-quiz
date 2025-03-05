@@ -3,28 +3,10 @@
 import { mutateData } from "@/lib/services/mutate-data";
 import fetchData from "@/lib/services/fetch-data";
 import { revalidatePath } from "next/cache";
+import { IApiParameters } from '@/types/strapi/StrapiParameters';
 
-export async function getQuestions(params?: {
-  page?: number;
-  pageSize?: number;
-  sort?: string;
-  search?: string;
-  category?: string;
-}) {
+export async function getQuestions(query: IApiParameters) {
   try {
-    const query = {
-      sort: params?.sort,
-      filters: {
-        $or: [
-          { content: { $containsi: params?.search} },
-          { category: { $containsi: params?.category} },
-        ]
-      },
-      pagination: {
-        pageSize: params?.pageSize,
-        page: params?.page
-      }
-    };
     const response = await fetchData("/api/questions", query);
     return response;
   } catch (error) {

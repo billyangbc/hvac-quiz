@@ -1,41 +1,78 @@
 // https://gist.github.com/qhoirulanwar/c8a16a01367b4ff6fb93a1e046781faf
 export interface IApiParameters {
-  sort?: string[] | string | null;
-  filters?: Filters;
+  sort?: (string)[] | string | null;
+  filters?: Filter | DeepFilter | ComplexFilter;
   populate?: any;
-  fields?: string[] | null;
-  pagination?: Pagination;
+  fields?: (string)[] | null;
+  pagination?: {
+      pageSize?: number;
+      page?: number;
+  };
   publicationState?: string;
-  locale?: string[] | string | null;
+  locale?: (string)[] | string | null;
 }
 
-interface Pagination {
-  pageSize: number | undefined;
-  page: number | undefined;
+export interface DeepFilter {
+  [key: string]: Filter
 }
 
-interface Filters {
-  $or?: any;
-  $eq?: any;
-  $eqi?: any;
-  $ne?: any;
-  $lt?: any;
-  $lte?: any;
-  $gt?: any;
-  $gte?: any;
-  $in?: any;
-  $notIn?: any;
-  $contains?: any;
-  $notContains?: any;
-  $containsi?: any;
-  $notContainsi?: any;
-  $null?: any;
-  $notNull?: any;
-  $between?: any;
-  $startsWith?: any;
-  $startsWithi?: any;
-  $endsWith?: any;
-  $endsWithi?: any;
-  $and?: any;
-  $not?: any;
+export interface Filter {
+  [key: string]: FilterOperators | Filter
 }
+
+export interface Pagination {
+  pageSize: number;
+  page: number;
+}
+
+export interface FilterOperators {
+  $eq?: string;
+  $eqi?: string;
+  $ne?: string;
+  $lt?: string;
+  $lte?: string;
+  $gt?: string;
+  $gte?: string;
+  $in?: string;
+  $notIn?: string;
+  $contains?: string;
+  $notContains?: string;
+  $containsi?: string;
+  $notContainsi?: string;
+  $null?: string;
+  $notNull?: string;
+  $between?: string;
+  $startsWith?: string;
+  $startsWithi?: string;
+  $endsWith?: string;
+  $endsWithi?: string;
+  $or?: string;
+  $and?: string;
+  $not?: string;
+}
+
+export interface ComplexFilter {
+  [$or?]: Filter;
+  [$and?]: Filter;
+}
+
+//Note: filters format example:
+//  filters: {
+//    $and: [
+//      {category: { documentId: {$eq: category}}},
+//      {content: { $containsi: search}}
+//    ]
+//  }
+//  OR:
+//  filters: {
+//      {
+//        category: {
+//          documentId: {$eq: category}
+//        }
+//      },
+//      {
+//        content: {
+//          $containsi: search
+//        }
+//      },
+//  }
