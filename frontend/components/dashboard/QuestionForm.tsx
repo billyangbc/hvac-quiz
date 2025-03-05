@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
-import { createQuestionAction, updateQuestionAction, getQuestion } from "@/lib/actions/question-actions";
+import { createQuestion, updateQuestion, getQuestion } from "@/lib/actions/question-actions";
 import { getCategories } from "@/lib/actions/category-actions";
 
 interface Category {
@@ -40,7 +40,7 @@ const difficultyOptions = [
 
 export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps) => {
   const [state, action, isPending] = useActionState(
-    mode === 'create' ? createQuestionAction : updateQuestionAction, 
+    mode === 'create' ? createQuestion : updateQuestion, 
     null
   );
   
@@ -107,7 +107,7 @@ export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps)
             <Select 
               name="category" 
               required
-              defaultValue={isEditMode ? question.category.documentId : undefined}
+              defaultValue={isEditMode ? question.category?.documentId : undefined}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />

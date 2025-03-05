@@ -28,7 +28,7 @@ export async function getQuestion(documentId: string) {
   }
 }
 
-export async function createQuestionAction(prevState: any, formData: FormData) {
+export async function createQuestion(prevState: any, formData: FormData) {
   const rawFormData = Object.fromEntries(formData);
 
   const payload = {
@@ -74,7 +74,7 @@ export async function createQuestionAction(prevState: any, formData: FormData) {
   }
 }
 
-export async function updateQuestionAction(prevState: any, formData: FormData) {
+export async function updateQuestion(prevState: any, formData: FormData) {
   const rawFormData = Object.fromEntries(formData);
   const documentId = rawFormData.documentId as string;
 
@@ -119,4 +119,34 @@ export async function updateQuestionAction(prevState: any, formData: FormData) {
       apiErrors: error instanceof Error ? error.message : "Unknown error",
     };
   }
+}
+
+export async function deleteQuestion(documentId: string) {
+  const response = await mutateData(
+    "DELETE",
+    `/api/questions/${documentId}`
+  );
+
+  if (!response) {
+    return {
+      message: "Ops! Something went wrong. Please try again.",
+      data: null,
+      apiErrors: null,
+    };
+  }
+
+  if (response.error) {
+    return {
+      message: "Question Delete Failed",
+      apiErrors: response.error,
+    };
+  }
+
+  revalidatePath("/dashboard/question");
+
+  return {
+    message: "Question Deleted",
+    data: response.data,
+    apiErrors: null,
+  };
 }
