@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Pencil, Trash2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -109,15 +110,17 @@ export function CategoryList() {
               <TableCell>{new Date(category.updatedAt).toLocaleDateString()}</TableCell>
               <TableCell className="text-right space-x-2">
                 <Link href={`/dashboard/category/edit/${category.documentId}`}>
-                  <Button variant="default">
-                    Edit
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Pencil className="h-4 w-4 text-blue-600" />
                   </Button>
                 </Link>
-                <Button
-                  variant="destructive"
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-8 w-8 text-red-600 hover:bg-red-50"
                   onClick={() => onOpen("deleteConfirmation", { categoryId: category.documentId })}
                 >
-                  Delete
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               </TableCell>
             </TableRow>
