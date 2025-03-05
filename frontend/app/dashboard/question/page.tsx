@@ -14,7 +14,7 @@ const IndexPage = async (props: {
   const query = {
     populate: "*",
     pagination: {
-      pageSiz: 10,
+      pageSize: 10,
       ...(page && {page: currPage}),
     },
     filters: {
