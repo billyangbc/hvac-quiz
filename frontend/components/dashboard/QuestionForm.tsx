@@ -123,6 +123,8 @@ export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps)
           </div>
 
           {/* Difficulty Select */}
+          <input type="hidden" name="difficulty" value={isEditMode ? question.difficulty : "medium"}  />
+          {/*
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Difficulty
@@ -144,6 +146,7 @@ export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps)
               </SelectContent>
             </Select>
           </div>
+          */}
         </div>
 
         {/* Question Content */}
