@@ -1,5 +1,9 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Pencil, Trash2 } from 'lucide-react';
+import useModalStore from '@/hooks/useModalStore';
 import { Question } from '@/types/dashboard/Question';
 
 interface QuestionListProps {
@@ -79,12 +83,27 @@ export default function QuestionList({ questions }: QuestionListProps) {
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <button className="text-indigo-600 hover:text-indigo-900 mr-4">
-                    Edit
-                  </button>
-                  <button className="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
+                  <div className="flex items-center justify-end space-x-2">
+                    <Link href={`/dashboard/question/edit/${question.documentId}`}>
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Pencil className="h-4 w-4 text-blue-600" />
+                      </Button>
+                    </Link>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 text-red-600 hover:bg-red-50"
+                      onClick={() => useModalStore.getState().onOpen("deleteConfirmation",
+                        {
+                          delete: {
+                            documentId: question.documentId,
+                            target: "question"
+                          }
+                        }
+                      )} >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}
