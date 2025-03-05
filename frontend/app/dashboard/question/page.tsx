@@ -1,6 +1,7 @@
 import { getCategories } from "@/lib/actions/category-actions";
 import { getQuestions } from "@/lib/actions/question-actions";
 import { QuestionSearchForm } from "@/components/dashboard/QuestionSearchForm";
+import QuestionList from "@/components/dashboard/QuestionList";
 
 type searchType = Promise<{ category: string, search: string; page: string }>;
 
@@ -29,9 +30,7 @@ const IndexPage = async (props: {
           />
         </div>
         <div className="grid grid-cols-1">
-          {/* TODO: Add question search result here
-          <QuestionList questions={questions?.data : []} />
-         */}
+          <QuestionList questions={questions?.data}/>
         </div>
       </div>
     </div>
