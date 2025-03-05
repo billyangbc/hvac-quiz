@@ -79,11 +79,18 @@ export default function QuestionList({ questions }: QuestionListProps) {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <div className="flex items-center justify-end space-x-2">
-                    <Link href={`/dashboard/question/edit/${question.documentId}`}>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <Pencil className="h-4 w-4 text-blue-600" />
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => useModalStore.getState().onOpen("editQuestion", {
+                        question: {
+                          documentId: question.documentId,
+                        }
+                      })}
+                    >
+                      <Pencil className="h-4 w-4 text-blue-600" />
+                    </Button>
                     <Button 
                       variant="ghost" 
                       size="icon" 

@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import QuitQuizModal from "./QuitQuizModal";
 import ResultModal from "./ResultModal";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import EditQuestionModal from "./EditQuestionModal";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -17,6 +19,8 @@ const ModalProvider = () => {
     <>
       <QuitQuizModal />
       <ResultModal />
+      <DeleteConfirmationModal />
+      <EditQuestionModal />
     </>
   );
 };

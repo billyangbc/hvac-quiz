@@ -11,11 +11,6 @@ const navItems = [
     name: "Questions",
     href: "/dashboard/question",
     icon: LuFilePen,
-  },
-  {
-    name: "Students",
-    href: "/dashboard/student",
-    icon: LuUsers,
   }
 ];
 export default function DashboardLayout({
