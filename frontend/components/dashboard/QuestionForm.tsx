@@ -158,39 +158,44 @@ export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps)
         </div>
 
         {/* Correct Answer */}
-        <div className="space-y-2">
+        <div className="p-3 bg-green-50 rounded-lg">
+          <div className="text-xs font-semibold text-green-700 mb-2">Correct Answer</div>
           <Input
             name="correctAnswer"
             placeholder="Enter correct answer"
             required
             defaultValue={isEditMode ? question.correctAnswer : ""}
-            className="dark:bg-gray-700 dark:border-gray-600"
+            className="bg-white border-green-100 focus-visible:ring-green-200"
           />
         </div>
 
         {/* Incorrect Answers */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[1, 2, 3].map((num) => (
-            <div key={num} className="space-y-2">
-              <Input
-                name={`incorrect_${num}`}
-                placeholder={`Enter incorrect answer ${num}`}
-                required
-                defaultValue={isEditMode ? question[`incorrect_${num}` as keyof typeof question] as string : ""}
-                className="dark:bg-gray-700 dark:border-gray-600"
-              />
-            </div>
-          ))}
+        <div className="p-3 bg-red-50 rounded-lg">
+          <div className="text-xs font-semibold text-red-700 mb-2">Incorrect Answers</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[1, 2, 3].map((num) => (
+              <div key={num} className="space-y-2">
+                <Input
+                  name={`incorrect_${num}`}
+                  placeholder={`Incorrect answer ${num}`}
+                  required
+                  defaultValue={isEditMode ? question[`incorrect_${num}` as keyof typeof question] as string : ""}
+                  className="bg-white border-red-100 focus-visible:ring-red-200"
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Explanation */}
-        <div className="space-y-2">
+        <div className="p-3 bg-blue-50 rounded-lg">
+          <div className="text-xs font-semibold text-blue-700 mb-2">Explanation</div>
           <Input
             name="explanation"
             placeholder="Enter question explanation"
             required
             defaultValue={isEditMode ? question.explanation : ""}
-            className="dark:bg-gray-700 dark:border-gray-600"
+            className="bg-white border-blue-100 focus-visible:ring-blue-200"
           />
         </div>
 
