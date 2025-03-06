@@ -36,17 +36,17 @@ export async function createEnrollment(
 ) {
   const rawFormData = Object.fromEntries(formData);
   
-  // Get learners and categories from form data
-  const learners = formData.getAll('learners') as string[];
-  const categories = formData.getAll('categories') as string[];
+//  // Get learners and categories from form data
+//  const learners = formData.getAll('learners') as string[];
+//  const categories = formData.getAll('categories') as string[];
 
   const payload = {
     data: {
       name: rawFormData.name,
       description: rawFormData.description,
       slug: await slugify(rawFormData.name as string),
-      learners: learners.map(id => ({ documentId: id })),
-      categories: categories.map(id => ({ documentId: id })),
+//      learners: learners.map(id => ({ documentId: id })),
+//      categories: categories.map(id => ({ documentId: id })),
     }
   };
 
@@ -91,16 +91,17 @@ export async function updateEnrollment(
   const rawFormData = Object.fromEntries(formData);
   const enrollmentId = rawFormData.id as string;
   
-  // Get learners and categories from form data
-  const learners = formData.getAll('learners') as string[];
-  const categories = formData.getAll('categories') as string[];
+//  // Get learners and categories from form data
+//  const learners = formData.getAll('learners') as string[];
+//  const categories = formData.getAll('categories') as string[];
 
   const payload = {
     data: {
       name: rawFormData.name,
       description: rawFormData.description,
-      learners: learners.map(id => ({ documentId: id })),
-      categories: categories.map(id => ({ documentId: id })),
+      slug: await slugify(rawFormData.name as string),
+//      learners: learners.map(id => ({ documentId: id })),
+//      categories: categories.map(id => ({ documentId: id })),
     }
   };
 
