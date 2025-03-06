@@ -143,51 +143,6 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
           </div>
         </div>
         
-        {/* Learners Selection */}
-        <div className="space-y-3">
-          <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
-            Select Learners
-          </h3>
-          
-          {/* Search input */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            <Input
-              placeholder="Search learners..."
-              value={learnerSearch}
-              onChange={(e) => setLearnerSearch(e.target.value)}
-              className="pl-10 dark:bg-gray-700 dark:border-gray-600"
-            />
-          </div>
-          
-          {/* Learners list */}
-          <Card className="p-3 max-h-60 overflow-y-auto">
-            {filteredLearners.length > 0 ? (
-              <ul className="space-y-2">
-                {filteredLearners.map((learner) => (
-                  <li key={learner.documentId} className="flex items-center space-x-3">
-                    <Checkbox
-                      id={`learner-${learner.documentId}`}
-                      checked={selectedLearners.includes(learner.documentId)}
-                      onCheckedChange={() => toggleLearner(learner.documentId)}
-                    />
-                    <label
-                      htmlFor={`learner-${learner.documentId}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {learner.username}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
-                No learners found
-              </p>
-            )}
-          </Card>
-        </div>
-        
         {/* Categories Selection */}
         <div className="space-y-3">
           <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
@@ -228,6 +183,51 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
             ) : (
               <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
                 No categories found
+              </p>
+            )}
+          </Card>
+        </div>
+        
+        {/* Learners Selection */}
+        <div className="space-y-3">
+          <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
+            Select Learners
+          </h3>
+          
+          {/* Search input */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <Input
+              placeholder="Search learners..."
+              value={learnerSearch}
+              onChange={(e) => setLearnerSearch(e.target.value)}
+              className="pl-10 dark:bg-gray-700 dark:border-gray-600"
+            />
+          </div>
+          
+          {/* Learners list */}
+          <Card className="p-3 max-h-60 overflow-y-auto">
+            {filteredLearners.length > 0 ? (
+              <ul className="space-y-2">
+                {filteredLearners.map((learner) => (
+                  <li key={learner.documentId} className="flex items-center space-x-3">
+                    <Checkbox
+                      id={`learner-${learner.documentId}`}
+                      checked={selectedLearners.includes(learner.documentId)}
+                      onCheckedChange={() => toggleLearner(learner.documentId)}
+                    />
+                    <label
+                      htmlFor={`learner-${learner.documentId}`}
+                      className="text-sm cursor-pointer"
+                    >
+                      {learner.username}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
+                No learners found
               </p>
             )}
           </Card>
