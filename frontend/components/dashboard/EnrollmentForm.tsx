@@ -30,13 +30,15 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Load learners
-        const learnersData = await getLearners();
-        setLearners(learnersData?? []);
-        
-        // Load categories
-        const categoriesData = await getCategories();
-        setCategories(categoriesData?.data || []);
+        if (enrollment) {
+          // Load learners
+          const learnersData = await getLearners();
+          setLearners(learnersData?? []);
+          
+          // Load categories
+          const categoriesData = await getCategories();
+          setCategories(categoriesData?.data || []);
+        }
         
         // Initialization for edit mode (if needed)
       } catch (error) {
@@ -135,95 +137,99 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
         </div>
       </form>
 
-        {/* Categories Selection - Added top margin */}
-        <div className="space-y-3 mt-6">
-          <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
-            Select Categories
-          </h3>
-          
-          {/* Search input */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            <Input
-              placeholder="Search categories..."
-              value={categorySearch}
-              onChange={(e) => setCategorySearch(e.target.value)}
-              className="pl-10 dark:bg-gray-700 dark:border-gray-600"
-            />
+      {enrollment && (
+        <>
+          {/* Categories Selection - Added top margin */}
+          <div className="space-y-3 mt-6">
+            <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
+              Select Categories
+            </h3>
+            
+            {/* Search input */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <Input
+                placeholder="Search categories..."
+                value={categorySearch}
+                onChange={(e) => setCategorySearch(e.target.value)}
+                className="pl-10 dark:bg-gray-700 dark:border-gray-600"
+              />
+            </div>
+            
+            {/* Categories list */}
+            <Card className="p-3 max-h-60 overflow-y-auto">
+              {filteredCategories.length > 0 ? (
+                <ul className="space-y-2">
+                  {filteredCategories.map((category) => (
+                    <li key={category.documentId} className="flex items-center space-x-3">
+                      <Checkbox
+                        id={`category-${category.documentId}`}
+                        checked={enrollment?.categories.some(c => c.documentId === category.documentId)}
+                        onCheckedChange={(checked) => handleConnect(category.documentId, !!checked, 'categories')}
+                      />
+                      <label
+                        htmlFor={`category-${category.documentId}`}
+                        className="text-sm cursor-pointer"
+                      >
+                        {category.categoryName}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
+                  No categories found
+                </p>
+              )}
+            </Card>
           </div>
           
-          {/* Categories list */}
-          <Card className="p-3 max-h-60 overflow-y-auto">
-            {filteredCategories.length > 0 ? (
-              <ul className="space-y-2">
-                {filteredCategories.map((category) => (
-                  <li key={category.documentId} className="flex items-center space-x-3">
-                    <Checkbox
-                      id={`category-${category.documentId}`}
-                      checked={enrollment?.categories.some(c => c.documentId === category.documentId)}
-                      onCheckedChange={(checked) => handleConnect(category.documentId, !!checked, 'categories')}
-                    />
-                    <label
-                      htmlFor={`category-${category.documentId}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {category.categoryName}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
-                No categories found
-              </p>
-            )}
-          </Card>
-        </div>
-        
-        {/* Learners Selection - Added top margin */}
-        <div className="space-y-3 mt-6">
-          <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
-            Select Learners
-          </h3>
-          
-          {/* Search input */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            <Input
-              placeholder="Search learners..."
-              value={learnerSearch}
-              onChange={(e) => setLearnerSearch(e.target.value)}
-              className="pl-10 dark:bg-gray-700 dark:border-gray-600"
-            />
+          {/* Learners Selection - Added top margin */}
+          <div className="space-y-3 mt-6">
+            <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
+              Select Learners
+            </h3>
+            
+            {/* Search input */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <Input
+                placeholder="Search learners..."
+                value={learnerSearch}
+                onChange={(e) => setLearnerSearch(e.target.value)}
+                className="pl-10 dark:bg-gray-700 dark:border-gray-600"
+              />
+            </div>
+            
+            {/* Learners list */}
+            <Card className="p-3 max-h-60 overflow-y-auto">
+              {filteredLearners.length > 0 ? (
+                <ul className="space-y-2">
+                  {filteredLearners.map((learner) => (
+                    <li key={learner.documentId} className="flex items-center space-x-3">
+                      <Checkbox
+                        id={`learner-${learner.documentId}`}
+                        checked={enrollment?.learners.some(l => l.documentId === learner.documentId)}
+                        onCheckedChange={(checked) => handleConnect(learner.documentId, !!checked, 'learners')}
+                      />
+                      <label
+                        htmlFor={`learner-${learner.documentId}`}
+                        className="text-sm cursor-pointer"
+                      >
+                        {learner.username}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
+                  No learners found
+                </p>
+              )}
+            </Card>
           </div>
-          
-          {/* Learners list */}
-          <Card className="p-3 max-h-60 overflow-y-auto">
-            {filteredLearners.length > 0 ? (
-              <ul className="space-y-2">
-                {filteredLearners.map((learner) => (
-                  <li key={learner.documentId} className="flex items-center space-x-3">
-                    <Checkbox
-                      id={`learner-${learner.documentId}`}
-                      checked={enrollment?.learners.some(l => l.documentId === learner.documentId)}
-                      onCheckedChange={(checked) => handleConnect(learner.documentId, !!checked, 'learners')}
-                    />
-                    <label
-                      htmlFor={`learner-${learner.documentId}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {learner.username}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
-                No learners found
-              </p>
-            )}
-          </Card>
-        </div>
+        </>
+      )}
     </div>
   );
 };
