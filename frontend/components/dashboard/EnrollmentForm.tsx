@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
-import { createEnrollment, updateEnrollment, getLearners } from "@/lib/actions/enrollment-actions";
+import { createEnrollment, updateEnrollment, getLearners, connect } from "@/lib/actions/enrollment-actions";
 import { getCategories } from "@/lib/actions/category-actions";
 import { Enrollment, Learner, EnrollmentCategory } from "@/types/dashboard/Enrollment";
 import { Search } from "lucide-react";
@@ -23,8 +23,6 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
   
   const [learners, setLearners] = useState<Learner[]>([]);
   const [categories, setCategories] = useState<EnrollmentCategory[]>([]);
-  const [selectedLearners, setSelectedLearners] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [learnerSearch, setLearnerSearch] = useState("");
   const [categorySearch, setCategorySearch] = useState("");
   
@@ -40,11 +38,7 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
         const categoriesData = await getCategories();
         setCategories(categoriesData?.data || []);
         
-        // Set initial selections if in edit mode
-        if (enrollment) {
-          setSelectedLearners(enrollment.learners.map(learner => learner.documentId));
-          setSelectedCategories(enrollment.categories.map(category => category.documentId));
-        }
+        // Initialization for edit mode (if needed)
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -63,44 +57,25 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
     category.categoryName.toLowerCase().includes(categorySearch.toLowerCase())
   );
   
-  // Handle learner selection
-  const toggleLearner = (documentId: string) => {
-    setSelectedLearners(prev => 
-      prev.includes(documentId)
-        ? prev.filter(id => id !== documentId)
-        : [...prev, documentId]
-    );
-  };
-  
-  // Handle category selection
-  const toggleCategory = (documentId: string) => {
-    setSelectedCategories(prev => 
-      prev.includes(documentId)
-        ? prev.filter(id => id !== documentId)
-        : [...prev, documentId]
-    );
-  };
-  
-  // Custom form action to add selected learners and categories
-  const customFormAction = async (formData: FormData) => {
-    // Add selected learners and categories to form data
-    selectedLearners.forEach(learnerId => {
-      formData.append('learners', learnerId);
-    });
+  // Handle real-time connection changes
+  const handleConnect = async (
+    documentId: string,
+    isChecked: boolean,
+    fieldType: 'learners' | 'categories'
+  ) => {
+    if (!enrollment?.documentId) return;
     
-    selectedCategories.forEach(categoryId => {
-      formData.append('categories', categoryId);
-    });
-    
-    // Call the original form action
-    const result = await formAction(formData);
-    
-    // Call onSuccess callback if provided
-    if (state?.message?.includes('Created') || state?.message?.includes('Updated')) {
+    try {
+      await connect({
+        enrollmentId: enrollment.documentId,
+        connectType: isChecked ? 'connect' : 'disconnect',
+        connectField: fieldType,
+        connectIds: [documentId]
+      });
       onSuccess?.();
+    } catch (error) {
+      console.error(`Error ${isChecked ? 'connecting' : 'disconnecting'} ${fieldType}:`, error);
     }
-    
-    return result;
   };
   
   return (
@@ -109,7 +84,7 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
         {enrollment ? "Edit Enrollment" : "Create New Enrollment"}
       </h2>
       
-      <form action={customFormAction} className="space-y-6">
+      <form action={formAction} className="space-y-6">
         {/* Hidden field for document ID when editing */}
         {enrollment && (
           <input type="hidden" name="id" value={enrollment.documentId} />
@@ -168,8 +143,8 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
                   <li key={category.documentId} className="flex items-center space-x-3">
                     <Checkbox
                       id={`category-${category.documentId}`}
-                      checked={selectedCategories.includes(category.documentId)}
-                      onCheckedChange={() => toggleCategory(category.documentId)}
+                      checked={enrollment?.categories.some(c => c.documentId === category.documentId)}
+                      onCheckedChange={(checked) => handleConnect(category.documentId, !!checked, 'categories')}
                     />
                     <label
                       htmlFor={`category-${category.documentId}`}
@@ -213,8 +188,8 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
                   <li key={learner.documentId} className="flex items-center space-x-3">
                     <Checkbox
                       id={`learner-${learner.documentId}`}
-                      checked={selectedLearners.includes(learner.documentId)}
-                      onCheckedChange={() => toggleLearner(learner.documentId)}
+                      checked={enrollment?.learners.some(l => l.documentId === learner.documentId)}
+                      onCheckedChange={(checked) => handleConnect(learner.documentId, !!checked, 'learners')}
                     />
                     <label
                       htmlFor={`learner-${learner.documentId}`}
