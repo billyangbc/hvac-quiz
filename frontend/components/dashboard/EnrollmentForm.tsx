@@ -12,6 +12,7 @@ import { createEnrollment, updateEnrollment, getLearners, connect } from "@/lib/
 import { getCategories } from "@/lib/actions/category-actions";
 import { Enrollment, Learner, EnrollmentCategory } from "@/types/dashboard/Enrollment";
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface EnrollmentFormProps {
   enrollment?: Enrollment;
@@ -26,7 +27,8 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
   const [categories, setCategories] = useState<EnrollmentCategory[]>([]);
   const [learnerSearch, setLearnerSearch] = useState("");
   const [categorySearch, setCategorySearch] = useState("");
-  
+ 
+  const router = useRouter();
   // Load data
   useEffect(() => {
     const loadData = async () => {
@@ -136,22 +138,25 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
               : `${enrollment ? 'Update' : 'Create'} Enrollment`}
           </Button>
           {enrollment && (
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => useModalStore.setState({
-                isOpen: true,
-                type: 'deleteConfirmation',
-                additionalData: {
-                  delete: {
-                    documentId: enrollment.documentId,
-                    target: 'enrollment'
-                  }
-                }
-              })}
-            >
-              Delete
-            </Button>
+            <>
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => useModalStore.setState({
+                  isOpen: true,
+                  type: 'deleteConfirmation',
+                  additionalData: {
+                    delete: {
+                      documentId: enrollment.documentId,
+                      target: 'enrollment'
+                    }
+                  },
+                  callbackUrl: "/dashboard/enrollment"
+                })}
+              >
+                Delete
+              </Button>
+            </>
           )}
         </div>
       </form>

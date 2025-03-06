@@ -3,6 +3,7 @@
 import fetchData from "@/lib/services/fetch-data";
 import { mutateData } from "@/lib/services/mutate-data";
 import { revalidatePath } from "next/cache";
+import { redirect } from 'next/navigation';
 import { slugify } from "@/lib/utils";
 import { IApiParameters } from '@/types/strapi/StrapiParameters';
 import { ConnectData } from "@/types/dashboard/Enrollment";
@@ -75,13 +76,7 @@ export async function createEnrollment(
   }
 
   revalidatePath("/dashboard/enrollment");
-
-  return {
-    ...prevState,
-    message: "Enrollment Created",
-    data: response.data,
-    apiErrors: null,
-  };
+  redirect("/dashboard/enrollment");
 }
 
 export async function updateEnrollment(

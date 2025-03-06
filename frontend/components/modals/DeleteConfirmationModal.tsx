@@ -14,9 +14,11 @@ import { deleteQuestion } from "@/lib/actions/question-actions";
 import { deleteEnrollment } from "@/lib/actions/enrollment-actions";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from 'next/navigation';
 
 export default function DeleteConfirmationModal() {
-  const { isOpen, onClose, type, additionalData } = useModalStore();
+  const router = useRouter();
+  const { isOpen, onClose, type, additionalData, callbackUrl } = useModalStore();
 
   const [isDeleting, setIsDeleting] = useState(false);
   const isModalOpen = isOpen && type === "deleteConfirmation";
@@ -41,6 +43,9 @@ export default function DeleteConfirmationModal() {
       }
       toast.success(`Successfully deleted ${target}`);
       onClose();
+      if (callbackUrl) {
+        router.push(callbackUrl);
+      }
     } catch (error) {
       console.error(`Error deleting ${target}:`, error);
       toast.error(`Failed to delete ${target}`);

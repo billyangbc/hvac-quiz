@@ -29,25 +29,13 @@ export default async function fetchData(
   }
   try {
     const strapiResponse = await fetch(url.href, fetchOptions);
-    if (!strapiResponse.ok) {
-      // check if response in json-able
-      const contentType = strapiResponse.headers.get('content-type');
-      if (contentType === 'application/json; charset=utf-8') {
-        const errorData: StrapiErrorT = await strapiResponse.json();
-        throw new Error(
-          `${errorData.error.status} ${errorData.error.name}: ${errorData.error.message}`
-        );
-      } else {
-        // If no Strapi error details, throw a generic HTTP error
-        throw new Error(
-          `HTTP Error: ${strapiResponse.status} - ${strapiResponse.statusText}`
-        );
-      }
+    if (strapiResponse.ok) {
+      // success
+      const successData = await strapiResponse.json();
+      return successData;
     }
 
-    // success
-    const successData = await strapiResponse.json();
-    return successData;
+    return null;
   } catch (error) {
     throw error;
   }
