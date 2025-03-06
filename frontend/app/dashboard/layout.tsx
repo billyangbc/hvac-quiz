@@ -3,6 +3,11 @@ import { LuLayoutDashboard, LuFolderInput, LuFilePen, LuUsers } from "react-icon
 
 const navItems = [
   {
+    name: "Enrollments",
+    href: "/dashboard/enrollment",
+    icon: LuUsers,
+  },
+  {
     name: "Categories",
     href: "/dashboard/category",
     icon: LuFolderInput,
