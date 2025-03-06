@@ -29,24 +29,25 @@ export function CategoryList() {
   const [totalPages, setTotalPages] = useState(1);
   const { onOpen } = useModalStore();
 
-  const fetchCategories = async () => {
-    try {
-      const response = await getCategories({
-        page: currentPage,
-        pageSize: 25,
-        sort: `${sortField}:${sortOrder}`,
-        search: searchQuery
-      });
-      if (response.data) {
-        setCategories(response.data);
-        setTotalPages(response.meta?.pagination?.pageCount || 1);
-      }
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
-
   useEffect(() => {
+    // Fixed the missing dependency warning "Warning: React Hook useEffect has a missing dependency"
+    // https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook
+    const fetchCategories = async () => {
+      try {
+        const response = await getCategories({
+          page: currentPage,
+          pageSize: 25,
+          sort: `${sortField}:${sortOrder}`,
+          search: searchQuery
+        });
+        if (response.data) {
+          setCategories(response.data);
+          setTotalPages(response.meta?.pagination?.pageCount || 1);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
     fetchCategories();
   }, [currentPage, sortField, sortOrder, searchQuery]);
 
