@@ -117,9 +117,26 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
             />
           </div>
         </div>
-        
-        {/* Categories Selection */}
-        <div className="space-y-3">
+
+        {/* Error Display */}
+        {state?.apiErrors && <StrapiErrors error={state.apiErrors} />}
+
+        {/* Submit Button - Right aligned with top margin */}
+        <div className="flex justify-end mt-4">
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-md"
+          >
+            {isPending
+              ? `${enrollment ? 'Updating...' : 'Creating...'}`
+              : `${enrollment ? 'Update' : 'Create'} Enrollment`}
+          </Button>
+        </div>
+      </form>
+
+        {/* Categories Selection - Added top margin */}
+        <div className="space-y-3 mt-6">
           <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
             Select Categories
           </h3>
@@ -163,8 +180,8 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
           </Card>
         </div>
         
-        {/* Learners Selection */}
-        <div className="space-y-3">
+        {/* Learners Selection - Added top margin */}
+        <div className="space-y-3 mt-6">
           <h3 className="text-md font-medium text-gray-700 dark:text-gray-300">
             Select Learners
           </h3>
@@ -207,21 +224,6 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
             )}
           </Card>
         </div>
-        
-        {/* Error Display */}
-        {state?.apiErrors && <StrapiErrors error={state.apiErrors} />}
-        
-        {/* Submit Button */}
-        <Button 
-          type="submit" 
-          disabled={isPending}
-          className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-md"
-        >
-          {isPending 
-            ? `${enrollment ? 'Updating...' : 'Creating...'}` 
-            : `${enrollment ? 'Update' : 'Create'} Enrollment`}
-        </Button>
-      </form>
     </div>
   );
 };
