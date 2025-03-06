@@ -3,6 +3,7 @@
 import fetchData from "@/lib/services/fetch-data";
 import { mutateData } from "@/lib/services/mutate-data";
 import { revalidatePath } from "next/cache";
+import { slugify } from "@/lib/utils";
 
 export async function getCategories(params?: {
   page?: number;
@@ -157,13 +158,4 @@ export async function deleteCategory(categoryId: string) {
     data: response.data,
     apiErrors: null,
   };
-}
-
-export async function slugify(str: string): Promise<string> {
-  return str
-    .toLowerCase()
-    .replace(/[\s_]+/g, '-')
-    .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-')
-    .replace(/^-+|-+$/g, '');
 }
