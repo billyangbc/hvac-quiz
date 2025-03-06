@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "enrollments",
+  "info": {
+    "singularName": "enrollment",
+    "pluralName": "enrollments",
+    "displayName": "Enrollment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "learners": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "enrollments"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category.category"
+    }
+  }
+}
