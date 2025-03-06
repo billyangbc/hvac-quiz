@@ -5,6 +5,7 @@ import { mutateData } from "@/lib/services/mutate-data";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { IApiParameters } from '@/types/strapi/StrapiParameters';
+import { ConnectData } from "@/types/dashboard/Enrollment";
 
 export async function getEnrollments(query: IApiParameters) {
   try {
@@ -170,4 +171,49 @@ export async function deleteEnrollment(enrollmentId: string) {
 export async function getLearners() {
     const users = await fetchData(`/api/users/`, {"populate": "*"});
     return users;
+}
+
+export async function connect({enrollmentId, connectType, connectField, connectIds }: ConnectData) {
+  const payload ={
+    data : {
+      ...{},
+      ...{
+        [connectField]: {
+          [connectType]: connectIds
+        }
+      }
+    }
+  };
+  
+  try {
+    const response = await mutateData(
+      "PUT",
+      `/api/enrollments/${enrollmentId}`,
+      payload
+    );
+    if (!response) {
+      return {
+        message: "Error: Please try again.",
+        data: null,
+        apiErrors: null,
+      };
+    }
+
+    if (response.error) {
+      return {
+        message: "Enrollment Delete Failed",
+        apiErrors: response.error,
+      };
+    }
+
+    revalidatePath("/dashboard/enrollment");
+
+    return {
+      message: "Enrollment Deleted",
+      data: response.data,
+      apiErrors: null,
+    };
+  } catch (error) {
+    console.error("Error in enrollment connect:", error);
+  }
 }

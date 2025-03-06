@@ -27,3 +27,10 @@ export interface EnrollmentFormValues {
   learners: string[]; // Array of learner documentIds
   categories: string[]; // Array of category documentIds
 }
+
+export interface ConnectData {
+  enrollmentId: string;
+  connectType: "connect"|"disconnect";
+  connectField: "learners" | "categories";
+  connectIds: string[]
+}
