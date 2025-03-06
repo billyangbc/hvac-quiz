@@ -37,9 +37,9 @@ export default async function IndexPage() {
             </Link>
           ))}
         </div>
-        <div className="grid grid-cols-1 pt-8">
-          <EnrollmentForm />
-        </div>
+      </div>
+      <div className="grid grid-cols-1 pt-8">
+        <EnrollmentForm />
       </div>
     </div>
   );
