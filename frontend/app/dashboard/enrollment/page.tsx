@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getEnrollments } from "@/lib/actions/enrollment-actions";
 import type { Enrollment } from "@/types/dashboard/Enrollment";
+import { EnrollmentForm } from "@/components/dashboard/EnrollmentForm";
 export default async function IndexPage() {
   const query = {
     populate: "*",
@@ -35,6 +36,9 @@ export default async function IndexPage() {
               </div>
             </Link>
           ))}
+        </div>
+        <div className="grid grid-cols-1 pt-8">
+          <EnrollmentForm />
         </div>
       </div>
     </div>
