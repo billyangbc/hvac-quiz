@@ -3,6 +3,10 @@ import Link from "next/link";
 import { getEnrollments } from "@/lib/actions/enrollment-actions";
 import type { Enrollment } from "@/types/dashboard/Enrollment";
 import { EnrollmentForm } from "@/components/dashboard/EnrollmentForm";
+
+// Build errors: routes couldn't be rendered statically because is used headers
+export const dynamic = 'force-dynamic';
+
 export default async function IndexPage() {
   const query = {
     populate: "*",
