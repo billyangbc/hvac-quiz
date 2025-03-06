@@ -9,7 +9,7 @@ interface AdditionalData {
   },
   delete?: {
     documentId: string;
-    target: "category" | "question";
+    target: "category" | "question" | "enrollment";
   },
   question?: {
     documentId: string;

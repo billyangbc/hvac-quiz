@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
+import useModalStore from "@/hooks/useModalStore";
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import { Checkbox } from "@/components/ui/checkbox";
@@ -124,7 +125,7 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
         {state?.apiErrors && <StrapiErrors error={state.apiErrors} />}
 
         {/* Submit Button - Right aligned with top margin */}
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end mt-4 gap-2">
           <Button
             type="submit"
             disabled={isPending}
@@ -134,6 +135,24 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
               ? `${enrollment ? 'Updating...' : 'Creating...'}`
               : `${enrollment ? 'Update' : 'Create'} Enrollment`}
           </Button>
+          {enrollment && (
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => useModalStore.setState({
+                isOpen: true,
+                type: 'deleteConfirmation',
+                additionalData: {
+                  delete: {
+                    documentId: enrollment.documentId,
+                    target: 'enrollment'
+                  }
+                }
+              })}
+            >
+              Delete
+            </Button>
+          )}
         </div>
       </form>
 

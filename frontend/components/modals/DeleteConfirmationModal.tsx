@@ -11,6 +11,7 @@ import {
 import useModalStore from "@/hooks/useModalStore";
 import { deleteCategory } from "@/lib/actions/category-actions";
 import { deleteQuestion } from "@/lib/actions/question-actions";
+import { deleteEnrollment } from "@/lib/actions/enrollment-actions";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -25,7 +26,7 @@ export default function DeleteConfirmationModal() {
   };
 
   if (!additionalData?.delete) return;
-  const { documentId, target } = additionalData.delete;
+  const { documentId, target }: { documentId: string; target: 'category' | 'question' | 'enrollment' } = additionalData.delete;
   if (!documentId || !target) return;
 
   const handleConfirmDelete = async () => {
@@ -33,8 +34,10 @@ export default function DeleteConfirmationModal() {
       setIsDeleting(true);
       if (target === 'category') {
         await deleteCategory(documentId);
-      } else {
+      } else if (target === 'question') {
         await deleteQuestion(documentId);
+      } else if (target === 'enrollment') {
+        await deleteEnrollment(documentId);
       }
       toast.success(`Successfully deleted ${target}`);
       onClose();
