@@ -34,7 +34,7 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
       try {
         // Load learners
         const learnersData = await getLearners();
-        setLearners(learnersData?.data || []);
+        setLearners(learnersData?? []);
         
         // Load categories
         const categoriesData = await getCategories();
