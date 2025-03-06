@@ -25,7 +25,7 @@ export default function EditQuestionModal() {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-4xl">
         <DialogHeader>
-          <DialogTitle>Edit Question</DialogTitle>
+          <DialogTitle></DialogTitle>
         </DialogHeader>
         <div className="py-4">
           <QuestionForm mode="edit" questionId={documentId} />
