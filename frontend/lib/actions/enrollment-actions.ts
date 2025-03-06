@@ -9,7 +9,7 @@ import { IApiParameters } from '@/types/strapi/StrapiParameters';
 export async function getEnrollments(query: IApiParameters) {
   try {
     const response = await fetchData("/api/enrollments", query);
-    return response;
+    return response?.data;
   } catch (error) {
     console.error("Error fetching questions:", error);
     throw error;
@@ -18,10 +18,10 @@ export async function getEnrollments(query: IApiParameters) {
 
 export async function getEnrollment(documentId: string) {
   try {
-    const params = {
+    const query = {
       populate: "*"
     }
-    const response = await fetchData("/api/enrollments/" + documentId, {});
+    const response = await fetchData("/api/enrollments/" + documentId, query);
     return response?.data;
   } catch (error) {
     console.error("Error fetching enrollment:", error);
