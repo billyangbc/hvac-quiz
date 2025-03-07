@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import QuitQuizModal from "./QuitQuizModal";
 import ResultModal from "./ResultModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import EditCategoryModal from "./EditCategoryModal";
 import EditQuestionModal from "./EditQuestionModal";
 
 const ModalProvider = () => {
@@ -20,6 +21,7 @@ const ModalProvider = () => {
       <QuitQuizModal />
       <ResultModal />
       <DeleteConfirmationModal />
+      <EditCategoryModal />
       <EditQuestionModal />
     </>
   );

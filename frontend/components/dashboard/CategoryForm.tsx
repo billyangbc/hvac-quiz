@@ -8,10 +8,10 @@ import { StrapiErrors } from "@/components/custom/StrapiErrors";
 
 interface CategoryFormProps {
   category?: {
-    id: string;
+    id?: string;
     documentId: string;
     categoryName: string;
-    description: string;
+    description?: string;
   };
   onSuccess?: () => Promise<void>;
 }

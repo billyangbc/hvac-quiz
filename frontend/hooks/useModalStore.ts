@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type modalType = "showResults" | "quitQuiz" | "deleteConfirmation" | "editQuestion";
+export type modalType = "showResults" | "quitQuiz" | "deleteConfirmation" | "editQuestion" | "editCategory";
 
 interface AdditionalData {
   results?: {
@@ -13,6 +13,11 @@ interface AdditionalData {
   },
   question?: {
     documentId: string;
+  },
+  category?: {
+    documentId: string;
+    categoryName: string;
+    description: string;
   }
 }
 

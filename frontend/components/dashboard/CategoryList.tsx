@@ -8,7 +8,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import useModalStore from "@/hooks/useModalStore";
 import { getCategories } from "@/lib/actions/category-actions";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import Link from "next/link";
 import DeleteConfirmationModal from "@/components/modals/DeleteConfirmationModal";
 
 interface Category {
@@ -110,11 +109,20 @@ export function CategoryList() {
               <TableCell>{new Date(category.createdAt).toLocaleDateString()}</TableCell>
               <TableCell>{new Date(category.updatedAt).toLocaleDateString()}</TableCell>
               <TableCell className="text-right space-x-2">
-                <Link href={`/dashboard/category/edit/${category.documentId}`}>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <Pencil className="h-4 w-4 text-blue-600" />
-                  </Button>
-                </Link>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => useModalStore.getState().onOpen("editCategory", {
+                    category: {
+                      documentId: category.documentId,
+                      categoryName: category.categoryName,
+                      description: category.description
+                    }
+                  })}
+                >
+                  <Pencil className="h-4 w-4 text-blue-600" />
+                </Button>
                 <Button 
                   variant="ghost" 
                   size="icon" 
