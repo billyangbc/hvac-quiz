@@ -34,14 +34,6 @@ const IndexPage = async (props: {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="grid grid-cols-1 gap-4 p-4">
-        <div className="grid grid-cols-1">
-          <QuestionSearchForm
-            category={category}
-            categories={categories?.data}
-            search={search}
-            page={currPage.toString()}
-          />
-        </div>
         <div className="space-y-4">
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1" className="border rounded-lg bg-white dark:bg-gray-800">
@@ -55,6 +47,14 @@ const IndexPage = async (props: {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+        </div>
+        <div className="grid grid-cols-1">
+          <QuestionSearchForm
+            category={category}
+            categories={categories?.data}
+            search={search}
+            page={currPage.toString()}
+          />
         </div>
         <div className="grid grid-cols-1">
           <QuestionList questions={questions?.data}/>

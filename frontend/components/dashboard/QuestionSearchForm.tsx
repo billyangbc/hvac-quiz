@@ -25,7 +25,7 @@ export function QuestionSearchForm({
   page,
 }: QuestionSearchFormProps) {
   return (
-    <form className="space-y-4 mb-8" method="GET">
+    <form className="space-y-4 my-4" method="GET">
       <div className="flex flex-col sm:flex-row gap-4">
         <Select name="category" defaultValue={category}>
           <SelectTrigger className="w-[180px]">
