@@ -30,6 +30,7 @@ interface QuestionData {
 interface QuestionFormProps {
   mode: 'create' | 'edit';
   questionId?: string;
+  onSuccess?: () => Promise<void>;
 }
 
 const difficultyOptions = [
@@ -38,7 +39,7 @@ const difficultyOptions = [
   { value: 'hard', label: 'Hard' }
 ];
 
-export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps) => {
+export const QuestionForm = ({ mode = 'create', questionId, onSuccess }: QuestionFormProps) => {
   const [state, action, isPending] = useActionState(
     mode === 'create' ? createQuestion : updateQuestion, 
     null
@@ -47,6 +48,12 @@ export const QuestionForm = ({ mode = 'create', questionId }: QuestionFormProps)
   const [categories, setCategories] = useState<Category[]>([]);
   const [question, setQuestion] = useState<QuestionData | null>(null);
   const [isLoading, setIsLoading] = useState(mode === 'edit');
+
+  useEffect(() => {
+    if (state && !state.apiErrors && onSuccess) {
+      onSuccess();
+    }
+  }, [state, onSuccess]);
 
   useEffect(() => {
     const loadCategories = async () => {

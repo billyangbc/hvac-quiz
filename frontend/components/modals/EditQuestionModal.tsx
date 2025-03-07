@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import useModalStore from "@/hooks/useModalStore";
 import { QuestionForm } from "@/components/dashboard/QuestionForm";
+import { useCallback } from "react";
 
 export default function EditQuestionModal() {
   const { isOpen, onClose, type, additionalData } = useModalStore();
@@ -16,6 +17,11 @@ export default function EditQuestionModal() {
   const handleClose = () => {
     onClose();
   };
+
+  const onSuccess = useCallback( async () => {
+    onClose();
+    // Perform any additional actions after successful form submission
+  }, [onClose]);
 
   if (!additionalData?.question) return null;
   const { documentId } = additionalData.question;
@@ -28,7 +34,7 @@ export default function EditQuestionModal() {
           <DialogTitle></DialogTitle>
         </DialogHeader>
         <div className="py-4">
-          <QuestionForm mode="edit" questionId={documentId} />
+          <QuestionForm mode="edit" questionId={documentId} onSuccess={onSuccess}/>
         </div>
       </DialogContent>
     </Dialog>
