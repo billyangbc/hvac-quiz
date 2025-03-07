@@ -1,17 +1,64 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { Pencil, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import useModalStore from '@/hooks/useModalStore';
 import { Question } from '@/types/dashboard/Question';
+import { getQuestions } from "@/lib/actions/question-actions";
+import { Category } from "@/types/dashboard/Category";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-interface QuestionListProps {
-  questions: Question[]
-}
+const NO_CATEGORY_VALUE = "_";
+const NO_CATEGORY_NAME = "No Category";
 
-export default function QuestionList({ questions }: QuestionListProps) {
+export default function QuestionList({ categories }: { categories: Category[] }) {
+  const [categoryId, setCategoryId] = useState("");
+  const [search, setSearch] = useState("");
+  const [currPage, setCurrPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [expandedStates, setExpandedStates] = useState<boolean[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      let categoryFilter = {};
+      if (categoryId) {
+        if (categoryId === NO_CATEGORY_VALUE) {
+          categoryFilter = {category: { "$null": true }};
+        } else {
+          categoryFilter = {category: { documentId: {$eq: categoryId}}};
+        }
+      }
+      const query = {
+        populate: "*",
+        pagination: {
+          pageSize: 25,
+          page: currPage,
+        },
+        filters: {
+          ...categoryFilter,
+          ...(search && {content: { $containsi: search}}),
+        }
+      };
+      try {
+        const response = await getQuestions(query);
+        if (response?.data) {
+          setQuestions(response.data);
+          setTotalPages(response.meta?.pagination?.pageCount || 1);
+        }
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      }
+    };
+    fetchQuestions();
+  }, [categoryId, search, currPage, totalPages]);
 
   useEffect(() => {
     setExpandedStates(questions.map(() => false))
@@ -26,6 +73,33 @@ export default function QuestionList({ questions }: QuestionListProps) {
   }
 
   return (
+    <>
+    <div className="grid grid-cols-1 py-4">
+      <div className="flex flex-col sm:flex-row gap-4">
+        <Select name="category" defaultValue={categoryId} onValueChange={(value) => setCategoryId(value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filter by category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem key={NO_CATEGORY_VALUE} value={NO_CATEGORY_VALUE}>
+              {NO_CATEGORY_NAME}
+            </SelectItem>
+            {categories.map((cat) => (
+              <SelectItem key={cat.id} value={cat.documentId}>
+                {cat.categoryName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Input
+          name="search"
+          placeholder="Search questions..."
+          defaultValue={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="flex-1"
+        />
+      </div>
+    </div>
     <div className="rounded-lg border border-gray-200">
       <div className="overflow-x-auto">
         <table className="w-full divide-y divide-gray-200">
@@ -113,5 +187,23 @@ export default function QuestionList({ questions }: QuestionListProps) {
         </table>
       </div>
     </div>
+    <div className="flex justify-between items-center pt-4">
+      <Button
+        variant="outline"
+        onClick={() => setCurrPage(prev => Math.max(1, prev - 1))}
+        disabled={currPage === 1}
+      >
+        Previous
+      </Button>
+      <div>Page {currPage} of {totalPages}</div>
+      <Button
+        variant="outline"
+        onClick={() => setCurrPage(prev => Math.min(totalPages, prev + 1))}
+        disabled={currPage === totalPages}
+      >
+        Next
+      </Button>
+    </div>
+    </>
   )
 }

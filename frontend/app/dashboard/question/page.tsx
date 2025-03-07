@@ -5,32 +5,8 @@ import QuestionList from "@/components/dashboard/QuestionList";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { QuestionForm } from "@/components/dashboard/QuestionForm";
 
-type searchType = Promise<{ category: string, search: string; page: string }>;
-
-const IndexPage = async (props: {
-  searchParams: searchType;
-}) => {
-  const { category, search, page } = await props.searchParams;
+const IndexPage = async () => {
   const categories = await getCategories();
-  const currPage = parseInt(page?? '1');
-  const query = {
-    populate: "*",
-    pagination: {
-      pageSize: 25,
-      ...(page && {page: currPage}),
-    },
-    filters: {
-//      $and: [
-//        {category: { documentId: {$eq: category}}},
-//        {content: { $containsi: search}}
-//      ]
-      ...(category && {category: { documentId: {$eq: category}}}),
-      ...(search && {content: { $containsi: search}}),
-    }
-  };
-
-  const questions = await getQuestions(query);
-  console.log("question search ==>", questions);
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="grid grid-cols-1 gap-4 p-4">
@@ -49,15 +25,7 @@ const IndexPage = async (props: {
           </Accordion>
         </div>
         <div className="grid grid-cols-1">
-          <QuestionSearchForm
-            category={category}
-            categories={categories?.data}
-            search={search}
-            page={currPage.toString()}
-          />
-        </div>
-        <div className="grid grid-cols-1">
-          <QuestionList questions={questions?.data}/>
+          <QuestionList categories={categories?.data}/>
         </div>
       </div>
     </div>
