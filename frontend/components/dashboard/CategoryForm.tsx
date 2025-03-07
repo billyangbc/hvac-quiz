@@ -2,35 +2,51 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { createCategory, updateCategory } from "@/lib/actions/category-actions";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
+import { getCategory } from "@/lib/actions/category-actions";
 
-interface CategoryFormProps {
-  category?: {
-    id?: string;
-    documentId: string;
-    categoryName: string;
+interface Category {
+    documentId?: string;
+    categoryName?: string;
     description?: string;
   };
+interface CategoryFormProps {
+  categoryId?: string;
   onSuccess?: () => Promise<void>;
 }
 
-export const CategoryForm = ({ category, onSuccess }: CategoryFormProps) => {
-  const action = category ? updateCategory : createCategory;
+export const CategoryForm = ({ categoryId, onSuccess }: CategoryFormProps) => {
+  const action = categoryId ? updateCategory : createCategory;
   const [state, formAction, isPending] = useActionState(action, null);
-  
+  const [category, setCategory] = useState<Category>({});
+
   useEffect(() => {
     if (state && !state.apiErrors && onSuccess) {
       onSuccess();
     }
   }, [state, onSuccess]);
-  
+  useEffect(() => {
+    const loadCategory = async () => {
+      if (categoryId) {
+        try {
+          const response = await getCategory(categoryId);
+          setCategory(response || {});
+        } catch (error) {
+          console.error("Error loading categories:", error);
+        }
+      }
+    };
+    
+    loadCategory();
+  }, [categoryId, onSuccess]);
+
   return (
     <div className="p-4">
       <form action={formAction} className="space-y-4">
-        {category && (
-          <input type="hidden" name="id" value={category.documentId} />
+        {categoryId && (
+          <input type="hidden" name="id" value={categoryId} />
         )}
         <div className="grid grid-cols-8 gap-2">
           <div className="col-span-2">
@@ -62,8 +78,8 @@ export const CategoryForm = ({ category, onSuccess }: CategoryFormProps) => {
               disabled={isPending}
             >
               {isPending 
-                ? `${category ? 'Updating...' : 'Creating...'}` 
-                : `${category ? 'Update' : 'Create'} Category`}
+                ? `${categoryId ? 'Updating...' : 'Creating...'}` 
+                : `${categoryId ? 'Update' : 'Create'} Category`}
             </Button>
           </div>
         </div>

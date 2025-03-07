@@ -16,8 +16,6 @@ interface AdditionalData {
   },
   category?: {
     documentId: string;
-    categoryName: string;
-    description: string;
   }
 }
 

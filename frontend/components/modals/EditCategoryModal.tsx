@@ -18,13 +18,14 @@ export default function EditCategoryModal() {
     onClose();
   };
 
-  const onSuccess = useCallback(async () => {
+  const onSuccess = useCallback( async () => {
     onClose();
   }, [onClose]);
 
   if (!additionalData?.category?.documentId) return null;
-  const { documentId, categoryName, description } = additionalData.category;
-
+  const { documentId } = additionalData.category;
+  if (!documentId) return null;
+ 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-4xl">
@@ -33,11 +34,7 @@ export default function EditCategoryModal() {
         </DialogHeader>
         <div className="py-4">
           <CategoryForm 
-            category={{
-              documentId: documentId,
-              categoryName: categoryName,
-              description: additionalData.category.description
-            }} 
+            categoryId={documentId} 
             onSuccess={onSuccess}
           />
         </div>

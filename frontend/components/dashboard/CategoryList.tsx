@@ -116,8 +116,6 @@ export function CategoryList() {
                   onClick={() => useModalStore.getState().onOpen("editCategory", {
                     category: {
                       documentId: category.documentId,
-                      categoryName: category.categoryName,
-                      description: category.description
                     }
                   })}
                 >

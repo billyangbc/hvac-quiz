@@ -29,8 +29,11 @@ export async function getCategories(params?: {
 }
 
 export async function getCategory(documentId: string) {
-  const response = await fetchData("/api/categories/" + documentId, {});
-  return response?.data;
+  if (documentId) {
+    const response = await fetchData("/api/categories/" + documentId, {});
+    return response?.data;
+  }
+  return null;
 }
 
 export async function createCategory(
