@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { createCategory, updateCategory } from "@/lib/actions/category-actions";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
 
@@ -19,6 +19,13 @@ interface CategoryFormProps {
 export const CategoryForm = ({ category, onSuccess }: CategoryFormProps) => {
   const action = category ? updateCategory : createCategory;
   const [state, formAction, isPending] = useActionState(action, null);
+  
+  useEffect(() => {
+    if (state && !state.apiErrors && onSuccess) {
+      onSuccess();
+    }
+  }, [state, onSuccess]);
+  
   return (
     <div className="p-4">
       <form action={formAction} className="space-y-4">

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import useModalStore from "@/hooks/useModalStore";
 import { CategoryForm } from "@/components/dashboard/CategoryForm";
+import { useCallback } from "react";
 
 export default function EditCategoryModal() {
   const { isOpen, onClose, type, additionalData } = useModalStore();
@@ -16,6 +17,10 @@ export default function EditCategoryModal() {
   const handleClose = () => {
     onClose();
   };
+
+  const onSuccess = useCallback(async () => {
+    onClose();
+  }, [onClose]);
 
   if (!additionalData?.category?.documentId) return null;
   const { documentId, categoryName, description } = additionalData.category;
@@ -33,6 +38,7 @@ export default function EditCategoryModal() {
               categoryName: categoryName,
               description: additionalData.category.description
             }} 
+            onSuccess={onSuccess}
           />
         </div>
       </DialogContent>
