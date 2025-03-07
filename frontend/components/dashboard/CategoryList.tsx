@@ -8,7 +8,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import useModalStore from "@/hooks/useModalStore";
 import { getCategories } from "@/lib/actions/category-actions";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import DeleteConfirmationModal from "@/components/modals/DeleteConfirmationModal";
 
 interface Category {
   id: number;
@@ -158,8 +157,6 @@ export function CategoryList() {
           Next
         </Button>
       </div>
-      
-      <DeleteConfirmationModal />
     </div>
   );
 }
