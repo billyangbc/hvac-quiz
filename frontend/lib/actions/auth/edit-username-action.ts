@@ -26,7 +26,7 @@ export default async function editUsernameAction(
     const payload = {
       username: username
     };
-    const strapiResponse = await mutateData("PUT", `/api/user/me`, payload);
+    const strapiResponse = await mutateData("PUT", `/api/users-permissions/users/me`/*`/api/user/me`*/, payload);
 
     // handle strapi error
     if (strapiResponse?.error) {
