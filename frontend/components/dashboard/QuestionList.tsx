@@ -18,7 +18,7 @@ import {
 const NO_CATEGORY_VALUE = "_";
 const NO_CATEGORY_NAME = "No Category";
 
-export default function QuestionList({ categories }: { categories: Category[] }) {
+export default function QuestionList({ categories, pageSize }: { categories: Category[], pageSize: number }) {
   const [categoryId, setCategoryId] = useState("");
   const [search, setSearch] = useState("");
   const [currPage, setCurrPage] = useState(1);
@@ -39,7 +39,7 @@ export default function QuestionList({ categories }: { categories: Category[] })
       const query = {
         populate: "*",
         pagination: {
-          pageSize: 25,
+          pageSize: pageSize,
           page: currPage,
         },
         filters: {
@@ -58,7 +58,7 @@ export default function QuestionList({ categories }: { categories: Category[] })
       }
     };
     fetchQuestions();
-  }, [categoryId, search, currPage, totalPages]);
+  }, [categoryId, search, currPage, totalPages, pageSize]);
 
   useEffect(() => {
     setExpandedStates(questions.map(() => false))

@@ -1,12 +1,11 @@
 import { getCategories } from "@/lib/actions/category-actions";
-import { getQuestions } from "@/lib/actions/question-actions";
-import { QuestionSearchForm } from "@/components/dashboard/QuestionSearchForm";
 import QuestionList from "@/components/dashboard/QuestionList";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { QuestionForm } from "@/components/dashboard/QuestionForm";
 
 const IndexPage = async () => {
   const categories = await getCategories();
+  const pageSize = 25;
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="grid grid-cols-1 gap-4 p-4">
@@ -25,7 +24,7 @@ const IndexPage = async () => {
           </Accordion>
         </div>
         <div className="grid grid-cols-1">
-          <QuestionList categories={categories?.data}/>
+          <QuestionList categories={categories?.data} pageSize={pageSize}/>
         </div>
       </div>
     </div>
