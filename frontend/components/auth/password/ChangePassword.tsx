@@ -5,6 +5,7 @@ import changePasswordAction from './changePasswordAction';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import PendingSubmitButton from '../PendingSubmitButton';
+import { Input } from '@/components/ui/input';
 
 type InputErrorsT = {
   currentPassword?: string[];
@@ -62,73 +63,70 @@ export default function ChangePassword() {
   }
 
   return (
-    <form className='my-8 max-w-sm' action={handleSubmit} ref={formRef}>
-      <div className='mb-3'>
-        <label htmlFor='currentPassword' className='block mb-1'>
-          Enter your old password *
+    <form action={handleSubmit} ref={formRef} className="space-y-4">
+      <div className="space-y-2">
+        <label htmlFor="currentPassword" className="text-sm">
+          Current Password
         </label>
-        <input
-          type='password'
-          id='currentPassword'
-          name='currentPassword'
+        <Input
+          type="password"
+          id="currentPassword"
+          name="currentPassword"
           required
-          className='bg-white border border-zinc-300 w-full rounded-sm p-2'
         />
-        {actionState.error && actionState?.inputErrors?.currentPassword ? (
-          <div className='text-red-700' aria-live='polite'>
+        {actionState.error && actionState?.inputErrors?.currentPassword && (
+          <div className="text-red-700 text-sm" aria-live="polite">
             {actionState.inputErrors.currentPassword[0]}
           </div>
-        ) : null}
+        )}
       </div>
-      <div className='mb-3'>
-        <label htmlFor='newPassword' className='block mb-1'>
-          Enter your new password *
+      <div className="space-y-2">
+        <label htmlFor="newPassword" className="text-sm">
+          New Password
         </label>
-        <input
-          type='password'
-          id='newPassword'
-          name='newPassword'
+        <Input
+          type="password"
+          id="newPassword"
+          name="newPassword"
           required
-          className='bg-white border border-zinc-300 w-full rounded-sm p-2'
         />
-        {actionState.error && actionState?.inputErrors?.newPassword ? (
-          <div className='text-red-700' aria-live='polite'>
+        {actionState.error && actionState?.inputErrors?.newPassword && (
+          <div className="text-red-700 text-sm" aria-live="polite">
             {actionState.inputErrors.newPassword[0]}
           </div>
-        ) : null}
+        )}
       </div>
-      <div className='mb-3'>
-        <label htmlFor='passwordConfirmation' className='block mb-1'>
-          Confirm your new password *
+      
+      <div className="space-y-2">
+        <label htmlFor="passwordConfirmation" className="text-sm">
+          Confirm Password
         </label>
-        <input
-          type='password'
-          id='passwordConfirmation'
-          name='passwordConfirmation'
+        <Input
+          type="password"
+          id="passwordConfirmation"
+          name="passwordConfirmation"
           required
-          className='bg-white border border-zinc-300 w-full rounded-sm p-2'
         />
-        {actionState.error && actionState?.inputErrors?.passwordConfirmation ? (
-          <div className='text-red-700' aria-live='polite'>
+        {actionState.error && actionState?.inputErrors?.passwordConfirmation && (
+          <div className="text-red-700 text-sm" aria-live="polite">
             {actionState.inputErrors.passwordConfirmation[0]}
           </div>
-        ) : null}
+        )}
       </div>
-      <div className='mb-3'>
-        <PendingSubmitButton />
-      </div>
-      {actionState.error && actionState.message ? (
-        <div className='text-red-700' aria-live='polite'>
+      
+      <PendingSubmitButton />
+      
+      {actionState.error && actionState.message && (
+        <div className="text-red-700 text-sm" aria-live="polite">
           {actionState.message}
         </div>
-      ) : null}
-      {!actionState.error &&
-      'message' in actionState &&
-      actionState.message === 'Success' ? (
-        <div className='text-green-700' aria-live='polite'>
-          Your password was updated.
+      )}
+      
+      {!actionState.error && 'message' in actionState && actionState.message === 'Success' && (
+        <div className="text-green-700 text-sm" aria-live="polite">
+          Your password was updated
         </div>
-      ) : null}
+      )}
     </form>
   );
 }
