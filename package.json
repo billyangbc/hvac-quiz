@@ -23,5 +23,6 @@
   },
   "devDependencies": {
     "ts-node": "^10.9.2"
-  }
+  },
+  "packageManager": "pnpm@9.11.0"
 }
