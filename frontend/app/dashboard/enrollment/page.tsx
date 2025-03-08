@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { getEnrollments } from "@/lib/actions/enrollment-actions";
+import { getEnrollments } from "@/lib/actions/dashboard/enrollment-actions";
 import type { Enrollment } from "@/types/dashboard/Enrollment";
 import { EnrollmentForm } from "@/components/dashboard/EnrollmentForm";
 

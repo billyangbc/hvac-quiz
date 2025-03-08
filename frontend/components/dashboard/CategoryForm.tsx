@@ -3,9 +3,9 @@
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import { useActionState, useEffect, useState } from "react";
-import { createCategory, updateCategory } from "@/lib/actions/category-actions";
+import { createCategory, updateCategory } from "@/lib/actions/dashboard/category-actions";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
-import { getCategory } from "@/lib/actions/category-actions";
+import { getCategory } from "@/lib/actions/dashboard/category-actions";
 
 interface Category {
     documentId?: string;

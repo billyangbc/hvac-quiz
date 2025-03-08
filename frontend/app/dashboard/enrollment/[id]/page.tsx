@@ -1,5 +1,5 @@
 import { EnrollmentForm } from "@/components/dashboard/EnrollmentForm";
-import { getEnrollment } from "@/lib/actions/enrollment-actions";
+import { getEnrollment } from "@/lib/actions/dashboard/enrollment-actions";
 export default async function IndexPage(props: {params: Promise<{id: string;}>}) {
   const { id } = await props.params;
 

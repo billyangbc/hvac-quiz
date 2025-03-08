@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
-import { createQuestion, updateQuestion, getQuestion } from "@/lib/actions/question-actions";
-import { getCategories } from "@/lib/actions/category-actions";
+import { createQuestion, updateQuestion, getQuestion } from "@/lib/actions/dashboard/question-actions";
+import { getCategories } from "@/lib/actions/dashboard/category-actions";
 
 interface Category {
   documentId: string;

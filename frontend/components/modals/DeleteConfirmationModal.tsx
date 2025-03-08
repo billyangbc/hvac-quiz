@@ -9,9 +9,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import useModalStore from "@/hooks/useModalStore";
-import { deleteCategory } from "@/lib/actions/category-actions";
-import { deleteQuestion } from "@/lib/actions/question-actions";
-import { deleteEnrollment } from "@/lib/actions/enrollment-actions";
+import { deleteCategory } from "@/lib/actions/dashboard/category-actions";
+import { deleteQuestion } from "@/lib/actions/dashboard/question-actions";
+import { deleteEnrollment } from "@/lib/actions/dashboard/enrollment-actions";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from 'next/navigation';

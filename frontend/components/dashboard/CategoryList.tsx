@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useModalStore from "@/hooks/useModalStore";
-import { getCategories } from "@/lib/actions/category-actions";
+import { getCategories } from "@/lib/actions/dashboard/category-actions";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface Category {

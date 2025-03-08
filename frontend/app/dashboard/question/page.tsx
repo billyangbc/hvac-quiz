@@ -1,4 +1,4 @@
-import { getCategories } from "@/lib/actions/category-actions";
+import { getCategories } from "@/lib/actions/dashboard/category-actions";
 import QuestionList from "@/components/dashboard/QuestionList";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { QuestionForm } from "@/components/dashboard/QuestionForm";

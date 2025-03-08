@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Pencil, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import useModalStore from '@/hooks/useModalStore';
 import { Question } from '@/types/dashboard/Question';
-import { getQuestions } from "@/lib/actions/question-actions";
+import { getQuestions } from "@/lib/actions/dashboard/question-actions";
 import { Category } from "@/types/dashboard/Category";
 import { Input } from "@/components/ui/input";
 import {
