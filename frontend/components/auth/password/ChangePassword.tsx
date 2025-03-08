@@ -1,36 +1,13 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import changePasswordAction from './changePasswordAction';
+import changePasswordAction from '../../../lib/actions/auth/change-password-action';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import PendingSubmitButton from '../PendingSubmitButton';
+import PendingSubmitButton from '@/components/auth/PendingSubmitButton';
 import { Input } from '@/components/ui/input';
 
-type InputErrorsT = {
-  currentPassword?: string[];
-  newPassword?: string[];
-  passwordConfirmation?: string[];
-};
-export type ErrorActionStateT = {
-  error: true;
-  message: string;
-  inputErrors?: InputErrorsT;
-};
-type NoErrorActionStateT = {
-  error: false;
-  message: 'Success';
-  data: {
-    strapiToken: string;
-  };
-};
-type InitialActionStateT = {
-  error: false;
-};
-export type ChangePasswordActionStateT =
-  | ErrorActionStateT
-  | NoErrorActionStateT
-  | InitialActionStateT;
+import { ChangePasswordActionStateT } from '@/types/auth/ChangePasswordActionState';
 
 export default function ChangePassword() {
   const [actionState, setActionState] = useState<ChangePasswordActionStateT>({

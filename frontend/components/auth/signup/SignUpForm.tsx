@@ -1,26 +1,9 @@
 'use client';
 
 import { useActionState } from 'react';
-import signUpAction from './signUpAction';
+import signUpAction from '../../../lib/actions/auth/signup-action';
 import PendingSubmitButton from '../PendingSubmitButton';
-
-type InputErrorsT = {
-  username?: string[];
-  email?: string[];
-  password?: string[];
-};
-
-type SignUpFormInitialStateT = {
-  error: false;
-};
-
-type SignUpFormErrorStateT = {
-  error: true;
-  message: string;
-  inputErrors?: InputErrorsT;
-};
-
-export type SignUpFormStateT = SignUpFormInitialStateT | SignUpFormErrorStateT;
+import { SignUpFormStateT, SignUpFormInitialStateT } from '@/types/auth/SignUpFormState';
 
 const initialState: SignUpFormInitialStateT = {
   error: false,

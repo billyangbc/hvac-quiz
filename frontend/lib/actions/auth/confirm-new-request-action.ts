@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { ConfirmationNewRequestFormStateT } from './ConfirmationNewRequest';
+import { ConfirmationNewRequestFormStateT } from '@/types/auth/ConfirmationNewRequestFormState';
 
 const formSchema = z.object({
   email: z.string().email('Enter a valid email.').trim(),

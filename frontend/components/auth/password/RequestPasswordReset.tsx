@@ -2,25 +2,9 @@
 
 import { useActionState } from 'react';
 
-import PendingSubmitButton from '../PendingSubmitButton';
-import requestPasswordResetAction from './requestPasswordResetAction';
-
-type InputErrorsT = {
-  email?: string[];
-};
-type NoErrorFormStateT = {
-  error: false;
-  message?: string;
-};
-type ErrorFormStateT = {
-  error: true;
-  message: string;
-  inputErrors?: InputErrorsT;
-};
-
-export type RequestPasswordResetFormStateT =
-  | NoErrorFormStateT
-  | ErrorFormStateT;
+import PendingSubmitButton from '@/components/auth/PendingSubmitButton';
+import requestPasswordResetAction from '@/lib/actions/auth/request-password-reset-action';
+import { RequestPasswordResetFormStateT, NoErrorFormStateT } from '@/types/auth/RequestPasswordResetFormState';
 
 const initialState: NoErrorFormStateT = {
   error: false,

@@ -1,47 +1,41 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { SignUpFormStateT } from './SignUpForm';
+import { RequestPasswordResetFormStateT } from '@/types/auth/RequestPasswordResetFormState';
 
 const formSchema = z.object({
-  username: z.string().min(2).max(30).trim(),
   email: z.string().email('Enter a valid email.').trim(),
-  password: z.string().min(6).max(30).trim(),
 });
 
-export default async function signUpAction(
-  prevState: SignUpFormStateT,
+export default async function requestPasswordResetAction(
+  prevState: RequestPasswordResetFormStateT,
   formData: FormData
 ) {
   const validatedFields = formSchema.safeParse({
-    username: formData.get('username'),
     email: formData.get('email'),
-    password: formData.get('password'),
   });
-
   if (!validatedFields.success) {
     return {
       error: true,
-      inputErrors: validatedFields.error.flatten().fieldErrors,
       message: 'Please verify your data.',
+      fieldErrors: validatedFields.error.flatten().fieldErrors,
     };
   }
-
-  const { username, email, password } = validatedFields.data;
+  const { email } = validatedFields.data;
 
   try {
-    const strapiResponse = await fetch(
-      process.env.STRAPI_BACKEND_URL + '/api/auth/local/register',
+    const strapiResponse: any = await fetch(
+      process.env.STRAPI_BACKEND_URL + '/api/auth/forgot-password',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ email }),
         cache: 'no-cache',
       }
     );
+    const data = await strapiResponse.json();
 
     // handle strapi error
     if (!strapiResponse.ok) {
@@ -59,6 +53,12 @@ export default async function signUpAction(
       }
       return response;
     }
+
+    // we do handle success here, we do not use a redirect!!
+    return {
+      error: false,
+      message: 'Success',
+    };
   } catch (error: any) {
     // network error or something
     return {
@@ -66,7 +66,4 @@ export default async function signUpAction(
       message: 'message' in error ? error.message : error.statusText,
     };
   }
-
-  // redirect outside try catch block!
-  redirect('/confirmation/message');
 }

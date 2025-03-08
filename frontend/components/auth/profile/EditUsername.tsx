@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import editUsernameAction, { EditUsernameActionT } from './editUsernameAction';
+import editUsernameAction, { EditUsernameActionT } from '@/lib/actions/auth/edit-username-action';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';

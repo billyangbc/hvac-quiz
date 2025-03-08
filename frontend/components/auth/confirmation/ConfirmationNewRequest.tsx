@@ -1,31 +1,13 @@
 'use client';
 
 import { useFormState } from 'react-dom';
-import confirmationNewRequestAction from './confirmationNewRequestAction';
-import PendingSubmitButton from '../PendingSubmitButton';
-
-type InputErrorsT = {
-  email?: string[];
-};
-
-type InitialFormStateT = {
-  error: false;
-};
-
-type ErrorFormStateT = {
-  error: true;
-  message: string;
-  inputErrors?: InputErrorsT;
-};
-
-export type ConfirmationNewRequestFormStateT =
-  | InitialFormStateT
-  | ErrorFormStateT;
+import confirmationNewRequestAction from '@/lib/actions/auth/confirm-new-request-action';
+import PendingSubmitButton from '@/components/auth/PendingSubmitButton';
+import { InitialFormStateT, ConfirmationNewRequestFormStateT } from '@/types/auth/ConfirmationNewRequestFormState';
 
 const initialState: InitialFormStateT = {
   error: false,
 };
-
 export default function ConfirmationNewRequest() {
   const [state, formAction] = useFormState<
     ConfirmationNewRequestFormStateT,
