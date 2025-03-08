@@ -4,6 +4,9 @@ import { FormEvent, useState } from 'react';
 import editUsernameAction, { EditUsernameActionT } from './editUsernameAction';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Save, Pencil, CircleX } from 'lucide-react';
 
 type Props = {
   username: string;
@@ -60,58 +63,54 @@ export default function EditUsername({ username }: Props) {
   }
 
   return (
-    <div className='mb-2'>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='username' className='block italic'>
-          Username:
-        </label>
-        <div className='flex gap-1'>
-          {!edit && <div>{username}</div>}
-          {edit && (
-            <>
-              <input
-                type='text'
-                className='bg-white border border-zinc-300 rounded-sm px-2 py-1 w-48'
-                required
-                name='username'
-                id='username'
-                value={newUsername}
-                onChange={(e) => setNewUsername(e.target.value)}
-              />
-              <button
-                type='submit'
-                className={`bg-primary px-3 py-1 rounded-md disabled:bg-sky-200 disabled:text-gray-400 disabled:cursor-wait`}
-                disabled={loading}
-                aria-disabled={loading}
-              >
-                {loading ? 'saving' : 'save'}
-              </button>
-            </>
-          )}
-          <button
-            type='button'
-            onClick={() => {
-              setEdit((prev) => !prev);
-              setError(null);
-              setMessage(null);
-              setNewUsername(username);
-            }}
-            className='underline text-sky-700 ml-1'
-          >
-            {edit ? 'close' : 'edit'}
-          </button>
-        </div>
-        {edit && error && (
-          <div className='text-red-700' aria-live='polite'>
-            Something went wrong: {error}
-          </div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="flex items-center gap-2">
+        {!edit && (
+          <div className="font-medium text-sm">{username}</div>
         )}
-        {edit && !error && message ? (
-          <div className='text-green-700' aria-live='polite'>
-            {message}
-          </div>
-        ) : null}
-      </form>
-    </div>
+        {edit && (
+          <>
+            <Input
+              type="text"
+              required
+              name="username"
+              value={newUsername}
+              onChange={(e) => setNewUsername(e.target.value)}
+            />
+            <Button
+              type="submit"
+              disabled={loading}
+              className="gap-1"
+            >
+              {loading ? 'Saving...' : <Save /> }
+            </Button>
+          </>
+        )}
+        <Button
+          type="button"
+          variant="ghost"
+          className="text-sky-600 hover:text-sky-700"
+          onClick={() => {
+            setEdit((prev) => !prev)
+            setError(null)
+            setMessage(null)
+            setNewUsername(username)
+          }}
+        >
+          {edit ? <CircleX /> : <Pencil />
+          }
+        </Button>
+      </div>
+      {edit && error && (
+        <div className="text-red-700 text-sm" aria-live="polite">
+          Something went wrong: {error}
+        </div>
+      )}
+      {edit && !error && message && (
+        <div className="text-green-700 text-sm" aria-live="polite">
+          {message}
+        </div>
+      )}
+    </form>
   );
 }
