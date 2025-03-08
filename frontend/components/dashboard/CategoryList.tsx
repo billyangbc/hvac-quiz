@@ -18,7 +18,7 @@ interface Category {
   updatedAt: string;
 }
 
-export function CategoryList() {
+export function CategoryList({ pageSize }: {pageSize: number} ) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,7 +34,7 @@ export function CategoryList() {
       try {
         const response = await getCategories({
           page: currentPage,
-          pageSize: 25,
+          pageSize: pageSize,
           sort: `${sortField}:${sortOrder}`,
           search: searchQuery
         });
@@ -47,7 +47,7 @@ export function CategoryList() {
       }
     };
     fetchCategories();
-  }, [currentPage, sortField, sortOrder, searchQuery]);
+  }, [currentPage, sortField, sortOrder, searchQuery, pageSize]);
 
   const handleSort = (field: string) => {
     if (sortField === field) {
