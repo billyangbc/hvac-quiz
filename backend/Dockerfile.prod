@@ -47,3 +47,5 @@ CMD ["npm", "run", "start"]
 # docker tag registry.idealz.io/quiz:strapi-latest localhost:5000/quiz:strapi-latest
 # docker login localhost:5000 -u admin
 # docker push localhost:5000/quiz:strapi-latest
+# check:
+# https://registry.idealz.io/v2/quiz/tags/list
