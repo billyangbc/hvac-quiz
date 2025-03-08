@@ -2,8 +2,8 @@
 
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { StrapiErrorT } from '@/types/strapi/StrapiError';
 import { revalidateTag } from 'next/cache';
+import { mutateData } from "@/lib/services/mutate-data";
 
 type ActionErrorT = {
   error: true;
@@ -23,47 +23,29 @@ export default async function editUsernameAction(
 ): Promise<EditUsernameActionT> {
   const session = await getServerSession(authOptions);
   try {
-    const strapiResponse = await fetch(
-      process.env.STRAPI_BACKEND_URL + '/api/user/me',
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session?.strapiToken}`,
-        },
-        body: JSON.stringify({
-          username,
-        }),
-        cache: 'no-cache',
-      }
-    );
+    const payload = {
+      username: username
+    };
+    const strapiResponse = await mutateData("PUT", `/api/user/me`, payload);
 
     // handle strapi error
-    if (!strapiResponse.ok) {
+    if (strapiResponse?.error) {
       const response: ActionErrorT = {
         error: true,
-        message: '',
+        message: strapiResponse.error,
       };
-      // check if response in json-able
-      const contentType = strapiResponse.headers.get('content-type');
-      if (contentType === 'application/json; charset=utf-8') {
-        const data: StrapiErrorT = await strapiResponse.json();
-        response.message = data.error.message;
-      } else {
-        response.message = strapiResponse.statusText;
-      }
+
       return response;
     }
 
     // handle strapi success
     // this will cause a screen flicker but only in dev mode!!
     revalidateTag('strapi-users-me');
-    const data = await strapiResponse.json();
     return {
       error: false,
       message: 'Success',
       data: {
-        username: data.username as string,
+        username: username as string,
       },
     };
   } catch (error: any) {
