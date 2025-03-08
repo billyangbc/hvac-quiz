@@ -4,7 +4,7 @@ import { StrapiCurrentUserT } from '@/types/strapi/StrapiCurrentUserT';
 import fetchData from '@/lib/services/fetch-data';
 
 export async function getCurrentUser() {
-  const token = getUserApiToken();
+  const token = await getUserApiToken();
   const options = {
     headers: {
       Authorization: `Bearer ${token}`,
