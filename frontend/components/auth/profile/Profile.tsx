@@ -22,8 +22,8 @@ export default async function Profile() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-6 space-y-6">
-          <div className="grid grid-cols-2 gap-8">
+        <CardContent className="p-6 pb-12 space-y-6">
+          <div className="grid grid-cols-[1fr_auto_1fr]">
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-sky-600">
                 <Badge className="w-8 h-8 flex items-center justify-center">
@@ -60,7 +60,7 @@ export default async function Profile() {
               </div>
             </div>
 
-            <Separator orientation="vertical" className="h-auto" />
+            <Separator orientation="vertical" className="h-auto mx-6" />
 
             <div className="space-y-4">
               <h3 className="font-semibold flex items-center gap-2 text-sky-600">
