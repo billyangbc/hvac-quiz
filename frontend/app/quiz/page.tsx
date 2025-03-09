@@ -1,6 +1,10 @@
 import QuizSettings from "@/components/quiz/QuizSettings";
 import { Separator } from "@/components/ui/separator";
+import { getQuizSettingData } from "@/lib/actions/quiz/quiz-actions";
 import Image from "next/image";
+
+const settingData = await getQuizSettingData();
+console.log("quiz setting => ", settingData);
 
 export default function Home() {
   return (
@@ -20,7 +24,7 @@ export default function Home() {
             className="object-cover object-center mx-auto"
           />
         </div>
-        <QuizSettings />
+        <QuizSettings quizSettingData={settingData}/>
       </div>
     </div>
   );

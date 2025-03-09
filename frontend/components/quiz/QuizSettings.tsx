@@ -11,8 +11,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { SelectOption, getCategoryOptions, getDifficultyOptions } from "@/data/loader";
+import { Category } from "@/types/dashboard/Category";
 
-const QuizSettings = () => {
+type QuizSettingData = {
+  id: number;
+  documentId: string;
+  name: string;
+  categories: Category[];
+};
+const QuizSettings = ({ quizSettingData }: { quizSettingData: QuizSettingData[]}) => {
   const router = useRouter();
   const [category, setCategory] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("medium");
