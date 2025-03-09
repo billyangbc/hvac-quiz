@@ -23,6 +23,7 @@ export default async function SignIn() {
             </Link>
           </p>
           <SignInForm />
+{/* TODO: temporary hide Google SignIn
           <div className='text-center relative my-8 after:content-[""] after:block after:w-full after:h-[1px] after:bg-zinc-300 after:relative after:-top-3 after:z-0'>
             <span className='bg-zinc-100 px-4 relative z-10 text-zinc-400'>
               or
@@ -30,6 +31,7 @@ export default async function SignIn() {
           </div>
           <GoogleSignInButton />
           <GoogleSignInError />
+*/}
         </div>
       )}
     </div>
