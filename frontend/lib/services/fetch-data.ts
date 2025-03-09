@@ -1,6 +1,5 @@
 import { FetchOptionsType } from '@/types/strapi/StrapiFetchOptions';
 import { IApiParameters } from '@/types/strapi/StrapiParameters';
-import { StrapiErrorT } from '@/types/strapi/StrapiError';
 import { getUserApiToken } from "@/lib/services/auth";
 import qs from 'qs';
 

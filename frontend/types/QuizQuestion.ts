@@ -7,7 +7,5 @@ export type QuizQuestion = {
   type: string;
   tags: string[];
   id: string;
-  regions?: [];
-  isNiche?: boolean;
 }
   
