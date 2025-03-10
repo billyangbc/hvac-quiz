@@ -5,6 +5,7 @@ import fetchData from "@/lib/services/fetch-data";
 import { mutateData } from "@/lib/services/mutate-data";
 import { QuizQuestion, QuizRsult } from "@/types/quiz/QuizQuestion";
 import { Question } from "@/types/dashboard/Question";
+import { revalidatePath } from "next/cache";
 
 //TODO: may need to replace this with db data source
 const difficultyOptions = [
@@ -170,5 +171,47 @@ export const createTest = async (category: string, difficulty: string, limit: st
       data: payload.data,
       apiErrors: error instanceof Error ? error.message : "Unknown error",
     };
+  }
+};
+
+export const saveResult = async (testId: string, failedQuestions: string[], score: number) => {
+  const payload = {
+    data: {
+      ...{},
+      failedQuestions: {
+        set: [...failedQuestions],
+      },
+      score: score
+    }
+  }
+ 
+  try {
+    const response = await mutateData(
+      "PUT",
+      `/api/tests/${testId}`,
+      payload
+    );
+    if (!response) {
+      return {
+        error: "Failed to save test result",
+      };
+    }
+
+    if (response.error) {
+      return {
+        error: "Save test result failed",
+        apiErrors: response.error,
+      };
+    }
+
+    revalidatePath("/dashboard/quiz");
+
+    return {
+      message: "Test sult save",
+      data: response.data,
+      apiErrors: null,
+    };
+  } catch (error) {
+    console.error("Error in save test result:", error);
   }
 };
