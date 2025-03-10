@@ -2,7 +2,8 @@
 
 import { getCurrentUser } from "@/lib/services/auth";
 import fetchData from "@/lib/services/fetch-data";
-import { QuizQuestion } from "@/types/quiz/QuizQuestion";
+import { mutateData } from "@/lib/services/mutate-data";
+import { QuizQuestion, QuizRsult } from "@/types/quiz/QuizQuestion";
 import { Question } from "@/types/dashboard/Question";
 
 //TODO: replace this with db data source
@@ -80,14 +81,95 @@ export const getQuestionMeta = async (category: string) => {
       }
     },
     fields: ["id", "documentId"],
-    populate: {
-      category: {
-        fields: ["documentId", "categoryName", "slug", "description"]
-      }
-    }
   }
   const response = await fetchData("/api/questions", query);
   const meta = response?.meta;
 
   return meta;
+};
+
+const validateParams = async (difficulty: string, limit: string ) => {
+  const validateLimit = (limit: string) => {
+    const parsedLimit = parseInt(limit, 10);
+    return !isNaN(parsedLimit) && parsedLimit >= 1 && parsedLimit <= 50;
+  };
+
+  if ( !await validateDifficulty(difficulty) ||
+    !validateLimit(limit)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+const generateTestName = (category: string, difficulty: string, limit: string): string => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  return `${category}-${difficulty}-${limit}-${year}-${month}-${day}-${hours}${minutes}`;
+};
+
+export const createTest = async (category: string, difficulty: string, limit: string) => {
+  const paramOk = await validateParams(difficulty, limit);
+  if (!paramOk) {
+    return false;
+  }
+
+  // get questions list under the given category and difficulty
+  const responseData = await getQuestions(category, difficulty, limit);
+  console.log("questions list for " + `${category}`, responseData);
+
+  const currUser = await getCurrentUser();
+  if (responseData.length < 1 || !currUser) {
+      return {
+        error: "No valid question list",
+      };
+  }
+
+  // Create a test record with the fetched questions
+  const questions = responseData.map((question: QuizQuestion) => {
+    return question.documentId;
+  });
+  const payload = {
+    data: {
+      testName: generateTestName(responseData[0].category?.slug, difficulty, limit),
+      questions: {
+        set: questions,
+      },
+      creator: {
+        set: [currUser.id],
+      },
+      category: {
+        set: [category],
+      },
+      score: 0,
+      failedQuestions: {
+        set: []
+      },
+    }
+  };
+
+  try {
+    const response = await mutateData("POST", "/api/tests", payload);
+
+    if (response?.error) {
+      return {
+        error: "Test Creation Failed",
+        data: payload.data,
+        apiErrors: response.error,
+      };
+    }
+
+    return response?.data;
+  } catch (error) {
+    return {
+      error: "Failed to create test",
+      data: payload.data,
+      apiErrors: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
 };

@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Category } from "@/types/dashboard/Category";
-import { getQuestionMeta } from "@/lib/actions/quiz/quiz-actions";
+import { getQuestionMeta, createTest } from "@/lib/actions/quiz/quiz-actions";
 import { Card } from "@/components/ui/card";
 import { FileQuestion, AlertCircle } from "lucide-react";
 
@@ -64,10 +64,32 @@ const QuizSettings = ({
     fetchQuestionsMeta();
   }, [category]);
 
-  const handleQuizStart = () => {
-    router.push(
-      `/quiz/${category}?difficulty=${difficulty}&limit=${limit[0]}`
-    );
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleQuizStart = async () => {
+    setError(null);
+    setIsSubmitting(true);
+    try {
+      const result = await createTest(category, difficulty, limit[0].toString());
+      console.log("++++++++++++", result);
+      if (result?.documentId) {
+
+        router.push(
+          `/quiz/test/${result.documentId}?category=${category}&difficulty=${difficulty}&limit=${limit[0]}`
+        );
+      } else {
+        let errorMessage = 'Failed to start quiz. Please try again.';
+        if (typeof result === 'object' && result.apiErrors) {
+          errorMessage = result.apiErrors;
+        }
+        setError(errorMessage);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const categoryOptions = selectedQuizSetting

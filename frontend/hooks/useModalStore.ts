@@ -6,8 +6,8 @@ interface AdditionalData {
   results?: {
     score?: number;
     total?: number;
-    wrongQuestions?: string[],
-    category?: string,
+    failedQuestions?: string[],
+    testId?: string,
   },
   delete?: {
     documentId: string;

@@ -14,18 +14,19 @@ import { Category } from "@/types/dashboard/Category";
 import "./questions.css";
 
 type Props = {
+  testId: string;
   questions: QuizQuestion[];
   total: number;
   category: Category;
 };
 
-const Questions = ({ questions, total, category }: Props) => {
+const Questions = ({ testId, questions, total, category }: Props) => {
   const [curr, setCurr] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [selected, setSelected] = useState<string>("");
   const [progressValue, setProgressValue] = useState(0);
   const [score, setScore] = useState(0);
-  const [wrongQuestions, setWrongQuestions] = useState<string[]>([]);
+  const [failedQuestions, setFailedQuestions] = useState<string[]>([]);
   const { onOpen } = useModalStore();
   const [key, setKey] = useState(0);
 
@@ -48,7 +49,7 @@ const Questions = ({ questions, total, category }: Props) => {
     } else {
       // save the question documentId with wrong question in a list
       if (questions[curr].documentId) {
-        setWrongQuestions((prev) => [...prev, questions[curr].documentId!]);
+        setFailedQuestions((prev) => [...prev, questions[curr].documentId!]);
       }
     }
   };
@@ -75,8 +76,8 @@ const Questions = ({ questions, total, category }: Props) => {
     onOpen("showResults", {
       results: {
         // add the saved wrong questions list
-        wrongQuestions: wrongQuestions,
-        category: category.documentId,
+        failedQuestions: failedQuestions,
+        testId: testId,
         score,
         total,
       }
