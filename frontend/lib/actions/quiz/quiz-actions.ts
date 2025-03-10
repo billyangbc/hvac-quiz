@@ -59,7 +59,7 @@ export const getQuestions = async (category: string, difficulty: string, limit: 
     const data = response?.data;
     return data?.map((question: StrapiQuestionDefination) => ({
       category: question.category.categoryName,
-      question: question.content,
+      content: question.content,
       correctAnswer: question.correctAnswer,
       incorrectAnswers: [
         question.incorrect_1,

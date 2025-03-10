@@ -120,7 +120,7 @@ const Questions = ({ questions, total, categoryName }: Props) => {
       <Separator />
       <div className="min-h-auto py-4 xl:py-8 px-3 md:px-5 w-full">
         <h2 className="text-2xl text-center font-medium">{`Q${curr + 1}. ${
-          questions[curr].question
+          questions[curr].content
         }`}</h2>
         <div className="py-4 md:py-5 xl:py-7 flex flex-col gap-y-3 md:gap-y-5">
           {answers.map((answer, i) => (

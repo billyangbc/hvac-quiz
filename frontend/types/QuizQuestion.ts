@@ -1,7 +1,7 @@
 export type QuizQuestion = {
   id: string;
   category: string;
-  question: string;
+  content: string;
   correctAnswer: string;
   incorrectAnswers: string[];
   difficulty: string;
