@@ -1,18 +1,12 @@
 import QuizSettings from "@/components/quiz/QuizSettings";
 import { Separator } from "@/components/ui/separator";
-import { getQuizSettingData } from "@/lib/actions/quiz/quiz-actions";
+import { getQuizSettingData, getDifficultyOptions } from "@/lib/actions/quiz/quiz-actions";
 import Image from "next/image";
 
 const settingData = await getQuizSettingData();
 console.log("quiz setting => ", settingData);
 
-//TODO: replace this with db data source
-const difficultyOptions = [
-  { value: "easy", option: "Easy" },
-  { value: "medium", option: "Medium" },
-  { value: "hard", option: "Hard" },
-];
-
+const difficultyOptions = await getDifficultyOptions();
 
 export default function Home() {
   return (

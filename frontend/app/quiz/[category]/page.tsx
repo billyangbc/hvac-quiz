@@ -1,16 +1,14 @@
 import Questions from "@/components/quiz/Questions";
-import { validateCategory, validateDifficulty, getQuestions } from "@/data/loader";
 import { redirect } from "next/navigation";
+import { validateDifficulty, getQuestions } from "@/lib/actions/quiz/quiz-actions";
 
-const validateParams = (category: string, difficulty: string, limit: string ) => {
+const validateParams = async (difficulty: string, limit: string ) => {
   const validateLimit = (limit: string) => {
     const parsedLimit = parseInt(limit, 10);
-    return !isNaN(parsedLimit) && parsedLimit >= 5 && parsedLimit <= 50;
+    return !isNaN(parsedLimit) && parsedLimit >= 1 && parsedLimit <= 50;
   };
 
-  if (
-    !validateCategory(category) ||
-    !validateDifficulty(difficulty) ||
+  if ( !await validateDifficulty(difficulty) ||
     !validateLimit(limit)
   ) {
     return false;
@@ -29,16 +27,19 @@ const QuestionsPage = async (props: {
   const { category } = await props.params;
   const { difficulty, limit} = await props.searchParams;
 
-  if (!validateParams(category, difficulty, limit)) {
+  const paramOk = await validateParams(difficulty, limit);
+  if (!paramOk) {
     redirect("/");
   }
 
-  const response = await getQuestions(category, difficulty, limit);
+  const responseData = await getQuestions(category, difficulty, limit);
+  console.log("questions list for " + `${category}`, responseData);
+  const categoryName = responseData[0]["category"];
   return (
     <Questions
-      questions={response}
-      limit={parseInt(limit, 10)}
-      category={category}
+      questions={responseData}
+      limit={responseData.length}
+      categoryName={categoryName}
     />
   );
 };

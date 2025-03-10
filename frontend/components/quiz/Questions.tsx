@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { alphabeticNumeral, getCategoryName } from "@/data/loader";
+import { alphabeticNumeral } from "@/lib/utils";
 import useModalStore from "@/hooks/useModalStore";
-import { ImportIcon, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { toast } from "sonner";
@@ -15,10 +15,10 @@ import "./questions.css";
 type Props = {
   questions: QuizQuestion[];
   limit: number;
-  category: string;
+  categoryName: string;
 };
 
-const Questions = ({ questions, limit, category }: Props) => {
+const Questions = ({ questions, limit, categoryName }: Props) => {
   const [curr, setCurr] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [selected, setSelected] = useState<string>("");
@@ -78,7 +78,7 @@ const Questions = ({ questions, limit, category }: Props) => {
   };
 
   useEffect(() => {
-    if (questions?.length >= 5) {
+    if (questions?.length >= 1) {
       setAnswers(
         handleShuffle(
           questions[curr].correctAnswer,
@@ -98,7 +98,7 @@ const Questions = ({ questions, limit, category }: Props) => {
       <Progress value={progressValue} />
       <div className="flex justify-between items-center h-20 text-sm md:text-base">
         <div className="space-y-1">
-          <p>Category: {getCategoryName(category)}</p>
+          <p>Category: {categoryName}</p>
           <p>Score: {score}</p>
         </div>
         <CountdownCircleTimer
