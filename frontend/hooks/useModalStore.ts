@@ -3,10 +3,11 @@ import { create } from "zustand";
 export type modalType = "showResults" | "quitQuiz" | "deleteConfirmation" | "editQuestion" | "editCategory";
 
 interface AdditionalData {
-  wrongQuestions?: string[],
   results?: {
     score?: number;
     total?: number;
+    wrongQuestions?: string[],
+    category?: string,
   },
   delete?: {
     documentId: string;

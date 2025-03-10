@@ -2,7 +2,8 @@
 
 import { getCurrentUser } from "@/lib/services/auth";
 import fetchData from "@/lib/services/fetch-data";
-import { QuizQuestion, StrapiQuestionDefination } from "@/types/QuizQuestion";
+import { QuizQuestion } from "@/types/QuizQuestion";
+import { Question } from "@/types/dashboard/Question";
 
 //TODO: replace this with db data source
 const difficultyOptions = [
@@ -57,8 +58,8 @@ export const getQuestions = async (category: string, difficulty: string, limit: 
     }
     const response = await fetchData("/api/questions", query);
     const data = response?.data;
-    return data?.map((question: StrapiQuestionDefination) => ({
-      category: question.category.categoryName,
+    return data?.map((question: Question) => ({
+      category: question.category,
       content: question.content,
       correctAnswer: question.correctAnswer,
       incorrectAnswers: [
@@ -67,7 +68,6 @@ export const getQuestions = async (category: string, difficulty: string, limit: 
         question.incorrect_3,
       ],
       difficulty: question.difficulty,
-      id: question.id.toString(),
       documentId: question.documentId,
     }));
 }

@@ -10,20 +10,22 @@ import { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { toast } from "sonner";
 import { QuizQuestion } from "@/types/QuizQuestion";
+import { Category } from "@/types/dashboard/Category";
 import "./questions.css";
 
 type Props = {
   questions: QuizQuestion[];
   total: number;
-  categoryName: string;
+  category: Category;
 };
 
-const Questions = ({ questions, total, categoryName }: Props) => {
+const Questions = ({ questions, total, category }: Props) => {
   const [curr, setCurr] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [selected, setSelected] = useState<string>("");
   const [progressValue, setProgressValue] = useState(0);
   const [score, setScore] = useState(0);
+  const [wrongQuestions, setWrongQuestions] = useState<string[]>([]);
   const { onOpen } = useModalStore();
   const [key, setKey] = useState(0);
 
@@ -44,7 +46,10 @@ const Questions = ({ questions, total, categoryName }: Props) => {
     if (answer === questions[curr].correctAnswer && !isTimeUp) {
       setScore(score + 1);
     } else {
-      //TODO: save the question documentId with wrong question in a list
+      // save the question documentId with wrong question in a list
+      if (questions[curr].documentId) {
+        setWrongQuestions((prev) => [...prev, questions[curr].documentId!]);
+      }
     }
   };
 
@@ -68,9 +73,10 @@ const Questions = ({ questions, total, categoryName }: Props) => {
 
   const handleShowResult = () => {
     onOpen("showResults", {
-      //TODO: add the saved wrong questions list
-      wrongQuestions: [],
       results: {
+        // add the saved wrong questions list
+        wrongQuestions: wrongQuestions,
+        category: category.documentId,
         score,
         total,
       }
@@ -103,7 +109,7 @@ const Questions = ({ questions, total, categoryName }: Props) => {
       <Progress value={progressValue} />
       <div className="flex justify-between items-center h-20 text-sm md:text-base">
         <div className="space-y-1">
-          <p>Category: {categoryName}</p>
+          <p>Category: {category.categoryName}</p>
           <p>Score: {score}</p>
         </div>
         <CountdownCircleTimer

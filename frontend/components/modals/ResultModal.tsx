@@ -15,7 +15,7 @@ const ResultModal = () => {
   const { isOpen, type, onClose, additionalData } = useModalStore();
   const open = isOpen && type === "showResults";
   const router = useRouter();
-
+  console.log("addtional data =>", additionalData);
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>

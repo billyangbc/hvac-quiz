@@ -37,12 +37,12 @@ const QuestionsPage = async (props: {
   if (responseData.length < 1) {
     redirect("/quiz");
   }
-  const categoryName = responseData[0]["category"];
+  const questionCategory = responseData[0]["category"];
   return (
     <Questions
       questions={responseData}
       total={responseData.length}
-      categoryName={categoryName}
+      category={questionCategory}
     />
   );
 };

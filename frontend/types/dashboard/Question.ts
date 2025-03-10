@@ -1,4 +1,5 @@
 export type Question = {
+  id?: string;
   documentId: string;
   content: string;
   correctAnswer: string;
