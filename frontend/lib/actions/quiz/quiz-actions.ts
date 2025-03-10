@@ -40,7 +40,7 @@ export const getQuizSettingData = async () => {
     const response = await fetchData("/api/enrollments", query);
     return response?.data;
   }
-}
+};
 
 export const getQuestions = async (category: string, difficulty: string, limit: string): Promise<QuizQuestion[]> => {
     const query = {
@@ -70,4 +70,24 @@ export const getQuestions = async (category: string, difficulty: string, limit: 
       difficulty: question.difficulty,
       documentId: question.documentId,
     }));
-}
+};
+
+export const getQuestionMeta = async (category: string) => {
+    const query = {
+      filters: {
+        category: {
+          documentId: category
+        }
+      },
+      fields: ["id", "documentId"],
+      populate: {
+        category: {
+          fields: ["documentId", "categoryName", "slug", "description"]
+        }
+      }
+    }
+    const response = await fetchData("/api/questions", query);
+    const meta = response?.meta;
+
+    return meta;
+};
