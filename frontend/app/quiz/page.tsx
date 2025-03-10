@@ -3,12 +3,10 @@ import { Separator } from "@/components/ui/separator";
 import { getQuizSettingData, getDifficultyOptions } from "@/lib/actions/quiz/quiz-actions";
 import Image from "next/image";
 
-const settingData = await getQuizSettingData();
-console.log("quiz setting => ", settingData);
-
-const difficultyOptions = await getDifficultyOptions();
-
-export default function Home() {
+export default async function Home() {
+  const settingData = await getQuizSettingData();
+  console.log("quiz setting => ", settingData);
+  const difficultyOptions = await getDifficultyOptions();
   return (
     <div className="bg-white p-3 shadow-md w-full mt-10 md:w-[90%] lg:w-[70%] max-w-4xl md:rounded-lg">
       <h1 className="text-2xl lg:text-4xl font-bold text-primary tracking-wider uppercase text-center py-2">
@@ -26,7 +24,10 @@ export default function Home() {
             className="object-cover object-center mx-auto"
           />
         </div>
-        <QuizSettings quizSettingData={settingData} difficultyOptions={difficultyOptions}/>
+        <QuizSettings
+          quizSettingData={settingData}
+          difficultyOptions={difficultyOptions}
+        />
       </div>
     </div>
   );
