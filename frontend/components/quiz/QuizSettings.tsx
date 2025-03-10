@@ -10,8 +10,12 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { SelectOption, getCategoryOptions, getDifficultyOptions } from "@/data/loader";
 import { Category } from "@/types/dashboard/Category";
+
+type SelectOption = {
+  value: string;
+  option: string;
+};
 
 type QuizSettingData = {
   id: number;
@@ -19,9 +23,19 @@ type QuizSettingData = {
   name: string;
   categories: Category[];
 };
-const QuizSettings = ({ quizSettingData }: { quizSettingData: QuizSettingData[]}) => {
+
+const QuizSettings = ({
+    quizSettingData,
+    difficultyOptions
+  }: {
+    quizSettingData: QuizSettingData[],
+    difficultyOptions: SelectOption[]
+  }) => {
   const router = useRouter();
   const [category, setCategory] = useState<string>("");
+  const [selectedQuizSetting, setSelectedQuizSetting] = useState<QuizSettingData | null>(
+    quizSettingData.length === 1 ? quizSettingData[0] : null
+  );
   const [difficulty, setDifficulty] = useState<string>("medium");
   const [limit, setLimit] = useState([10]);
 
@@ -31,14 +45,48 @@ const QuizSettings = ({ quizSettingData }: { quizSettingData: QuizSettingData[]}
     );
   };
 
-  const categoryOptions = getCategoryOptions();
-  const difficultyOptions = getDifficultyOptions();
+  const categoryOptions = selectedQuizSetting
+    ? selectedQuizSetting.categories.map((cat: Category) => ({
+        value: cat.documentId,
+        option: cat.categoryName,
+      }))
+    : [];
+
   return (
     <div className="flex flex-col justify-center items-center gap-4 md:gap-6">
-      <h2 className="text-xl font-bold mt-4 w-full">Setup your quiz:</h2>
-      <Select value={category} onValueChange={(value) => setCategory(value)}>
+      <h2 className="text-xl font-bold mt-4 w-full">
+        {quizSettingData.length === 1 ? quizSettingData[0].name : "Setup your quiz:"}
+      </h2>
+
+      {quizSettingData.length > 1 && (
+        <Select
+          value={selectedQuizSetting?.documentId || ""}
+          onValueChange={(value) => {
+            const setting = quizSettingData.find((q) => q.documentId === value);
+            setSelectedQuizSetting(setting || null);
+            setCategory("");
+          }}
+        >
+          <SelectTrigger className="w-full md:max-w-xs xl:max-w-md">
+            <SelectValue placeholder="Select an Enrollment" />
+          </SelectTrigger>
+          <SelectContent>
+            {quizSettingData.map((setting) => (
+              <SelectItem value={setting.documentId} key={setting.documentId}>
+                {setting.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
+      <Select
+        value={category}
+        onValueChange={(value) => setCategory(value)}
+        disabled={!selectedQuizSetting}
+      >
         <SelectTrigger className="w-full md:max-w-xs xl:max-w-md">
-          <SelectValue placeholder="Category" />
+          <SelectValue placeholder={selectedQuizSetting ? "Category" : "Select enrollment first"} />
         </SelectTrigger>
         <SelectContent>
           {categoryOptions.map((category: SelectOption) => (

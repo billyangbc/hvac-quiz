@@ -6,6 +6,14 @@ import Image from "next/image";
 const settingData = await getQuizSettingData();
 console.log("quiz setting => ", settingData);
 
+//TODO: replace this with db data source
+const difficultyOptions = [
+  { value: "easy", option: "Easy" },
+  { value: "medium", option: "Medium" },
+  { value: "hard", option: "Hard" },
+];
+
+
 export default function Home() {
   return (
     <div className="bg-white p-3 shadow-md w-full mt-10 md:w-[90%] lg:w-[70%] max-w-4xl md:rounded-lg">
@@ -24,7 +32,7 @@ export default function Home() {
             className="object-cover object-center mx-auto"
           />
         </div>
-        <QuizSettings quizSettingData={settingData}/>
+        <QuizSettings quizSettingData={settingData} difficultyOptions={difficultyOptions}/>
       </div>
     </div>
   );

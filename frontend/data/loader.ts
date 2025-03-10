@@ -15,9 +15,9 @@ export function getCategoryOptions(): SelectOption[] {
   return categoryOptions;
 }
 
-export function getDifficultyOptions(): SelectOption[] {
-  return difficultyOptions;
-}
+//export function getDifficultyOptions(): SelectOption[] {
+//  return difficultyOptions;
+//}
 
 export const alphabeticNumeral = (index: number) => {
   const asciiCode = index + 65;
