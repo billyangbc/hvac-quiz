@@ -26,15 +26,18 @@
       "relation": "oneToMany",
       "target": "api::question.question"
     },
-    "users_permissions_user": {
+    "creator": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
     },
-    "result": {
+    "failedQuestions": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::result.result"
+      "relation": "oneToMany",
+      "target": "api::question.question"
+    },
+    "score": {
+      "type": "integer"
     }
   }
 }

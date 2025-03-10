@@ -485,40 +485,6 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiResultResult extends Struct.CollectionTypeSchema {
-  collectionName: 'results';
-  info: {
-    description: '';
-    displayName: 'Result';
-    pluralName: 'results';
-    singularName: 'result';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::result.result'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    score: Schema.Attribute.Integer;
-    total: Schema.Attribute.Integer;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    wrongAnswers: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::question.question'
-    >;
-  };
-}
-
 export interface ApiTestTest extends Struct.CollectionTypeSchema {
   collectionName: 'tests';
   info: {
@@ -535,22 +501,26 @@ export interface ApiTestTest extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    creator: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    failedQuestions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::question.question'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::test.test'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     questions: Schema.Attribute.Relation<'oneToMany', 'api::question.question'>;
-    result: Schema.Attribute.Relation<'oneToOne', 'api::result.result'>;
+    score: Schema.Attribute.Integer;
     testName: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -1069,7 +1039,6 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::enrollment.enrollment': ApiEnrollmentEnrollment;
       'api::question.question': ApiQuestionQuestion;
-      'api::result.result': ApiResultResult;
       'api::test.test': ApiTestTest;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
