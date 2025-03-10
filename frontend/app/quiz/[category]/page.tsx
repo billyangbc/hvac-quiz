@@ -41,7 +41,7 @@ const QuestionsPage = async (props: {
   return (
     <Questions
       questions={responseData}
-      limit={responseData.length}
+      total={responseData.length}
       categoryName={categoryName}
     />
   );

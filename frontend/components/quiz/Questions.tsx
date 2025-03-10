@@ -14,11 +14,11 @@ import "./questions.css";
 
 type Props = {
   questions: QuizQuestion[];
-  limit: number;
+  total: number;
   categoryName: string;
 };
 
-const Questions = ({ questions, limit, categoryName }: Props) => {
+const Questions = ({ questions, total, categoryName }: Props) => {
   const [curr, setCurr] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [selected, setSelected] = useState<string>("");
@@ -65,9 +65,10 @@ const Questions = ({ questions, limit, categoryName }: Props) => {
 
   const handleShowResult = () => {
     onOpen("showResults", {
+      //TODO: 
       results: {
         score,
-        limit,
+        total,
       }
     });
   };
@@ -86,8 +87,8 @@ const Questions = ({ questions, limit, categoryName }: Props) => {
         )
       );
     }
-    setProgressValue((100 / limit) * (curr + 1));
-  }, [curr, questions, limit]);
+    setProgressValue((100 / total) * (curr + 1));
+  }, [curr, questions, total]);
 
   if (!questions || !answers.length) {
     return <Loader2 className="size-10 text-white animate-spin" />;

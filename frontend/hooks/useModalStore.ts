@@ -5,7 +5,7 @@ export type modalType = "showResults" | "quitQuiz" | "deleteConfirmation" | "edi
 interface AdditionalData {
   results?: {
     score?: number;
-    limit?: number;
+    total?: number;
   },
   delete?: {
     documentId: string;
