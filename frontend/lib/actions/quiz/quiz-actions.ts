@@ -2,7 +2,7 @@
 
 import { getCurrentUser } from "@/lib/services/auth";
 import fetchData from "@/lib/services/fetch-data";
-import { QuizQuestion } from "@/types/QuizQuestion";
+import { QuizQuestion } from "@/types/quiz/QuizQuestion";
 import { Question } from "@/types/dashboard/Question";
 
 //TODO: replace this with db data source

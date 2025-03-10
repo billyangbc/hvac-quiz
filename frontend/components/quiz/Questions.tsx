@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { toast } from "sonner";
-import { QuizQuestion } from "@/types/QuizQuestion";
+import { QuizQuestion } from "@/types/quiz/QuizQuestion";
 import { Category } from "@/types/dashboard/Category";
 import "./questions.css";
 
