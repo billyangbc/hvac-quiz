@@ -38,10 +38,15 @@ const getCategoryIcon = (slug: string) => {
 };
 // Function to calculate pass status
 const getPassStatus = (result: ResultType) => {
+  const score = result.score;
   const totalQuestions = result.questions.count;
   const failedQuestions = result.failedQuestions.count;
   const passedQuestions = totalQuestions - failedQuestions;
-  
+
+  // if no score and no faildQuestions, the test is not finished.
+  if (score < 1 && failedQuestions < 1) {
+    return false;
+  }
   // Consider it passed if at least 70% of questions are correct
   const passPercentage = (passedQuestions / totalQuestions) * 100;
   return passPercentage >= 70;
