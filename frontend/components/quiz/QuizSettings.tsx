@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -11,6 +11,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Category } from "@/types/dashboard/Category";
+import { getQuestionMeta } from "@/lib/actions/quiz/quiz-actions";
+import { Card } from "@/components/ui/card";
+import { FileQuestion, AlertCircle } from "lucide-react";
 
 type SelectOption = {
   value: string;
@@ -38,6 +41,28 @@ const QuizSettings = ({
   );
   const [difficulty, setDifficulty] = useState<string>("medium");
   const [limit, setLimit] = useState([10]);
+  const [questionsMeta, setQuestionsMeta] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  
+  useEffect(() => {
+    const fetchQuestionsMeta = async () => {
+      if (category) {
+        setLoading(true);
+        try {
+          const meta = await getQuestionMeta(category);
+          setQuestionsMeta(meta);
+        } catch (error) {
+          console.error("Error fetching questions meta:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setQuestionsMeta(null);
+      }
+    };
+    
+    fetchQuestionsMeta();
+  }, [category]);
 
   const handleQuizStart = () => {
     router.push(
@@ -96,6 +121,31 @@ const QuizSettings = ({
           ))}
         </SelectContent>
       </Select>
+      
+      {loading && (
+        <div className="w-full md:max-w-xs xl:max-w-md text-center py-2">
+          <p className="text-sm text-muted-foreground">Loading questions information...</p>
+        </div>
+      )}
+      
+      {!loading && category && questionsMeta && (
+        <Card className="w-full md:max-w-xs xl:max-w-md p-4 bg-muted/30">
+          <div className="flex items-center gap-2 mb-2">
+            <FileQuestion className="h-5 w-5 text-primary" />
+            <h3 className="font-medium">Questions Information</h3>
+          </div>
+          <div className="text-sm space-y-1">
+            <p>Total questions: <span className="font-medium">{questionsMeta.pagination?.total || 0}</span></p>
+            {questionsMeta.pagination?.total === 0 && (
+              <div className="flex items-center gap-1 text-amber-500 mt-2">
+                <AlertCircle className="h-4 w-4" />
+                <p className="text-xs">No questions available for this category</p>
+              </div>
+            )}
+          </div>
+        </Card>
+      )}
+
       {/*>>>> hide the difficult (always medium) */}
       <div className="hidden">
       <Select
@@ -126,7 +176,10 @@ const QuizSettings = ({
         min={5}
         className="w-full md:max-w-xs xl:max-w-md"
       />
-      <Button disabled={!difficulty || !category} onClick={handleQuizStart}>
+      <Button 
+        disabled={!difficulty || !category || (questionsMeta && questionsMeta.pagination?.total === 0)} 
+        onClick={handleQuizStart}
+      >
         Start Quiz
       </Button>
     </div>
