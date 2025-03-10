@@ -19,8 +19,8 @@
       "relation": "oneToMany",
       "target": "api::question.question"
     },
-    "submittedAt": {
-      "type": "datetime"
+    "total": {
+      "type": "integer"
     }
   }
 }
