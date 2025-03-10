@@ -6,7 +6,7 @@ import { mutateData } from "@/lib/services/mutate-data";
 import { QuizQuestion, QuizRsult } from "@/types/quiz/QuizQuestion";
 import { Question } from "@/types/dashboard/Question";
 
-//TODO: replace this with db data source
+//TODO: may need to replace this with db data source
 const difficultyOptions = [
   { value: "easy", option: "Easy" },
   { value: "medium", option: "Medium" },
@@ -16,11 +16,6 @@ const difficultyOptions = [
 export const getDifficultyOptions = async (): Promise<{value: string, option: string}[]> => {
   return difficultyOptions;
 }
-
-export const validateDifficulty = async (difficulty: string) => {
-  const validDifficulties = difficultyOptions.map((option) => option.value);
-  return validDifficulties.includes(difficulty);
-};
 
 export const getQuizSettingData = async () => {
   const currUser = await getCurrentUser();
@@ -89,12 +84,16 @@ export const getQuestionMeta = async (category: string) => {
 };
 
 const validateParams = async (difficulty: string, limit: string ) => {
+  const validateDifficulty = (difficulty: string) => {
+    const validDifficulties = difficultyOptions.map((option) => option.value);
+    return validDifficulties.includes(difficulty);
+  };
+
   const validateLimit = (limit: string) => {
     const parsedLimit = parseInt(limit, 10);
     return !isNaN(parsedLimit) && parsedLimit >= 1 && parsedLimit <= 50;
   };
-
-  if ( !await validateDifficulty(difficulty) ||
+  if ( !validateDifficulty(difficulty) ||
     !validateLimit(limit)
   ) {
     return false;
