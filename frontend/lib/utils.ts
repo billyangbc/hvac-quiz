@@ -13,3 +13,9 @@ export async function slugify(str: string): Promise<string> {
     .replace(/--+/g, '-')
     .replace(/^-+|-+$/g, '');
 }
+
+export const alphabeticNumeral = (index: number) => {
+  const asciiCode = index + 65;
+  const letter = String.fromCharCode(asciiCode);
+  return letter + ". ";
+};

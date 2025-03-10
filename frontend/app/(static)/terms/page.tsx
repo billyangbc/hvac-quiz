@@ -1,5 +1,5 @@
 import MarkdownCard from "@/components/markdown/MarkdownCard";
-import { loadFile } from "@/data/loader";
+import { loadFile } from "@/lib/loader";
 
 const staticFilePath: string = "/data/static";
 export default async function Terms() {
