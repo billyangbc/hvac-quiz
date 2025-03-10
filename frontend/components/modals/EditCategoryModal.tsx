@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -29,6 +30,7 @@ export default function EditCategoryModal() {
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-4xl">
+        <DialogDescription />
         <DialogHeader>
           <DialogTitle>Edit Category</DialogTitle>
         </DialogHeader>
