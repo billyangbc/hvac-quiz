@@ -34,6 +34,9 @@ const QuestionsPage = async (props: {
 
   const responseData = await getQuestions(category, difficulty, limit);
   console.log("questions list for " + `${category}`, responseData);
+  if (responseData.length < 1) {
+    redirect("/quiz");
+  }
   const categoryName = responseData[0]["category"];
   return (
     <Questions
