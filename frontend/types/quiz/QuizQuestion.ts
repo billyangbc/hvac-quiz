@@ -24,3 +24,20 @@ export type QuizRsult = {
   failedQuestions?: string[];
   testId: string;
 };
+
+export type ResultType = {
+  id: number;
+  createdAt: string;
+  testName: string;
+  score: number;
+  category: {
+    categoryName: string;
+    slug: string;
+  }
+  questions: {
+    count: number;
+  }
+  failedQuestions: {
+    count: number;
+  }
+};

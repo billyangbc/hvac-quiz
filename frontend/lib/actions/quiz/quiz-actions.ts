@@ -6,6 +6,7 @@ import { mutateData } from "@/lib/services/mutate-data";
 import { QuizQuestion, QuizRsult } from "@/types/quiz/QuizQuestion";
 import { Question } from "@/types/dashboard/Question";
 import { revalidatePath } from "next/cache";
+import { ResultType } from "@/types/quiz/QuizQuestion";
 
 //TODO: may need to replace this with db data source
 const difficultyOptions = [
@@ -213,5 +214,33 @@ export const saveResult = async (testId: string, failedQuestions: string[], scor
     };
   } catch (error) {
     console.error("Error in save test result:", error);
+  }
+};
+
+export const getResults = async ():Promise<ResultType[]> => {
+  const currUser = await getCurrentUser();
+  try {
+    const query = {
+      creator: {
+        id: currUser.id
+      },
+      fields: ["documentId", "createdAt", "testName", "score"],
+      populate: {
+        category: {
+          fields: ["documentId", "categoryName", "slug"]
+        },
+        questions: {
+          count: true
+        },
+        failedQuestions: {
+          count: true
+        }
+      }
+    }
+    const response = await fetchData("/api/tests", query);
+    return response?.data;
+  } catch (error) {
+    console.error("Error fetching enrollment:", error);
+    throw error;
   }
 };
