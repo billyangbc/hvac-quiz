@@ -42,9 +42,8 @@
     },
     "category": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "questions"
+      "relation": "oneToOne",
+      "target": "api::category.category"
     }
   }
 }

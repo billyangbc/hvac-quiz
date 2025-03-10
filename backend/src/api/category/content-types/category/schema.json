@@ -19,12 +19,6 @@
     "description": {
       "type": "text"
     },
-    "questions": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::question.question",
-      "mappedBy": "category"
-    },
     "slug": {
       "type": "string",
       "unique": true,
