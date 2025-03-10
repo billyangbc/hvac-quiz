@@ -15,7 +15,7 @@ import {
 import { useRouter } from "next/navigation";
 
 const QuitQuizModal = () => {
-  const { isOpen, type, onClose } = useModalStore();
+  const { isOpen, type, onClose, callbackUrl } = useModalStore();
   const open = isOpen && type === "quitQuiz";
   const router = useRouter();
 
@@ -30,7 +30,7 @@ const QuitQuizModal = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => router.push("/")}>
+          <AlertDialogAction onClick={() => router.push(callbackUrl?? "/")}>
             Confirm
           </AlertDialogAction>
         </AlertDialogFooter>

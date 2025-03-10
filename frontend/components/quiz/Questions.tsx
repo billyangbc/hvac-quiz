@@ -60,7 +60,7 @@ const Questions = ({ questions, limit, categoryName }: Props) => {
   };
 
   const handleQuit = () => {
-    onOpen("quitQuiz");
+    onOpen("quitQuiz", {}, '/quiz');
   };
 
   const handleShowResult = () => {
