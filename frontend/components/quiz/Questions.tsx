@@ -41,8 +41,11 @@ const Questions = ({ questions, total, categoryName }: Props) => {
 
   const handleCheck = (answer: string, isTimeUp: boolean = false) => {
     setSelected(answer);
-    if (answer === questions[curr].correctAnswer && !isTimeUp)
+    if (answer === questions[curr].correctAnswer && !isTimeUp) {
       setScore(score + 1);
+    } else {
+      //TODO: save the question documentId with wrong question in a list
+    }
   };
 
   const handleSelect = (i: string) => {
@@ -65,7 +68,8 @@ const Questions = ({ questions, total, categoryName }: Props) => {
 
   const handleShowResult = () => {
     onOpen("showResults", {
-      //TODO: 
+      //TODO: add the saved wrong questions list
+      wrongQuestions: [],
       results: {
         score,
         total,

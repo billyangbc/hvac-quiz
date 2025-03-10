@@ -68,5 +68,6 @@ export const getQuestions = async (category: string, difficulty: string, limit: 
       ],
       difficulty: question.difficulty,
       id: question.id.toString(),
+      documentId: question.documentId,
     }));
 }

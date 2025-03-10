@@ -1,5 +1,6 @@
 export type QuizQuestion = {
   id: string;
+  documentId: string;
   category: string;
   content: string;
   correctAnswer: string;
