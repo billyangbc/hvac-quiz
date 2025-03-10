@@ -43,51 +43,51 @@ export const getQuizSettingData = async () => {
 };
 
 export const getQuestions = async (category: string, difficulty: string, limit: string): Promise<QuizQuestion[]> => {
-    const query = {
-      filters: {
-        category: {
-          documentId: category
-        }
-      },
-      fields: ["id", "documentId", "content", "correctAnswer", "incorrect_1", "incorrect_2", "incorrect_3", "difficulty", "explanation"],
-      populate: {
-        category: {
-          fields: ["documentId", "categoryName", "slug"]
-        }
+  const query = {
+    filters: {
+      category: {
+        documentId: category
+      }
+    },
+    fields: ["id", "documentId", "content", "correctAnswer", "incorrect_1", "incorrect_2", "incorrect_3", "difficulty", "explanation"],
+    populate: {
+      category: {
+        fields: ["documentId", "categoryName", "slug"]
       }
     }
-    const response = await fetchData("/api/questions", query);
-    const data = response?.data;
-    return data?.map((question: Question) => ({
-      category: question.category,
-      content: question.content,
-      correctAnswer: question.correctAnswer,
-      incorrectAnswers: [
-        question.incorrect_1,
-        question.incorrect_2,
-        question.incorrect_3,
-      ],
-      difficulty: question.difficulty,
-      documentId: question.documentId,
-    }));
+  }
+  const response = await fetchData("/api/questions", query);
+  const data = response?.data;
+  return data?.map((question: Question) => ({
+    category: question.category,
+    content: question.content,
+    correctAnswer: question.correctAnswer,
+    incorrectAnswers: [
+      question.incorrect_1,
+      question.incorrect_2,
+      question.incorrect_3,
+    ],
+    difficulty: question.difficulty,
+    documentId: question.documentId,
+  }));
 };
 
 export const getQuestionMeta = async (category: string) => {
-    const query = {
-      filters: {
-        category: {
-          documentId: category
-        }
-      },
-      fields: ["id", "documentId"],
-      populate: {
-        category: {
-          fields: ["documentId", "categoryName", "slug", "description"]
-        }
+  const query = {
+    filters: {
+      category: {
+        documentId: category
+      }
+    },
+    fields: ["id", "documentId"],
+    populate: {
+      category: {
+        fields: ["documentId", "categoryName", "slug", "description"]
       }
     }
-    const response = await fetchData("/api/questions", query);
-    const meta = response?.meta;
+  }
+  const response = await fetchData("/api/questions", query);
+  const meta = response?.meta;
 
-    return meta;
+  return meta;
 };
