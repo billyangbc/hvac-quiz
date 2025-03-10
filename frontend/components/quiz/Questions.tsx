@@ -110,7 +110,7 @@ const Questions = ({ questions, total, category }: Props) => {
       <div className="flex justify-between items-center h-20 text-sm md:text-base">
         <div className="space-y-1">
           <p>Category: {category.categoryName}</p>
-          <p>Score: {score}</p>
+          <p>Score: {score} of {total}</p>
         </div>
         <CountdownCircleTimer
           key={key}

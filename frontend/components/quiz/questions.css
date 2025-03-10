@@ -9,11 +9,11 @@
 }
 
 .option.correct {
-  @apply text-white !bg-green-500;
+  @apply  !bg-green-200;
 }
 
 .option.incorrect {
-  @apply text-white !bg-red-500;
+  @apply  !bg-red-200;
 }
 
 .option:disabled {
