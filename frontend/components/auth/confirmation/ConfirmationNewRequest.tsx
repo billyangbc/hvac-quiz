@@ -1,15 +1,14 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import confirmationNewRequestAction from '@/lib/actions/auth/confirm-new-request-action';
-import PendingSubmitButton from '@/components/auth/PendingSubmitButton';
 import { InitialFormStateT, ConfirmationNewRequestFormStateT } from '@/types/auth/ConfirmationNewRequestFormState';
 
 const initialState: InitialFormStateT = {
   error: false,
 };
 export default function ConfirmationNewRequest() {
-  const [state, formAction] = useFormState<
+  const [state, dispatch, isPending] = useActionState<
     ConfirmationNewRequestFormStateT,
     FormData
   >(confirmationNewRequestAction, initialState);
@@ -23,7 +22,7 @@ export default function ConfirmationNewRequest() {
         Request a new confirmation email. Maybe some info about token expiry or
         limited request here.
       </p>
-      <form action={formAction} className='my-8'>
+      <form action={dispatch} className='my-8'>
         <div className='mb-3'>
           <label htmlFor='email' className='block mb-1'>
             Email *
@@ -42,7 +41,14 @@ export default function ConfirmationNewRequest() {
           ) : null}
         </div>
         <div className='mb-3'>
-          <PendingSubmitButton />
+          <button
+            type='submit'
+            className={`bg-primary text-white px-4 py-2 rounded-md disabled:bg-sky-200 disabled:text-gray-400 disabled:cursor-wait`}
+            disabled={isPending}
+            aria-disabled={isPending}
+          >
+            send
+          </button>
         </div>
         {state.error && state.message ? (
           <div className='text-red-700' aria-live='polite'>
