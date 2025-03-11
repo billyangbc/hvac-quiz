@@ -37,7 +37,7 @@ const QuizSettings = ({
   const router = useRouter();
   const [category, setCategory] = useState<string>("");
   const [selectedQuizSetting, setSelectedQuizSetting] = useState<QuizSettingData | null>(
-    quizSettingData.length === 1 ? quizSettingData[0] : null
+    quizSettingData?.length === 1 ? quizSettingData[0] : null
   );
   const [difficulty, setDifficulty] = useState<string>("medium");
   const [limit, setLimit] = useState([10]);
@@ -102,10 +102,10 @@ const QuizSettings = ({
   return (
     <div className="flex flex-col justify-center items-center gap-4 md:gap-6">
       <h2 className="text-xl font-bold mt-4 w-full">
-        {quizSettingData.length === 1 ? quizSettingData[0].name : "Setup your quiz:"}
+        {quizSettingData?.length === 1 ? quizSettingData[0].name : "Setup your quiz:"}
       </h2>
 
-      {quizSettingData.length > 1 && (
+      {quizSettingData?.length > 1 && (
         <Select
           value={selectedQuizSetting?.documentId || ""}
           onValueChange={(value) => {
