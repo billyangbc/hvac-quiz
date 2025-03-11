@@ -12,6 +12,10 @@ const QuestionsPage = async (props: {
   const { id } = await props.params;
   const { category, difficulty, limit} = await props.searchParams;
 
+  // the category is required
+  if (!category) {
+    redirect("/quiz");
+  }
 
   const responseData = await getQuestions(category, difficulty, limit);
   console.log("questions list for " + `${category}`, responseData);
