@@ -4,6 +4,7 @@ import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { getUserRole } from '@/lib/services/auth';
+import { verifyTurnstileToken } from '@/lib/services/turnstile';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -19,12 +20,20 @@ export const authOptions: NextAuthOptions = {
           type: 'text',
         },
         password: { label: 'Password *', type: 'password' },
+        turnstileToken: { label: 'Turnstile Token', type: 'text' },
       },
       async authorize(credentials, req) {
         // make sure the are credentials
-        if (!credentials || !credentials.identifier || !credentials.password) {
+        if (!credentials || !credentials.identifier || !credentials.password || !credentials.turnstileToken) {
           return null;
         }
+        
+        // Verify Turnstile token
+        const isTurnstileValid = await verifyTurnstileToken(credentials.turnstileToken);
+        if (!isTurnstileValid) {
+          throw new Error('Turnstile verification failed. Please try again.');
+        }
+        
         console.log('user and password authorize =>', credentials);
         try {
           const strapiResponse = await fetch(

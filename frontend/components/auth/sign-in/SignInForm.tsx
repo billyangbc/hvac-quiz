@@ -3,13 +3,15 @@
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { z } from 'zod';
+import Turnstile from 'react-turnstile';
 
 type FormErrorsT = {
   identifier?: undefined | string[];
   password?: undefined | string[];
   strapiError?: string;
+  turnstile?: string;
 };
 
 const initialState = {
@@ -41,6 +43,7 @@ export default function SignInForm() {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState<FormErrorsT>({});
   const [loading, setLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
   const router = useRouter();
@@ -55,9 +58,33 @@ export default function SignInForm() {
       [e.target.name]: e.target.value,
     });
   }
+
+  const handleTurnstileVerify = useCallback((token: string) => {
+    setTurnstileToken(token);
+    setErrors((prev) => ({ ...prev, turnstile: undefined }));
+  }, []);
+
+  const handleTurnstileError = useCallback(() => {
+    setTurnstileToken(null);
+    setErrors((prev) => ({ ...prev, turnstile: 'Turnstile verification failed. Please try again.' }));
+  }, []);
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken(null);
+  }, []);
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+
+    // Check if Turnstile token exists
+    if (!turnstileToken) {
+      setErrors((prev) => ({ 
+        ...prev, 
+        turnstile: 'Please complete the Cloudflare Turnstile verification.' 
+      }));
+      setLoading(false);
+      return;
+    }
 
     const validatedFields = formSchema.safeParse(data);
 
@@ -69,6 +96,7 @@ export default function SignInForm() {
       const signInResponse = await signIn('credentials', {
         identifier: data.identifier,
         password: data.password,
+        turnstileToken: turnstileToken,
         redirect: false,
       });
       if (signInResponse && !signInResponse?.ok) {
@@ -138,6 +166,22 @@ export default function SignInForm() {
           Forgot password?
         </Link>
       </div>
+      <div className="mb-4">
+        <Turnstile
+          sitekey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || ''}
+          onVerify={handleTurnstileVerify}
+          onError={handleTurnstileError}
+          onExpire={handleTurnstileExpire}
+          theme="light"
+          className="mt-4"
+        />
+        {errors?.turnstile ? (
+          <div className='text-red-700 mt-2' aria-live='polite'>
+            {errors.turnstile}
+          </div>
+        ) : null}
+      </div>
+
       {errors.password || errors.identifier ? (
         <div className='text-red-700' aria-live='polite'>
           Something went wrong. Please check your data.
