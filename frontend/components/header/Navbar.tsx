@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import NavbarUser from './NavbarUser';
-import { LuSquareCheck, LuChartColumn, LuLayoutDashboard } from "react-icons/lu";
+import { LuSquareCheck, LuChartColumn, LuLayoutDashboard, LuContact } from "react-icons/lu";
 import Image from "next/image";
 import { isAdmin } from '@/lib/services/auth';
 
@@ -15,6 +15,11 @@ async function getNavItems () {
       name: "My Stats",
       icon: LuChartColumn,
       link: "/stats",
+    },
+    {
+      name: "Contact",
+      icon: LuContact,
+      link: "/contact",
     },
   ];
   const hasDashboard = await isAdmin();
@@ -44,14 +49,14 @@ export default async function NavBar() {
             height={50}
             className="object-cover object-center mx-auto"
           />
-          <h1 className="text-2xl font-bold text-primary/90">Online Course</h1>
+          <h1 className="text-xl font-bold text-primary/90">Online Course</h1>
         </Link>
-        <ul className="flex items-center gap-4">
+        <ul className="flex items-center gap-2">
           {navItems.map((item, index) => (
             <li key={index}>
               <Link
                 href={item.link}
-                className={`py-1 px-6 flex items-center gap-2 text-lg leading-none text-primary/90 rounded-lg`}
+                className={`py-1 px-2 flex items-center gap-1 text-lg leading-none text-primary/90 rounded-lg`}
               >
                 <item.icon className="size-5" />
                 <span className={`font-bold uppercase text-primary/90`} >
