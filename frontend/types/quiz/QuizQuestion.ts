@@ -1,4 +1,5 @@
 import { Category } from "@/types/dashboard/Category";
+import { Question } from "@/types/dashboard/Question";
 
 export type QuizQuestion = {
   documentId: string;
@@ -27,6 +28,7 @@ export type QuizRsult = {
 
 export type ResultType = {
   id: number;
+  documentId: string;
   createdAt: string;
   testName: string;
   score: number;
@@ -40,4 +42,13 @@ export type ResultType = {
   failedQuestions: {
     count: number;
   }
+};
+
+export type ReviseTest = {
+  id: number;
+  documentId: string;
+  createdAt: string;
+  testName: string;
+  score: number;
+  failedQuestions: Question[];
 };

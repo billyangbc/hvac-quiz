@@ -6,7 +6,7 @@ import { mutateData } from "@/lib/services/mutate-data";
 import { QuizQuestion, QuizRsult } from "@/types/quiz/QuizQuestion";
 import { Question } from "@/types/dashboard/Question";
 import { revalidatePath } from "next/cache";
-import { ResultType } from "@/types/quiz/QuizQuestion";
+import { ResultType, ReviseTest } from "@/types/quiz/QuizQuestion";
 
 //TODO: may need to replace this with db data source
 const difficultyOptions = [
@@ -238,6 +238,21 @@ export const getResults = async ():Promise<ResultType[]> => {
       }
     }
     const response = await fetchData("/api/tests", query);
+    return response?.data;
+  } catch (error) {
+    console.error("Error fetching enrollment:", error);
+    throw error;
+  }
+};
+
+export const getReviseTest = async (id: string):Promise<ReviseTest> => {
+  const currUser = await getCurrentUser();
+  try {
+    const query = {
+      fields: ["documentId", "createdAt", "testName", "score"],
+      populate: ["failedQuestions"]
+    }
+    const response = await fetchData(`/api/tests/${id}`, query);
     return response?.data;
   } catch (error) {
     console.error("Error fetching enrollment:", error);
