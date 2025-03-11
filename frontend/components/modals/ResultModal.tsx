@@ -11,7 +11,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import useModalStore from "@/hooks/useModalStore";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { saveResult } from "@/lib/actions/quiz/quiz-actions";
 import { Save } from "lucide-react";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
@@ -61,10 +61,13 @@ const ResultModal = () => {
       setIsSaving(false);
     }
   };
-  const handlePlayAgain = async () => {
+  useEffect(() => {
+    //console.log("+++++++++++++++++ changed ==>", additionalData.results);
     setIsSaving(false);
     setIsSaved(false);
     setSaveError(null);
+  }, [additionalData.results]);
+  const handlePlayAgain = async () => {
     router.push("/quiz");
     onClose();
   }
