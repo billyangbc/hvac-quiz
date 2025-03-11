@@ -23,4 +23,4 @@ export default withAuth(
   }
 )
 
-export const config = { matcher: ["/quiz/:path*", "/dashboard/:path*"] }
+export const config = { matcher: ["/quiz/:path*", "/dashboard/:path*", "/stats/:path*"] }
