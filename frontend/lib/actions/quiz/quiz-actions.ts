@@ -221,8 +221,10 @@ export const getResults = async ():Promise<ResultType[]> => {
   const currUser = await getCurrentUser();
   try {
     const query = {
-      creator: {
-        id: currUser.id
+      filters: {
+        creator: {
+          id: currUser.id
+        }
       },
       fields: ["documentId", "createdAt", "testName", "score"],
       populate: {
