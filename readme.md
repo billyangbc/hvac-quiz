@@ -54,10 +54,15 @@ SMTP_DEFAULT_FROM=
 SMTP_DEFAULT_REPLYTO=
 ```
 ### Add nodemailer plugin
+1. install nodemailer package
 ```bash
 pnpm add @strapi/provider-email-nodemailer
 ```
-Goto strapi admin panel, `settings > email plugin > configuration`, and click `Send test email`.
+1. Strapi admin panel, `settings > USER & PERMISSION PLUGIN | Advanced Settings > Enable email confirmation`, turn it on.
+2. Strapi admin panel, `settings > USER & PERMISSION PLUGIN | Roles > Athenticated > Email`, make sure `send` option is checked.
+3. Strapi admin panel, `settings > USER & PERMISSION PLUGIN | Email templates > Email address confirmation`, update information according to .env file.
+  also update `message` to include `http://localhost:3000/confirmation/submit?confirmation=<%= CODE %>` (in dev environment)
+4. Strapi admin panel, `settings > EMAIL PLUGIN | Configuration`, input data same as .env, and click `Send test email`, check test email.
 
 ### setup the Google oAuth
 Steps:
