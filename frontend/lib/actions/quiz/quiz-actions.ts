@@ -219,6 +219,9 @@ export const saveResult = async (testId: string, failedQuestions: string[], scor
 
 export const getResults = async ():Promise<ResultType[]> => {
   const currUser = await getCurrentUser();
+  if (!currUser) {
+    return [];
+  }
   try {
     const query = {
       filters: {
