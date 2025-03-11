@@ -104,7 +104,7 @@ const ReviseTest = ({ failedQuestions }: ReviseTestProps) => {
         <CardHeader className="pb-2">
           <div className="flex justify-between items-center">
             <Badge className={`${getDifficultyColor(currentQuestion.difficulty)}`}>
-              {currentQuestion.difficulty}
+              Difficulty: {currentQuestion.difficulty}
             </Badge>
             <span className="text-sm text-muted-foreground">
               ID: {currentQuestion.documentId}
