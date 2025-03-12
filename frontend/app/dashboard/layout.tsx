@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LuLayoutDashboard, LuFolderInput, LuFilePen, LuUsers } from "react-icons/lu";
+import { LuLayoutDashboard, LuFolderInput, LuFilePen, LuUsers, LuImport } from "react-icons/lu";
 
 const navItems = [
   {
@@ -16,6 +16,11 @@ const navItems = [
     name: "Enrollments",
     href: "/dashboard/enrollment",
     icon: LuUsers,
+  },
+  {
+    name: "Import",
+    href: "/dashboard/import",
+    icon: LuImport,
   }
 ];
 export default function DashboardLayout({
