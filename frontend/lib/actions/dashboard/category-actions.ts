@@ -42,6 +42,20 @@ export async function getCategory(documentId: string) {
   return null;
 }
 
+export async function getCategoryBySlug(slug: string) {
+  if (slug) {
+    const query = {
+      filters: {
+        slug: { $eq: slug },
+      }
+    }
+    const response = await fetchData("/api/categories", query);
+    return response?.data;
+  }
+
+  return [];
+}
+
 export async function createCategoryFromForm(
   prevState: any,
   formData: FormData
