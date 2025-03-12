@@ -43,13 +43,13 @@ const prepareBarChartData = (results: ResultType[]) => {
     }
     
     // Add category score to this time point
-    const categoryKey = result.category.categoryName;
+    const categoryKey = result?.category?.categoryName ?? 'No Category';
     acc[timeKey].categories[categoryKey] = {
       score: result.score,
       percentage: result.questions.count > 0 
         ? Math.round((result.score / result.questions.count) * 100) 
         : 0,
-      slug: result.category.slug
+      slug: result?.category?.slug
     };
     
     return acc;
@@ -164,8 +164,8 @@ const TestStatusBar = ({ testResult, className = "" }: TestStatusBarProps) => {
               />
               <Legend />
               
-              {Array.from(new Set(testResult.map(r => r.category.categoryName))).map((category) => {
-                const categorySlug = testResult.find(r => r.category.categoryName === category)?.category.slug || '';
+              {Array.from(new Set(testResult.map(r => r.category?.categoryName ?? 'No Category'))).map((category) => {
+                const categorySlug = testResult.find(r => (r?.category?.categoryName ?? 'No Category') === category)?.category?.slug || '';
                 return (
                   <Bar
                     key={category}

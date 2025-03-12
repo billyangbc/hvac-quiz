@@ -63,9 +63,9 @@ const TestStatusCard = ({result}: {result: ResultType}) => {
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-2">
-            {getCategoryIcon(result.category.slug)}
+            {getCategoryIcon(result.category?.slug)}
             <CardTitle className="text-lg font-medium">
-              {result.category.categoryName}
+              {result.category?.categoryName ?? 'No Category'}
             </CardTitle>
           </div>
           <Badge 
