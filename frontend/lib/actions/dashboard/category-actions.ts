@@ -5,6 +5,12 @@ import { mutateData } from "@/lib/services/mutate-data";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 
+export interface CategoryMutateType {
+  categoryName: string;
+  description: string;
+  slug?: string;
+}
+
 export async function getCategories(params?: {
   page?: number;
   pageSize?: number;
@@ -36,19 +42,32 @@ export async function getCategory(documentId: string) {
   return null;
 }
 
-export async function createCategory(
+export async function createCategoryFromForm(
   prevState: any,
   formData: FormData
 ) {
   const rawFormData = Object.fromEntries(formData);
 
   // request payload data
+  const data = {
+    categoryName: rawFormData.categoryName as string,
+    description: rawFormData.description as string,
+    slug: await slugify(rawFormData.categoryName as string),
+  };
+
+  const result = await createCategory(data);
+
+  revalidatePath("/dashboard/category");
+  return {
+    ...prevState,
+    ...result
+  }
+}
+
+export async function createCategory(data: CategoryMutateType) {
+  // request payload data
   const payload = {
-    data: {
-      categoryName: rawFormData.categoryName,
-      description: rawFormData.description,
-      slug: await slugify(rawFormData.categoryName as string),
-    }
+    data: data
   };
 
   const response = await mutateData(
@@ -59,7 +78,6 @@ export async function createCategory(
 
   if (!response) {
     return {
-      ...prevState,
       message: "Ops! Something went wrong. Please try again.",
       data: null,
       apiErrors: null,
@@ -68,35 +86,43 @@ export async function createCategory(
 
   if (response.error) {
     return {
-      ...prevState,
       message: "Category Creation Failed",
       data: payload.data,
       apiErrors: response.error,
     };
   }
 
-  revalidatePath("/dashboard/category");
-
   return {
-    ...prevState,
     message: "Category Created",
     data: response.data,
     apiErrors: null,
   };
 }
 
-export async function updateCategory(
+export async function updateCategoryFromForm(
   prevState: any,
   formData: FormData
 ) {
   const rawFormData = Object.fromEntries(formData);
   const categoryId = rawFormData.id as string;
 
+  const data = {
+    categoryName: rawFormData.categoryName as string,
+    description: rawFormData.description as string
+  };
+
+  const result = updateCategory(categoryId, data);
+
+  revalidatePath("/dashboard/category");
+  return {
+    ...prevState,
+    ...result
+  }
+}
+
+export async function updateCategory(categoryId: string, data: CategoryMutateType) {
   const payload = {
-    data: {
-      categoryName: rawFormData.categoryName,
-      description: rawFormData.description
-    }
+    data: data
   };
 
   const response = await mutateData(
@@ -107,7 +133,6 @@ export async function updateCategory(
 
   if (!response) {
     return {
-      ...prevState,
       message: "Ops! Something went wrong. Please try again.",
       data: null,
       apiErrors: null,
@@ -116,7 +141,6 @@ export async function updateCategory(
 
   if (response.error) {
     return {
-      ...prevState,
       message: "Category Update Failed",
       data: payload.data,
       apiErrors: response.error,
@@ -126,7 +150,6 @@ export async function updateCategory(
   revalidatePath("/dashboard/category");
 
   return {
-    ...prevState,
     message: "Category Updated",
     data: response.data,
     apiErrors: null,
