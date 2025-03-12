@@ -5,7 +5,7 @@ import { useActionState } from "react";
 import useModalStore from "@/hooks/useModalStore";
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
-import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 import { Card } from "@/components/ui/card";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
 import { createEnrollment, updateEnrollment, getLearners, connect } from "@/lib/actions/dashboard/enrollment-actions";
@@ -185,18 +185,20 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
               {filteredCategories.length > 0 ? (
                 <ul className="space-y-2">
                   {filteredCategories.map((category) => (
-                    <li key={category.documentId} className="flex items-center space-x-3">
-                      <Checkbox
-                        id={`category-${category.documentId}`}
-                        checked={enrollment?.categories.some(c => c.documentId === category.documentId)}
-                        onCheckedChange={(checked) => handleConnect(category.documentId, !!checked, 'categories')}
-                      />
-                      <label
-                        htmlFor={`category-${category.documentId}`}
-                        className="text-sm cursor-pointer"
-                      >
-                        {category.categoryName}
-                      </label>
+                    <li key={category.documentId}>
+                      <div className="flex items-center justify-between w-full">
+                        <label
+                          htmlFor={`category-${category.documentId}`}
+                          className="text-sm cursor-pointer"
+                        >
+                          {category.categoryName}
+                        </label>
+                        <Switch
+                          id={`category-${category.documentId}`}
+                          checked={enrollment?.categories.some(c => c.documentId === category.documentId)}
+                          onCheckedChange={(checked) => handleConnect(category.documentId, !!checked, 'categories')}
+                        />
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -230,18 +232,20 @@ export const EnrollmentForm = ({ enrollment, onSuccess }: EnrollmentFormProps) =
               {filteredLearners.length > 0 ? (
                 <ul className="space-y-2">
                   {filteredLearners.map((learner) => (
-                    <li key={learner.documentId} className="flex items-center space-x-3">
-                      <Checkbox
-                        id={`learner-${learner.documentId}`}
-                        checked={enrollment?.learners.some(l => l.documentId === learner.documentId)}
-                        onCheckedChange={(checked) => handleConnect(learner.documentId, !!checked, 'learners')}
-                      />
-                      <label
-                        htmlFor={`learner-${learner.documentId}`}
-                        className="text-sm cursor-pointer"
-                      >
-                        {learner.username}
-                      </label>
+                    <li key={learner.documentId}>
+                      <div className="flex items-center justify-between w-full">
+                        <label
+                          htmlFor={`learner-${learner.documentId}`}
+                          className="text-sm cursor-pointer"
+                        >
+                          {learner.username}
+                        </label>
+                        <Switch
+                          id={`learner-${learner.documentId}`}
+                          checked={enrollment?.learners.some(l => l.documentId === learner.documentId)}
+                          onCheckedChange={(checked) => handleConnect(learner.documentId, !!checked, 'learners')}
+                        />
+                      </div>
                     </li>
                   ))}
                 </ul>
