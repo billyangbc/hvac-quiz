@@ -7,6 +7,124 @@ import fetchData from "@/lib/services/fetch-data";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { getCurrentUser } from "@/lib/services/auth";
+import { getCategoryBySlug, createCategory } from "./category-actions";
+import { createQuestion, QuestionMutateType } from "./question-actions";
+
+// CSV Record interface
+interface CSVRecord {
+  "No#"?: string;
+  Category: string;
+  Content: string;
+  "Option A": string;
+  "Option B": string;
+  "Option C": string;
+  "Option D": string;
+  "Option E"?: string;
+  CorrectAnswer: string;
+  Explanation?: string;
+}
+
+/**
+ * Parse CSV content into an array of records
+ * @param csvContent CSV content as string
+ * @returns Array of parsed records
+ */
+function parseCSV(csvContent: string): CSVRecord[] {
+  // Split by lines and remove empty lines
+  const lines = csvContent.split('\n').filter(line => line.trim());
+  
+  // Find the header line (the one with Category, Content, etc.)
+  const headerIndex = lines.findIndex(line => 
+    line.includes('Category') && line.includes('Content') && line.includes('CorrectAnswer')
+  );
+  
+  if (headerIndex === -1) {
+    throw new Error('CSV header not found');
+  }
+  
+  // Parse header
+  const headers = lines[headerIndex].split(',').map(h => h.trim());
+  
+  // Parse data rows (skip header)
+  const records: CSVRecord[] = [];
+  for (let i = headerIndex + 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim() || line.startsWith('Core section') || line.startsWith('Type')) {
+      continue; // Skip section headers or empty lines
+    }
+    
+    // Split the line by commas, but handle quoted values
+    const values: string[] = [];
+    let currentValue = '';
+    let inQuotes = false;
+    
+    for (let j = 0; j < line.length; j++) {
+      const char = line[j];
+      
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        values.push(currentValue.trim());
+        currentValue = '';
+      } else {
+        currentValue += char;
+      }
+    }
+    
+    // Add the last value
+    values.push(currentValue.trim());
+    
+    // Create record object
+    const record: any = {};
+    headers.forEach((header, index) => {
+      if (index < values.length) {
+        record[header] = values[index];
+      }
+    });
+    
+    records.push(record as CSVRecord);
+  }
+  
+  return records;
+}
+
+/**
+ * Convert CSV record to question object
+ * @param record CSV record
+ * @param categoryId Category ID
+ * @returns Question object
+ */
+function convertRecordToQuestion(record: CSVRecord, categoryId: string): QuestionMutateType {
+  // Get correct answer index (a=0, b=1, c=2, d=3)
+  const correctChar = record.CorrectAnswer.toLowerCase();
+  const correctIndex = correctChar.charCodeAt(0) - 97; // a=0, b=1...
+  
+  // Get options
+  const options = [
+    record["Option A"]?.trim(),
+    record["Option B"]?.trim(),
+    record["Option C"]?.trim(),
+    record["Option D"]?.trim()
+  ].filter(Boolean);
+  
+  // Get correct answer
+  const correctAnswer = options[correctIndex];
+  
+  // Get incorrect answers (filter out the correct one)
+  const incorrectAnswers = options.filter((_, i) => i !== correctIndex);
+  
+  // Create question object
+  return {
+    category: categoryId,
+    content: record.Content,
+    correctAnswer: correctAnswer,
+    incorrect_1: incorrectAnswers[0] || '',
+    incorrect_2: incorrectAnswers[1] || '',
+    incorrect_3: incorrectAnswers[2] || '',
+    explanation: record.Explanation || '',
+    difficulty: 'medium' // Default difficulty
+  };
+}
 
 // Define the response type
 interface UploadResponse {
@@ -188,7 +306,7 @@ export async function importData(uploadedData: S3UploadData) {
     // Get the file from S3
     const command = new GetObjectCommand(params);
     const response = await s3Client.send(command);
-    
+
     // Convert the stream to a string
     const streamToString = async (stream: any): Promise<string> => {
       const chunks: Buffer[] = [];
@@ -201,13 +319,98 @@ export async function importData(uploadedData: S3UploadData) {
 
     // Get the file content
     const fileContent = await streamToString(response.Body);
-    
-    //TODO: parse file concont convert to required data
-    //...
 
-    // Output the content to console
-    console.log("Imported file content:", fileContent.substring(0, 500) + "...");
+    // Parse CSV content
+    const parsedData = parseCSV(fileContent);
     
+    // Process each record
+    const importResults = {
+      total: parsedData.length,
+      success: 0,
+      failures: [] as Array<{
+        rowNumber: number;
+        errorType: string;
+        message: string;
+      }>
+    };
+
+    // Process each record
+    for (let i = 0; i < parsedData.length; i++) {
+      const record = parsedData[i];
+      try {
+        // Skip invalid records
+        if (!record.Category || !record.Content || !record["Option A"] || !record["Option B"] || !record["Option C"] || !record.CorrectAnswer) {
+          importResults.failures.push({
+            rowNumber: i + 1,
+            errorType: 'DATA_VALIDATION',
+            message: 'Missing required fields (Category or Content or no option)'
+          });
+          continue;
+        }
+
+        // Extract category and get or create it
+        const categorySlug = await slugify(record.Category);
+        let categoryData = await getCategoryBySlug(categorySlug);
+        
+        // If category doesn't exist, create it
+        if (!categoryData || categoryData.length === 0) {
+          const categoryResult = await createCategory({
+            categoryName: record.Category,
+            description: `Automatically created category for ${record.Category}`,
+            slug: categorySlug
+          });
+          
+          if (!categoryResult.data) {
+            importResults.failures.push({
+              rowNumber: i + 1,
+              errorType: 'CATEGORY_CREATION_FAILED',
+              message: categoryResult.message || 'Failed to create category'
+            });
+            continue;
+          }
+          
+          categoryData = [categoryResult.data];
+        }
+        
+        // Get category ID
+        const categoryId = categoryData[0]?.id;
+        if (!categoryId) {
+          importResults.failures.push({
+            rowNumber: i + 1,
+            errorType: 'CATEGORY_NOT_FOUND',
+            message: 'Category ID not found'
+          });
+          continue;
+        }
+        
+        // Convert record to question object
+        const questionData = convertRecordToQuestion(record, categoryId);
+        
+        // Create question
+        const questionResult = await createQuestion(questionData);
+        
+        if (questionResult.apiErrors) {
+          importResults.failures.push({
+            rowNumber: i + 1,
+            errorType: 'QUESTION_CREATION_FAILED',
+            message: questionResult.message || 'Failed to create question'
+          });
+          continue;
+        }
+        
+        // Increment success count
+        importResults.success++;
+      } catch (error) {
+        importResults.failures.push({
+          rowNumber: i + 1,
+          errorType: 'PROCESSING_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error'
+        });
+      }
+    }
+
+    console.log("Import results:", JSON.stringify(importResults, null, 2));
+
     // Update the imported status in the database
     const updateResult = await updateImportStatus(uploadedData.id);
     
@@ -216,7 +419,8 @@ export async function importData(uploadedData: S3UploadData) {
 
     return {
       success: true,
-      message: "File imported successfully",
+      message: `File imported successfully. ${importResults.success} of ${importResults.total} records imported.`,
+      importResults
     };
   } catch (error) {
     console.error("Error importing file from S3:", error);
