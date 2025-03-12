@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { StrapiErrors } from "@/components/custom/StrapiErrors";
-import { createQuestion, updateQuestion, getQuestion } from "@/lib/actions/dashboard/question-actions";
+import { createQuestionFromForm, updateQuestionFromForm, getQuestion } from "@/lib/actions/dashboard/question-actions";
 import { getCategories } from "@/lib/actions/dashboard/category-actions";
 
 interface Category {
@@ -41,7 +41,7 @@ const difficultyOptions = [
 
 export const QuestionForm = ({ mode = 'create', questionId, onSuccess }: QuestionFormProps) => {
   const [state, action, isPending] = useActionState(
-    mode === 'create' ? createQuestion : updateQuestion, 
+    mode === 'create' ? createQuestionFromForm : updateQuestionFromForm, 
     null
   );
   
