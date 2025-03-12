@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { uploadFileToS3 } from "@/lib/actions/dashboard/import-actions";
 import { LuImport, LuCheck, LuX, LuFilePen, LuExternalLink } from "react-icons/lu";
+import { UploadedData } from "./UploadedData";
 
 export const ImportData = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -16,6 +17,14 @@ export const ImportData = () => {
     message: string;
     objectKey?: string;
     url?: string;
+    uploadedData?: {
+      id?: string;
+      bucketName: string;
+      fileKey: string;
+      serverType?: string;
+      serverUrl?: string;
+      imported?: boolean;
+    };
   } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -77,6 +86,7 @@ export const ImportData = () => {
   };
 
   return (
+    <>
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader>
         <CardTitle className="text-xl font-semibold flex items-center gap-2">
@@ -164,7 +174,7 @@ export const ImportData = () => {
             </div>
             <AlertDescription className="mt-2">
               {uploadResult.message}
-              
+              {/*
               {uploadResult.success && uploadResult.url && (
                 <div className="mt-2 flex items-center gap-2 text-sm">
                   <LuExternalLink className="h-4 w-4" />
@@ -178,6 +188,7 @@ export const ImportData = () => {
                   </a>
                 </div>
               )}
+              */}
             </AlertDescription>
           </Alert>
         )}
@@ -192,5 +203,9 @@ export const ImportData = () => {
         </Button>
       </CardFooter>
     </Card>
+    {uploadResult?.success && uploadResult.uploadedData && (
+      <UploadedData uploadedData={uploadResult.uploadedData} />
+    )}
+    </>
   );
 };
