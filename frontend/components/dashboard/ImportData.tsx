@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { uploadFileToS3 } from "@/lib/actions/dashboard/import-actions";
 import { LuImport, LuCheck, LuX, LuFilePen, LuExternalLink } from "react-icons/lu";
 import { UploadedData } from "./UploadedData";
+import { DownloadCsvTemplate } from "./DownloadCsvTemplate";
 
 export const ImportData = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -96,6 +97,7 @@ export const ImportData = () => {
         <CardDescription>
           Upload CSV files to import data into the system
         </CardDescription>
+        <DownloadCsvTemplate />
       </CardHeader>
       <CardContent>
         <div
