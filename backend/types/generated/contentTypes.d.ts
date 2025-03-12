@@ -485,6 +485,47 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiS3UploadS3Upload extends Struct.CollectionTypeSchema {
+  collectionName: 's3_uploads';
+  info: {
+    description: '';
+    displayName: 'S3Upload';
+    pluralName: 's3-uploads';
+    singularName: 's3-upload';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bucketName: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    fileKey: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    imported: Schema.Attribute.Boolean;
+    importedAt: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::s3-upload.s3-upload'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    serverType: Schema.Attribute.Enumeration<['s3', 'minio']> &
+      Schema.Attribute.DefaultTo<'s3'>;
+    serverUrl: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    uploader: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiTestTest extends Struct.CollectionTypeSchema {
   collectionName: 'tests';
   info: {
@@ -1039,6 +1080,7 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::enrollment.enrollment': ApiEnrollmentEnrollment;
       'api::question.question': ApiQuestionQuestion;
+      'api::s3-upload.s3-upload': ApiS3UploadS3Upload;
       'api::test.test': ApiTestTest;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

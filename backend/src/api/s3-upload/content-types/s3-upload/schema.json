@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "s3_uploads",
+  "info": {
+    "singularName": "s3-upload",
+    "pluralName": "s3-uploads",
+    "displayName": "S3Upload",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "bucketName": {
+      "type": "string",
+      "required": true
+    },
+    "fileKey": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "serverType": {
+      "type": "enumeration",
+      "enum": [
+        "s3",
+        "minio"
+      ],
+      "default": "s3"
+    },
+    "serverUrl": {
+      "type": "string"
+    },
+    "imported": {
+      "type": "boolean"
+    },
+    "uploader": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "importedAt": {
+      "type": "string"
+    }
+  }
+}
