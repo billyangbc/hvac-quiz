@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import resetPasswordAction from '@/lib/actions/auth/reset-password-action';
 import Link from 'next/link';
 import PendingSubmitButton from '@/components/auth/PendingSubmitButton';
@@ -14,7 +14,7 @@ export default function ResetPassword({ code }: Props) {
     error: false,
     code: code || '',
   };
-  const [state, formAction] = useFormState<ResetPasswordFormStateT, FormData>(
+  const [state, formAction, isPending] = useActionState<ResetPasswordFormStateT, FormData>(
     resetPasswordAction,
     initialState
   );
@@ -80,7 +80,7 @@ export default function ResetPassword({ code }: Props) {
           ) : null}
         </div>
         <div className='mb-3'>
-          <PendingSubmitButton />
+          <PendingSubmitButton isPending={isPending} />
         </div>
         {state.error && state.message ? (
           <div className='text-red-700' aria-live='polite'>

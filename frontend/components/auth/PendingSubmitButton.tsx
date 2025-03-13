@@ -1,7 +1,13 @@
 import { useFormStatus } from 'react-dom';
 
-export default function PendingSubmitButton() {
-  const { pending } = useFormStatus();
+type PendingSubmitButtonProps = {
+  isPending?: boolean;
+};
+
+export default function PendingSubmitButton({ isPending }: PendingSubmitButtonProps = {}) {
+  // If isPending is provided, use it; otherwise, fall back to useFormStatus
+  const { pending: formStatusPending } = useFormStatus();
+  const pending = isPending !== undefined ? isPending : formStatusPending;
   return (
     <button
       type='submit'
