@@ -28,7 +28,7 @@ export default async function fetchData(
   }
   try {
     const strapiResponse = await fetch(url.href, fetchOptions);
-    if (strapiResponse.ok) {
+    if (strapiResponse.status === 200 && strapiResponse.ok) {
       // success
       const successData = await strapiResponse.json();
       return successData;
