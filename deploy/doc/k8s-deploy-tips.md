@@ -13,3 +13,5 @@ reset password email
 ## create k8s deploy files 
 
 ## add hostname frontend/backend on cloudflare tunnel
+
+## when apply a new release: kubectl rollout restart deploy/<deploy_name> -n <ns>
