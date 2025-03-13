@@ -52,6 +52,9 @@ export const getQuestions = async (category: string, difficulty: string, limit: 
       category: {
         fields: ["documentId", "categoryName", "slug"]
       }
+    },
+    pagination: {
+      pageSize: parseInt(limit, 10)
     }
   }
   const response = await fetchData("/api/questions", query);
