@@ -201,7 +201,7 @@ export const ImportData = () => {
           disabled={!file || isUploading}
           className="bg-blue-600 hover:bg-blue-700 text-white"
         >
-          {isUploading ? "Uploading..." : "Upload to S3"}
+          {isUploading ? "Uploading..." : "Upload"}
         </Button>
       </CardFooter>
     </Card>
