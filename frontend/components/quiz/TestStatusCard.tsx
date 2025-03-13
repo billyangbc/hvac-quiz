@@ -130,7 +130,7 @@ const TestStatusCard = ({result}: {result: ResultType}) => {
       <CardFooter className="pt-2 pb-4">
         <Link href={`/quiz/revise/${result.documentId}`} className="w-full">
           <Button variant="outline" className="w-full flex justify-between items-center">
-            <span>View Details</span>
+            <span>Review Failed Questions</span>
             <ChevronRight className="h-4 w-4" />
           </Button>
         </Link>
