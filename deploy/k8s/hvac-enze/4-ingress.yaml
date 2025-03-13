@@ -1,0 +1,30 @@
+---
+# ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-hvac-enze
+  namespace:  hvac-enze
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: enze.hvacprobooster.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: quiz # service name
+            port:
+              number: 3000
+  - host: enzemgr.hvacprobooster.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: strapi # service name
+            port:
+              number: 1337

@@ -1,0 +1,148 @@
+---
+# quiz frontend service
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz
+  namespace: hvac-enze
+spec:
+  ports:
+    - name: "frontend"
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: quiz-frontend
+
+---
+# quiz frontend deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-frontend-deploy
+  namespace: hvac-enze
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quiz-frontend
+  template:
+    metadata:
+      labels:
+        app: quiz-frontend
+    spec:
+      imagePullSecrets:
+        - name: my-registry-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: arch
+                  operator: In
+                  values:
+                    - arm64
+      containers:
+        - image: registry.idealz.io/quiz:app-latest
+          imagePullPolicy: Always
+          name: quiz-app
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: GOOGLE_CLIENT_ID
+                  name: env
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: GOOGLE_CLIENT_SECRET
+                  name: env
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: NEXTAUTH_SECRET
+                  name: env
+            - name: NEXTAUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: NEXTAUTH_URL
+                  name: env
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  key: NODE_ENV
+                  name: env
+            - name: STRAPI_BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: STRAPI_BACKEND_URL
+                  name: env
+            - name: STRAPI_API_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  key: STRAPI_API_TOKEN
+                  name: env
+            - name: ADMIN_ROLE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: ADMIN_ROLE_NAME
+                  name: env
+            - name: CLOUDFLARE_TURNSTILE
+              valueFrom:
+                configMapKeyRef:
+                  key: CLOUDFLARE_TURNSTILE
+                  name: env
+            - name: NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY
+                  name: env
+            - name: CLOUDFLARE_TURNSTILE_SECRET_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: CLOUDFLARE_TURNSTILE_SECRET_KEY
+                  name: env
+            - name: BREVO_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: BREVO_API_KEY
+                  name: env
+            - name: EMAIL_FROM
+              valueFrom:
+                configMapKeyRef:
+                  key: EMAIL_FROM
+                  name: env
+            - name: EMAIL_CONTACT
+              valueFrom:
+                configMapKeyRef:
+                  key: EMAIL_CONTACT
+                  name: env
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  key: AWS_REGION
+                  name: env
+            - name: AWS_ACCESS_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: AWS_ACCESS_ID
+                  name: env
+            - name: AWS_SECRET_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: AWS_SECRET_ID
+                  name: env
+            - name: AWS_BUCKET_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: AWS_BUCKET_NAME
+                  name: env
+            - name: AWS_UPLOAD_FOLDER
+              valueFrom:
+                configMapKeyRef:
+                  key: AWS_UPLOAD_FOLDER
+                  name: env
+      restartPolicy: Always

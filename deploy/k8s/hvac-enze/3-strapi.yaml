@@ -1,0 +1,168 @@
+---
+# strapi service
+apiVersion: v1
+kind: Service
+metadata:
+  name: strapi
+  namespace: hvac-enze
+spec:
+  ports:
+    - name: "backend"
+      port: 1337
+      targetPort: 1337
+  selector:
+    app: quiz-backend
+
+---
+# strapi deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-backend-deploy
+  namespace: hvac-enze
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quiz-backend
+  template:
+    metadata:
+      labels:
+        app: quiz-backend
+    spec:
+      imagePullSecrets:
+        - name: my-registry-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: arch
+                  operator: In
+                  values:
+                    - arm64
+      containers:
+        - image: registry.idealz.io/quiz:strapi-latest
+          imagePullPolicy: Always
+          name: quiz-strapi
+          ports:
+            - containerPort: 1337
+              protocol: TCP
+#          args:
+#            - npx
+#            - strapi
+#            - develop
+          env:
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  key: NODE_ENV
+                  name: env
+            - name: HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: HOST
+                  name: env
+            - name: APP_KEYS
+              valueFrom:
+                configMapKeyRef:
+                  key: APP_KEYS
+                  name: env
+            - name: API_TOKEN_SALT
+              valueFrom:
+                configMapKeyRef:
+                  key: API_TOKEN_SALT
+                  name: env
+            - name: ADMIN_JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: ADMIN_JWT_SECRET
+                  name: env
+            - name: TRANSFER_TOKEN_SALT
+              valueFrom:
+                configMapKeyRef:
+                  key: TRANSFER_TOKEN_SALT
+                  name: env
+
+            - name: DATABASE_CLIENT
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_CLIENT
+                  name: env
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_PORT
+                  name: env
+            - name: DATABASE_FILENAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_FILENAME
+                  name: env
+            - name: DATABASE_SSL
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_SSL
+                  name: env
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_HOST
+                  name: env
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_NAME
+                  name: env
+            - name: DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_USERNAME
+                  name: env
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_PASSWORD
+                  name: env
+            - name: DATABASE_SSL_SELF
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_SSL_SELF
+                  name: env
+            - name: JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: JWT_SECRET
+                  name: env
+
+            - name: SMTP_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: SMTP_HOST
+                  name: env
+            - name: SMTP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: SMTP_PORT
+                  name: env
+            - name: SMTP_PASS
+              valueFrom:
+                configMapKeyRef:
+                  key: SMTP_PASS
+                  name: env
+            - name: SMTP_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: SMTP_USER
+                  name: env
+            - name: SMTP_DEFAULT_FROM
+              valueFrom:
+                configMapKeyRef:
+                  key: SMTP_DEFAULT_FROM
+                  name: env
+            - name: SMTP_DEFAULT_REPLYTO
+              valueFrom:
+                configMapKeyRef:
+                  key: SMTP_DEFAULT_REPLYTO
+                  name: env
+      restartPolicy: Always
