@@ -5,14 +5,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Loader2, MessageCircle, Send, AlertCircle, CheckCircle2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Turnstile from "react-turnstile";
+import { isTurnstileEnabled } from "@/lib/services/turnstile";
 
 export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [success, setSuccess] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string>("");
+  const [turnstileEnabled, setTurnstileEnabled] = useState(true);
+  
+  useEffect(() => {
+    // Check if Turnstile is enabled on the client side
+    const checkTurnstileEnabled = async () => {
+      // Access the environment variable through Next.js public runtime config
+      const enabled = await isTurnstileEnabled();
+      setTurnstileEnabled(enabled);
+      
+      // If Turnstile is disabled, set a dummy token to allow form submission
+      if (!enabled) {
+        setTurnstileToken("turnstile-disabled");
+      }
+    };
+    
+    checkTurnstileEnabled();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -160,17 +178,19 @@ export default function Contact() {
             </div>
 
             <div className="space-y-4 pt-2">
-              <div className="w-full flex justify-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-100 dark:border-gray-800">
-                <Turnstile
-                  sitekey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY!}
-                  onVerify={(token: string) => setTurnstileToken(token)}
-                  theme="light"
-                  className="w-full flex justify-center"
-                />
-              </div>
+              {turnstileEnabled && (
+                <div className="w-full flex justify-center bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-100 dark:border-gray-800">
+                  <Turnstile
+                    sitekey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY!}
+                    onVerify={(token: string) => setTurnstileToken(token)}
+                    theme="light"
+                    className="w-full flex justify-center"
+                  />
+                </div>
+              )}
 
               <div className="flex justify-between items-center pt-2">
-                {!turnstileToken && (
+                {turnstileEnabled && !turnstileToken && (
                   <p className="text-sm text-amber-600 dark:text-amber-400">
                     <AlertCircle className="h-4 w-4 inline mr-1" />
                     Please complete the security check
@@ -180,7 +200,7 @@ export default function Contact() {
                   <Button
                     variant="default"
                     type="submit"
-                    disabled={loading || !turnstileToken}
+                    disabled={loading || (turnstileEnabled && !turnstileToken)}
                     className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium py-2 px-6 rounded-md transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-70"
                   >
                     {loading ? (

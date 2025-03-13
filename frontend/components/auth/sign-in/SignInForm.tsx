@@ -3,9 +3,10 @@
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { z } from 'zod';
 import Turnstile from 'react-turnstile';
+import { isTurnstileEnabled } from '@/lib/services/turnstile';
 
 type FormErrorsT = {
   identifier?: undefined | string[];
@@ -44,9 +45,26 @@ export default function SignInForm() {
   const [errors, setErrors] = useState<FormErrorsT>({});
   const [loading, setLoading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileEnabled, setTurnstileEnabled] = useState(true);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
   const router = useRouter();
+  
+  useEffect(() => {
+    // Check if Turnstile is enabled on the client side
+    const checkTurnstileEnabled = async () => {
+      // Access the environment variable through Next.js public runtime config
+      const enabled = await isTurnstileEnabled();
+      setTurnstileEnabled(enabled);
+      
+      // If Turnstile is disabled, set a dummy token to allow form submission
+      if (!enabled) {
+        setTurnstileToken("turnstile-disabled");
+      }
+    };
+    
+    checkTurnstileEnabled();
+  }, []);
 
   // listen for unconfirmed email
   const hasConfirmationError =
@@ -76,8 +94,8 @@ export default function SignInForm() {
     e.preventDefault();
     setLoading(true);
 
-    // Check if Turnstile token exists
-    if (!turnstileToken) {
+    // Check if Turnstile token exists (only if Turnstile is enabled)
+    if (turnstileEnabled && !turnstileToken) {
       setErrors((prev) => ({ 
         ...prev, 
         turnstile: 'Please complete the Cloudflare Turnstile verification.' 
@@ -166,21 +184,23 @@ export default function SignInForm() {
           Forgot password?
         </Link>
       </div>
-      <div className="mb-4">
-        <Turnstile
-          sitekey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || ''}
-          onVerify={handleTurnstileVerify}
-          onError={handleTurnstileError}
-          onExpire={handleTurnstileExpire}
-          theme="light"
-          className="mt-4"
-        />
-        {errors?.turnstile ? (
-          <div className='text-red-700 mt-2' aria-live='polite'>
-            {errors.turnstile}
-          </div>
-        ) : null}
-      </div>
+      {turnstileEnabled && (
+        <div className="mb-4">
+          <Turnstile
+            sitekey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || ''}
+            onVerify={handleTurnstileVerify}
+            onError={handleTurnstileError}
+            onExpire={handleTurnstileExpire}
+            theme="light"
+            className="mt-4"
+          />
+          {errors?.turnstile ? (
+            <div className='text-red-700 mt-2' aria-live='polite'>
+              {errors.turnstile}
+            </div>
+          ) : null}
+        </div>
+      )}
 
       {errors.password || errors.identifier ? (
         <div className='text-red-700' aria-live='polite'>
