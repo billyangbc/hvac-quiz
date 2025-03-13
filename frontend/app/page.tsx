@@ -31,7 +31,7 @@ export default async function Home() {
             title="Comprehensive Learning Platform"
             description="Access a complete suite of HVAC courses, resources, and interactive simulations designed for students at all levels."
             icon={BookOpen}
-            imageSrc="/screenshots/1-setting.png"
+            imageSrc="/screenshots/features/1-setting.png"
             imageAlt="HVAC Learning Platform"
           />
 
@@ -40,7 +40,7 @@ export default async function Home() {
             title="Realistic Simulation Exams"
             description="Practice with simulation exams that mirror real-world HVAC system operations and certification tests."
             icon={ClipboardCheck}
-            imageSrc="/screenshots/2-test.png"
+            imageSrc="/screenshots/features/2-test.png"
             imageAlt="HVAC Simulation Exam"
           />
 
@@ -49,7 +49,7 @@ export default async function Home() {
             title="Detailed Results Analysis"
             description="Receive comprehensive feedback on your performance, identifying strengths and areas for improvement."
             icon={ArrowRightLeft}
-            imageSrc="/screenshots/4-test-summary.png"
+            imageSrc="/screenshots/features/4-test-summary.png"
             imageAlt="HVAC Test Results Analysis"
           />
 
@@ -58,7 +58,7 @@ export default async function Home() {
             title="Performance Statistics"
             description="Track your progress over time with visual statistics and performance metrics to accelerate your learning."
             icon={BarChart}
-            imageSrc="/screenshots/5-stats.png"
+            imageSrc="/screenshots/features/5-stats.png"
             imageAlt="HVAC Performance Statistics"
           />
 
@@ -67,7 +67,7 @@ export default async function Home() {
             title="Error Analysis & Revision"
             description="Review your mistakes with detailed explanations and targeted revision materials to strengthen your understanding of challenging concepts."
             icon={Cpu}
-            imageSrc="/screenshots/6-revise.png"
+            imageSrc="/screenshots/features/6-revise.png"
             imageAlt="HVAC Error Analysis and Revision"
             className="md:col-span-2 lg:col-span-1"
           />
