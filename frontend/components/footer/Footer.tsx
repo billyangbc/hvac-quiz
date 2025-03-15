@@ -18,7 +18,7 @@ export default function Footer() {
           <div>{` • `}</div>
           <div>{`© ${new Date().getFullYear()}`}</div>
           <div>{` • `} Powered by {` `}</div>
-          <Link href="hvacprobooster.com">hvacprobooster.com</Link>
+          <Link href="https://www.hvacprobooster.com">hvacprobooster.com</Link>
         </div>
         <div className="mb-8 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
           <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
