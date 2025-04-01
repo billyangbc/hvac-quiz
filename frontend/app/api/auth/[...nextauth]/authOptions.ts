@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
           }
         }
         
-        console.log('user and password authorize =>', credentials);
+        console.log('auth authorize url =>', `${process.env.STRAPI_BACKEND_URL}/api/auth/local`);
         try {
           const strapiResponse = await fetch(
             `${process.env.STRAPI_BACKEND_URL}/api/auth/local`,
@@ -79,6 +79,7 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error) {
           // Catch errors in try but also f.e. connection fails
+          console.log("user login error ==> ", error);
           throw error;
         }
       },
