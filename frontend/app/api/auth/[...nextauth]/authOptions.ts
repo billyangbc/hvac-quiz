@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
           }
         }
         
-        console.log('auth authorize url =>', `${process.env.STRAPI_BACKEND_URL}/api/auth/local`);
+//        console.log('auth authorize url =>', `${process.env.STRAPI_BACKEND_URL}/api/auth/local`);
         try {
           const strapiResponse = await fetch(
             `${process.env.STRAPI_BACKEND_URL}/api/auth/local`,
@@ -102,7 +102,6 @@ export const authOptions: NextAuthOptions = {
       user.roleName = userRole;
       return true;
     },
-
     async jwt({ token, trigger, account, user, session }) {
 //      console.log('jwt callback', {
 //        token,
