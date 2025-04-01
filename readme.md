@@ -107,3 +107,12 @@ pnpm export
 ```sh
 pnpm seed
 ```
+
+------
+## trouble shooting
+
+1. *issue:* NextAuth Middleware don't work when deployed to Vercel [Github](https://github.com/nextauthjs/next-auth/discussions/4969)
+
+solution: 
+  - remove 'NEXTAUTH_URL'
+  - regenerate 'NEXTAUTH_SECRET'
