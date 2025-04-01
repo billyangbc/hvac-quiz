@@ -13,12 +13,12 @@ export  default withAuth(
     if (process.env.NODE_ENV === "production") {
       params = {
         ...params,
-        cookieName: "__Secure-next-auth.session-token", // 🔒 Secure cookie for production
+        cookieName: "next-auth.session-token",//"__Secure-next-auth.session-token", // 🔒 Secure cookie for production
       };
     }
 
     const token = await getToken(params);
-//    console.log("middleware::params ==> ", params, 'getToken ==>', token);
+    console.log("middleware::params ==> ", params, 'getToken ==>', token);
 
     const { pathname, origin} = req.nextUrl;
     // Only admin have access to dashboard
